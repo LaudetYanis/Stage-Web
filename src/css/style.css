@@ -1,3 +1,106 @@
-html,body {
-  background-color: #39393A;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&');
+
+* {
+    box-sizing: border-box;
 }
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.container {
+    padding-right: 1%;
+    padding-left: 1%;
+    margin: auto;
+}
+
+/* Start Landing Page */
+
+.landing-page {
+    position: relative;
+    background-color: #FFF;
+}
+
+.landing-page .header-area {
+    display: flex;
+    padding: 2% 0 0;
+    position: relative;
+}
+
+.landing-page .header-area .logo {
+    text-transform: uppercase;
+    font-style: none;
+    font-size: 25px;
+    width: 25%;
+    color: #5d5d5d;
+    margin-left: 2%;
+    font-family: 'Roboto', sans-serif;+
+
+}
+
+.landing-page .header-area .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: right;
+}
+
+.landing-page .header-area .links li {
+    display: inline-block;
+    margin-left: 2.5%;
+    color: #5d5d5d;
+    cursor: pointer;
+}
+
+.landing-page .header-area .links .active {
+    border: 0;
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #FFF;
+    background-color: #6c63ff;
+}
+
+.landing-page .info {
+    width: 35%;
+    float: left;
+    margin-top: 7%;
+}
+
+.landing-page .info h1 {
+    font-size: 44px;
+    margin: 0 0 3%;
+    line-height: 1.4;
+    color: #5d5d5d;
+}
+
+.landing-page .info p {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 15px;
+    color: #5d5d5d;
+}
+
+.landing-page .info button {
+    border: 0;
+    border-radius: 200px;
+    padding: 2.50% 5% ;
+    margin-top: 30px;
+    cursor: pointer;
+    color: #FFF;
+    background-color: #6c63ff;
+}
+
+.landing-page .image {
+    width: 50%;
+    float: right;
+    margin-top: 35px;
+}
+
+.landing-page .image img {
+    max-width: 100%;
+}
+
+
+
+/* End Landing Page */

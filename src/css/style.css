@@ -18,7 +18,7 @@ body {
 
 .landing-page {
     position: relative;
-    background-color: #FFF;
+    background-color: #F5F5F5;
 }
 
 .landing-page .header-area {
@@ -30,7 +30,7 @@ body {
 .landing-page .header-area .logo {
     text-transform: uppercase;
     font-style: none;
-    font-size: 25px;
+    font-size: 30px;
     width: 25%;
     color: #5d5d5d;
     margin-left: 2%;
@@ -54,11 +54,12 @@ body {
 }
 
 .landing-page .header-area .links .active {
+	box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
     border: 0;
     border-radius: 20px;
-    padding: 10px 18px;
+    padding: 1% 2%;
     color: #FFF;
-    background-color: #6c63ff;
+    background-color: #FBBC05;
 }
 
 .landing-page .info {
@@ -88,7 +89,7 @@ body {
     margin-top: 30px;
     cursor: pointer;
     color: #FFF;
-    background-color: #6c63ff;
+    background-color: #FBBC05;
 }
 
 .landing-page .image {
@@ -101,6 +102,8 @@ body {
     max-width: 100%;
 }
 
-
+.shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -2px rgba(0,0,0,.05);
+}
 
 /* End Landing Page */

@@ -9,8 +9,7 @@ body {
 }
 
 .container {
-    padding-right: 1%;
-    padding-left: 1%;
+
     margin: auto;
 }
 
@@ -23,18 +22,19 @@ body {
 
 .landing-page .header-area {
     display: flex;
-    padding: 2% 0 0;
-    position: relative;
+    padding: 1% 3%;
+    position: relat%ive;
+    background-color: white;
 }
 
 .landing-page .header-area .logo {
     text-transform: uppercase;
     font-style: none;
     font-size: 30px;
-    width: 25%;
     color: #5d5d5d;
-    margin-left: 2%;
-    font-family: 'Roboto', sans-serif;+
+    font-family: 'Roboto', sans-serif;
+    vertical-align: middle;
+    margin-top: 0.5%;
 
 }
 

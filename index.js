@@ -18,6 +18,22 @@ app.get('/favicon.ico', function(req, res) {
   res.sendFile( __dirname + "/src/favicon.ico")
 });
 
+let domain = "http://www.example.com/"
+
+app.get('/sitemap.xml', async function(req, res, next){
+  let xml_content = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '  <url>',
+    '    <loc>' + domain + '</loc>',
+    '    <lastmod>2020-10-13</lastmod>',
+    '  </url>',
+    '</urlset>'
+  ]
+  res.set('Content-Type', 'text/xml')
+  res.send(xml_content.join('\n'))
+})
+
 
 
 app.get('/css/:name', function (req, res, next) {

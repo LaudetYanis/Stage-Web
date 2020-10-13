@@ -5,17 +5,18 @@ const express = require('express');
 var app = express();
 
 
-// respond with "hello world" when a GET request is made to the homepage
+
 app.get('/', function(req, res) {
-  res.sendFile( __dirname + "/src/index.html")
+  	res.sendFile( __dirname + "/src/index.html")
 });
 
-app.get('/robot.txt', function(req, res) {
-  res.sendFile( __dirname + "/src/robot.txt")
+app.get('/robots.txt', function(req, res) {
+  	res.set ('Content-Type', 'text/plain')
+  	res.sendFile( __dirname + "/src/robot.txt")
 });
 
 app.get('/favicon.ico', function(req, res) {
-  res.sendFile( __dirname + "/src/favicon.ico")
+  	res.sendFile( __dirname + "/src/favicon.ico")
 });
 
 let domain = "http://www.example.com/"
@@ -33,8 +34,6 @@ app.get('/sitemap.xml', async function(req, res, next){
   res.set('Content-Type', 'text/xml')
   res.send(xml_content.join('\n'))
 })
-
-
 
 app.get('/css/:name', function (req, res, next) {
 	var options = {

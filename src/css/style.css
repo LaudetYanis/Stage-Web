@@ -66,6 +66,11 @@ li {
     margin-left: 2.5%;
     color: #5d5d5d;
     cursor: pointer;
+    transition: color 200ms;
+}
+
+.landing-page .header-area .links li:hover:not(.active) {
+    color: #FBBC05;
 }
 
 .landing-page .header-area .links .active {

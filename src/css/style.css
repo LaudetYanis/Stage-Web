@@ -24,7 +24,7 @@ p {
 }
 
 .navbargap {
-    padding-top: 10%;
+    padding-top: 100px;
 }
 
 li {
@@ -97,6 +97,8 @@ li {
 }
 
 .navbar {
+    position: fixed;
+    width: 100%;
     overflow: hidden;
     background: #337ab7;
 }
@@ -145,7 +147,7 @@ li {
 
 .drop-content {
     display: none;
-    position: absolute;
+    position: fixed;
     background-color: #337ab7;
     min-width: 150px;
     z-index: 1;
@@ -182,7 +184,7 @@ li {
 
 @media screen and (max-width:768px) {
     .navbar.responsive {
-        position: relative;
+        position: fixed;
     }
 
     .navbar.responsive a.icon {

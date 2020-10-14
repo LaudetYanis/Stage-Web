@@ -21,7 +21,7 @@ app.get('/favicon.ico', function(req, res) {
 console.log( auth )
 const basic = auth.basic({
   realm: "Admin",
-  file: __dirname + "/admin.htpasswd" // gevorg:gpass, Sarah:testpass
+  file: __dirname + "/admin.htpasswd" // user:admin114, pass:zDvzxU0RNqSaugdxzxIi
 });
 
 

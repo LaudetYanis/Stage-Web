@@ -544,12 +544,13 @@ textarea .form-control{
 	font-size: 12px;
 	color: #5e9bfc;
 	margin: 0;
-	display: block;
+	display: none;
 	opacity: 0;
 	-webkit-transition: .333s ease top, .333s ease opacity;
 	transition: .333s ease top, .333s ease opacity;
 }
 .form-control {
+	margin-top: 30px;
 	border-radius: 0;
 	border-color: #ccc;
    	border-width: 0 0 2px 0;
@@ -558,7 +559,7 @@ textarea .form-control{
    	padding: 6px 12px;
    	display: block;
     width: 100%;
-    padding: 6px 12px;
+    padding: 20px;
     font-size: 14px;
     line-height: 1.42857143;
     color: #555;

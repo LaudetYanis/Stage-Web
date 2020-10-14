@@ -3,8 +3,7 @@
 const path = require("path");
 const express = require('express');
 var app = express();
-
-
+const auth = require('http-auth');
 
 app.get('/', function(req, res) {
   	res.sendFile( __dirname + "/src/index.html")
@@ -18,6 +17,17 @@ app.get('/robots.txt', function(req, res) {
 app.get('/favicon.ico', function(req, res) {
   	res.sendFile( __dirname + "/src/favicon.ico")
 });
+
+console.log( auth )
+const basic = auth.basic({
+  realm: "Admin",
+  file: __dirname + "/admin.htpasswd" // gevorg:gpass, Sarah:testpass
+});
+
+
+app.get('/admin', basic.check((req, res) => {
+    res.end(`Welcome to private area - ${req.user}!`);
+}));
 
 let domain = "http://www.example.com/"
 

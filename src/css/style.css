@@ -33,6 +33,10 @@ li {
 }
 
 /* Start Landing Page */
+.presentation {
+    margin-left: 2.5rem;
+}
+
 .landing-page {
     background-color: #F5F5F5;
 }
@@ -45,11 +49,11 @@ li {
     background-color: white;
 }
 
-.landing-page .header-area .logo {
+.logo {
     text-transform: uppercase;
     font-style: none;
-    font-size: 30px;
-    color: #5d5d5d;
+    font-size: 80px;
+    color: #3363B3;
     font-family: 'Roboto', sans-serif;
     vertical-align: middle;
     margin-top: 0.5%;
@@ -72,7 +76,7 @@ li {
 }
 
 .landing-page .header-area .links li:hover:not(.active) {
-    color: #FBBC05;
+    color: #3363B3;
 }
 
 .landing-page .header-area .links .active {
@@ -81,7 +85,100 @@ li {
     border-radius: 999px;
     padding: 1% 2%;
     color: #FFF;
-    background-color: #FBBC05;
+    background-color: #3363B3;
+}
+
+.openmenu {
+    display: none !important;
+}
+
+#check {
+    display: none;
+}
+
+.topnav {
+    padding: 1rem;
+    position: fixed;
+    transition: all 200ms ease-in;
+    overflow: hidden;
+    background-color: white;
+    color: black;
+    width: 100%;
+    margin: 0;
+}
+
+.topnav a {
+    float: left;
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+    border-radius: 999px;
+    transition: all 200ms;
+}
+
+.topnav a.active {
+    background-color: #3363B3;
+    border-radius: 999px;
+    color: white;
+    transition: all 200ms ease-in;
+}
+
+.topnav .icon {
+    display: none;
+}
+
+@media screen and (max-width:600px) {
+    .topnav a:not(:first-child) {
+        display: none;
+        transition: all 200ms ease-in;
+    }
+
+    .topnav {
+        transition: all 200ms ease-in;
+        width: 100%;
+    }
+
+    .topnav a.icon {
+        float: right;
+        display: block;
+    }
+
+    .active {
+        border-radius: 0px !important;
+    }
+
+}
+
+@media screen and (max-width:600px) {
+    .topnav {
+        padding: 0rem !important;
+    }
+
+    .topnav.responsive .icon {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .topnav.responsive {
+        transition: all 200ms ease-in;
+    }
+
+    .topnav.responsive a {
+        float: none;
+        transition: all 200ms;
+        display: block;
+        text-align: left;
+    }
+
 }
 
 .landing-page .info {
@@ -90,7 +187,7 @@ li {
 }
 
 .landing-page .info h1 {
-    font-size: 44px;
+    font-size: 30px;
     margin: 0 0 3%;
     line-height: 1.4;
     color: #5d5d5d;
@@ -110,7 +207,7 @@ li {
     margin-top: 30px;
     cursor: pointer;
     color: #FFF;
-    background-color: #FBBC05;
+    background-color: #3363B3;
     border: 1px solid transparent;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
 }
@@ -121,9 +218,9 @@ li {
     padding: 0.7rem 1rem;
     margin-top: 30px;
     cursor: pointer;
-    color: #FBBC05;
+    color: #3363B3;
     background-color: white;
-    border: 1px solid #FBBC05;
+    border: 1px solid #3363B3;
     transition: all 200ms;
 }
 

@@ -1,4 +1,6 @@
 
+
+const Select = document.querySelector.bind(document);
 let oldpathname = window.location.pathname
 
 function setCookie(cname, cvalue, exdays) {
@@ -106,6 +108,18 @@ function displayMenu() {
     }
 }
 
+function HideNavbar(){
+	Select("#nav").classList.remove("responsive");
+}
+
+Select("#Contact").addEventListener("click", function(event){
+	HideNavbar();
+
+	ChangeURL("/sopymep/contact")
+})
+
+
+
 let Path = {}
 
 function Update(){
@@ -113,12 +127,14 @@ function Update(){
 }
 
 Path["/"] = async function(){
-	Update()
+	
 }
+
 window.onpopstate = function(event) {
   	if( oldpathname != window.location.pathname){
 
 		if(Path[Pathname()]){
+			Update()
 			Path[Pathname()]()
 		}
 
@@ -131,3 +147,50 @@ if( Path[Pathname()] ){
 }else{
 	ChangeURL("/")
 }
+
+
+
+
+
+const ele = document.getElementById('card-list');
+ele.style.cursor = 'grab';
+
+let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+const mouseDownHandler = function(e) {
+    ele.style.cursor = 'grabbing';
+    ele.style.userSelect = 'none';
+
+    pos = {
+        left: ele.scrollLeft,
+        top: ele.scrollTop,
+        // Get the current mouse position
+        x: e.clientX,
+        y: e.clientY,
+    };
+
+    document.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
+};
+
+const mouseMoveHandler = function(e) {
+    // How far the mouse has been moved
+    const dx = e.clientX - pos.x;
+    const dy = e.clientY - pos.y;
+
+    // Scroll the element
+    ele.scrollTop = pos.top - dy;
+    ele.scrollLeft = pos.left - dx;
+    console.log( dx )
+};
+
+const mouseUpHandler = function() {
+    ele.style.cursor = 'grab';
+    ele.style.removeProperty('user-select');
+
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+};
+
+// Attach the handler
+ele.addEventListener('mousedown', mouseDownHandler);

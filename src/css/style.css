@@ -308,7 +308,7 @@ li {
     color: #5d5d5d;
 }
 
-.landing-page .info button {
+.landing-page button {
     outline: none;
     border: 0;
     border-radius: 999px;
@@ -321,7 +321,7 @@ li {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
 }
 
-.landing-page .info button:hover {
+.landing-page button:hover {
     border: 0;
     border-radius: 999px;
     padding: 0.7rem 1rem;
@@ -359,6 +359,16 @@ li {
     white-space: normal;
     overflow-x: scroll;
     */
+
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+@media (max-width:768px) {
+    .card-list {
+        overflow-x: scroll;
+    }
+
 }
 
 /* Start Card */
@@ -367,6 +377,8 @@ li {
     display: block;
     margin: 60px auto;
     transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
+    border-radius: 20px;
 }
 
 .card:hover {
@@ -385,7 +397,6 @@ li {
     color: #fff;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
 }
 
 .card-header--title {
@@ -399,7 +410,6 @@ li {
     padding: 15px;
     background-color: #fff;
     width: 100%;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
 }
 
 .date {
@@ -442,10 +452,9 @@ li {
 }
 
 .title {
-    text-align: left;
+    text-align: center;
     color: black;
     margin-bottom: 0px;
-    margin-left: 2.5rem;
     margin-top: 2%;
     font-weight: bold;
     font-size: 2rem;
@@ -454,7 +463,6 @@ li {
 
 @media (max-width:768px) {
     .title {
-        text-align: center;
         margin-left: 0px;
     }
 
@@ -480,7 +488,6 @@ li {
     .card-list {
         text-align: center
         width:80%;
-        white-space: nowrap;
         margin-top: 0;
     }
 
@@ -489,6 +496,8 @@ li {
 .card-list .card {
     margin: 60px 30px;
     display: inline-block;
+    overflow: auto;
+    white-space: nowrap;
 }
 
 .card-list .card .card-body {
@@ -497,6 +506,7 @@ li {
 
 .card-body button {
     text-align: center;
+    display: inline-block;
 }
 
 .footer {
@@ -529,6 +539,11 @@ li {
     margin-left: auto;
     margin-right: auto;
     width: 70%;
+    background-color: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -2px rgba(0, 0, 0, .05);
 }
 
 textarea {

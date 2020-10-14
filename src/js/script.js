@@ -99,10 +99,10 @@ function ChangeURL(urlPath){
 
 function displayMenu() {
 	var x = document.getElementById("nav");
-    if (x.className === "navbar") {
-        x.className += " responsive";
+    if (!x.classList.contains("responsive")) {
+        x.classList.add("responsive");
     } else {
-        x.className = "navbar";
+        x.classList.remove("responsive");
     }
 }
 

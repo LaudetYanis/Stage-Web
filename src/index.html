@@ -11,18 +11,26 @@
 	<body class="landing-page container">
 		<div class="landing-page">
 			<div class="container">
-				<div class="topnav" id="Topnav">
-					<a href="#home" class="active">Accueil</a>
-					<a href="#news">Réalisations</a>
-					<a href="#contact">Équipements</a>
-					<a href="#about">Infos</a>
-					<a href="#about">Contact</a>
-					<a href="javascript:void(0);" class="icon" onclick="NAVBAR()">
-						<i class="fa fa-bars"></i>
-					</a>
+				<div class="navbar" id= "nav">
+					<a href="#Home">Home</a>
+					<div class="dropdown">
+						<a class="drop" href="#Home">Dropdown
+							<i class="fa fa-angle-double-down"></i>
+							<i class="fa fa-angle-double-up"></i>
+						</a>
+						<div class="drop-content">
+							<a href="#Prod1">Drop 1</a>
+							<a href="#Prod2">Prod 2</a>
+							<a href="#Prod3">Prod 3</a>
+						</div>
+					</div>
+					<a href="#Portfolio">News</a>
+					<a href="#Blog">Blog</a>
+					<a href="#Content">Contact</a>
+					<a href="javascript:void(0);" class="icon" onclick="displayMenu()"><i class="fa fa-bars"></i></a>
 				</div>
 			</div>
-			<div class="container info navbargap presentation">
+			<div class="container navbargap presentation">
 				<h1><div class="logo">SOPYMEP</div> du groupe HALOGMA</h1>
 			</div>
 			<div class="card-list container info" id="card-list">

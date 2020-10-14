@@ -52,7 +52,7 @@ li {
 .logo {
     text-transform: uppercase;
     font-style: none;
-    font-size: 80px;
+    font-size: 100%;
     color: #3363B3;
     font-family: 'Roboto', sans-serif;
     vertical-align: middle;
@@ -96,87 +96,130 @@ li {
     display: none;
 }
 
-.topnav {
-    padding: 1rem;
-    position: fixed;
-    transition: all 200ms ease-in;
+.navbar {
     overflow: hidden;
-    background-color: white;
-    color: black;
-    width: 100%;
-    margin: 0;
+    background: #337ab7;
 }
 
-.topnav a {
+.navbar a {
     float: left;
     display: block;
-    color: black;
+    color: #fff;
     text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
     font-size: 17px;
+    padding: 20px 20px;
+    text-decoration: none;
 }
 
-.topnav a:hover {
-    background-color: #ddd;
-    color: black;
-    border-radius: 999px;
-    transition: all 200ms;
+.navbar a:hover {
+    font-weight: bolder;
 }
 
-.topnav a.active {
-    background-color: #3363B3;
-    border-radius: 999px;
-    color: white;
-    transition: all 200ms ease-in;
-}
-
-.topnav .icon {
+.navbar .icon {
     display: none;
 }
 
-@media screen and (max-width:600px) {
-    .topnav a:not(:first-child) {
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .drop {
+    font-size: 17px;
+    border: none;
+    outline: none;
+    color: #fff;
+    padding: 20px 20px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.drop .fa-angle-double-up, .drop:hover .fa-angle-double-down {
+    display: none;
+}
+
+.drop:hover .fa-angle-double-up {
+    display: inline;
+}
+
+.drop-content {
+    display: none;
+    position: absolute;
+    background-color: #337ab7;
+    min-width: 150px;
+    z-index: 1;
+}
+
+.drop-content a {
+    float: none;
+    color: #fff;
+    padding: 12px, 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown:hover .drop-content {
+    display: block;
+}
+
+.drop-content a:hover {
+    background-color: rgba(179, 167, 167, 0.5);
+}
+
+@media screen and (max-width:768px) {
+    .navbar a {
         display: none;
-        transition: all 200ms ease-in;
     }
 
-    .topnav {
-        transition: all 200ms ease-in;
-        width: 100%;
-    }
-
-    .topnav a.icon {
+    .navbar a.icon {
         float: right;
         display: block;
     }
 
-    .active {
-        border-radius: 0px !important;
-    }
-
 }
 
-@media screen and (max-width:600px) {
-    .topnav {
-        padding: 0rem !important;
+@media screen and (max-width:768px) {
+    .navbar.responsive {
+        position: relative;
     }
 
-    .topnav.responsive .icon {
+    .navbar.responsive a.icon {
         position: absolute;
         right: 0;
         top: 0;
     }
 
-    .topnav.responsive {
-        transition: all 200ms ease-in;
-    }
-
-    .topnav.responsive a {
+    .navbar.responsive a {
         float: none;
-        transition: all 200ms;
         display: block;
         text-align: left;
+        padding-left: 20px;
+    }
+
+    .navbar.responsive .dropdown {
+        float: none;
+    }
+
+    .navbar.responsive .drop-content {
+        position: relative;
+        padding-left: 30px;
+        padding-right: 30px;
+        background-color: #00008B;
+    }
+
+    .navbar.responsive .drop-content a {
+    }
+
+    .navbar.responsive .dropdown .drop {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    .navbar.responsive .dropdown .drop:hover {
+        background-color: #337ab7;
     }
 
 }
@@ -418,4 +461,8 @@ li {
 
 .footer p {
     margin-top: 1rem;
+}
+
+.copyright-text {
+    font-size: 70%;
 }

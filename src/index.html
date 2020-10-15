@@ -7,158 +7,44 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	</head>
 	<body class="landing-page container">
-		<div class="landing-page">
-			<div class="container">
-				<div class="navbar" id= "nav">
-					<a href="#Home">HALOGMA</a>
-					<div class="dropdown">
-						<a class="drop active" href="#Home">SOPYMEP</a>
-						<div class="drop-content">
-							<a href="#Prod1">Lien 1</a>
-							<a href="#Prod2">Lien 2</a>
-							<a href="#Prod3">Lien 3</a>
-						</div>
-					</div>
-					<div class="dropdown">
-						<a class="drop" href="#Home">CCMPI</a>
-						<div class="drop-content">
-							<a href="#Prod1">Lien 1</a>
-							<a href="#Prod2">Lien 2</a>
-							<a href="#Prod3">Lien 3</a>
-						</div>
-					</div>
-					<div class="dropdown">
-						<a class="drop" href="#Home">BETTEGA ET FILS</a>
-						<div class="drop-content">
-							<a href="#Prod1">Lien 1</a>
-							<a href="#Prod2">Lien 2</a>
-							<a href="#Prod3">Lien 3</a>
-						</div>
-					</div>
-					<a href="javascript:void(0);" id="Contact">Contact</a>
-					<a href="javascript:void(0);" class="icon" onclick="displayMenu()"><i class="fa fa-bars"></i></a>
+		<div class="landing-page"id="app" >
+		<navbar></navbar>
+		<transition name="fade">
+			<div v-if="$route.path=='/sopymep'">
+				<div class="container presentation" >
+					<h1><div class="logo">SOPYMEP</div> du groupe HALOGMA</h1>
+				</div>
+				<hr>
+			</div>
+		</transition>
+		<transition name="fade">
+			<div v-show="$route.path=='/sopymep/news'">
+				<div class="container title">
+					<div>News</div>
+				</div>
+				<div class="card-list container info" id="card-list">
+					<news-card v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></news-card>
 				</div>
 			</div>
-			<div class="container navbargap presentation">
-				<h1><div class="logo">SOPYMEP</div> du groupe HALOGMA</h1>
-			</div>
-			<hr>
-			<div class="container title">
-				<div>News</div>
-			</div>
-			<div class="card-list container info" id="card-list">
-				
-				<article class="card">
-					<header class="card-header" style="background-image: url(https://source.unsplash.com/random);">
-						<h4 class="card-header--title">News</h4>
-					</header>
-					<div class="card-body">
-						<p class="date">March 20 2015</p>
-						<h2>CNN Acquire BEME</h2>
-						<p class="body-content">CNN purchased Casey Neistat's Beme app for $25million.</p>
-						<button class="button button-primary">En savoir plus</button>
-					</div>
-				</article>
-				<article class="card">
-					<header class="card-header" style="background-image: url(https://source.unsplash.com/random;">
-						<h4 class="card-header--title">Travel</h4>
-					</header>
-					<div class="card-body">
-						<p class="date">March 20 2015</p>
-						<h2>Nomad Lifestyle</h2>
-						<p class="body-content">Learn our tips and tricks on living a nomadic lifestyle</p>
-						<button class="button button-primary">En savoir plus</button>
-					</div>
-				</article>
-				<article class="card">
-					<header class="card-header" style="background-image: url(https://source.unsplash.com/random);">
-						<h4 class="card-header--title">Travel</h4>
-					</header>
-					<div class="card-body">
-						<p class="date">March 20 2015</p>
-						<h2>Nomad Lifestyle</h2>
-						<p class="body-content">Learn our tips and tricks on living a nomadic lifestyle</p>
-						<button class="button button-primary">En savoir plus</button>
-					</div>
-				</article>
-				<article class="card">
-					<header class="card-header" style="background-image: url(https://source.unsplash.com/random);">
-						<h4 class="card-header--title">Travel</h4>
-					</header>
-					<div class="card-body">
-						<p class="date">March 20 2015</p>
-						<h2>Nomad Lifestyle</h2>
-						<p class="body-content">Learn our tips and tricks on living a nomadic lifestyle</p>
-						<button class="button button-primary">En savoir plus</button>
-					</div>
-				</article>
-				<article class="card">
-					<header class="card-header" style="background-image: url(https://source.unsplash.com/random);">
-						<h4 class="card-header--title">Travel</h4>
-					</header>
-					<div class="card-body">
-						<p class="date">March 20 2015</p>
-						<h2>Nomad Lifestyle</h2>
-						<p class="body-content">Learn our tips and tricks on living a nomadic lifestyle</p>
-						<button class="button button-primary">En savoir plus</button>
-					</div>
-				</article>
-				<article class="card">
-					<header class="card-header" style="background-image: url(https://source.unsplash.com/random);">
-						<h4 class="card-header--title">Travel</h4>
-					</header>
-					<div class="card-body">
-						<p class="date">March 20 2015</p>
-						<h2>Nomad Lifestyle</h2>
-						<p class="body-content">Learn our tips and tricks on living a nomadic lifestyle</p>
-						<button class="button button-primary">En savoir plus</button>
-					</div>
-				</article>
-			</div>
-			<div class="containerFormulaire">
-				<div class="row">
-					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-						<h2>Contact</h2>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-3">
-						<form id="contact-form" class="form" action="#" method="POST" role="form">
-							<div class="form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="Votre Nom" tabindex="1" required>
-							</div>
-							<div class="form-group">
-								<input type="email" class="form-control" id="email" name="email" placeholder="Votre E-mail" tabindex="2" required>
-							</div>
-							<div class="form-group">
-								<input type="text" class="form-control" id="subject" name="subject" placeholder="Objet" tabindex="3">
-							</div>
-							<div class="form-group">
-								<textarea rows="5" cols="50" name="message" class="form-control" id="message" placeholder="Message..." tabindex="4" required></textarea>
-							</div>
-							<div class="text-center">
-								<div class="envoie"><button type="submit" class="button button-primary">Envoyer Message</button>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-			<div class="footer container">
-				<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-github"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-dribbble"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-codepen"></i></a>
-				<p class="copyright-text">Tous droits réservés <a href="/">Sopymep</a>. Copyright © 2020
-			</p>
-		</div>
+		</transition>
+		<transition name="fade">
+			<halogma-form v-if="$route.path=='/contact'"></halogma-form>
+		</transition>
 		
+		<div class="footer container">
+			<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+			<a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+			<a href="#" target="_blank"><i class="fa fa-github"></i></a>
+			<a href="#" target="_blank"><i class="fa fa-dribbble"></i></a>
+			<a href="#" target="_blank"><i class="fa fa-codepen"></i></a>
+			<p class="copyright-text">Tous droits réservés <a href="/">Sopymep</a>. Copyright © 2020
+		</p>
 	</div>
-	<!-- Site footer -->
 	
-	<script src="js/script.js"></script>
 </body>
+<script src="js/script.js"></script>
 </html>

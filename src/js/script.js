@@ -135,29 +135,7 @@ function GrabNews(){
 
 
 
-const sopymep = { template: `
-
-		
-` }
-
-const Bar = { template: '<div>bar</div>' }
-
-const routes = [
-  { path: '/sopymep', component: sopymep },
-  { path: '/bar', component: Bar },
-  { path: '/news/:id', component: Bar }
-]
-
-const router = new VueRouter({
-  routes // raccourci pour `routes: routes`
-})
-
 Vue.component('navbar', {
-  data: function () {
-	return {
-	  count: 0
-	}
-  },
   template: `
 	<div class="container">
 		<div class="navbar" id= "nav">
@@ -244,6 +222,84 @@ Vue.component('halogma-form', {
 	`
 })
 
+const Bar = { template: '<div>bar</div>' }
+
+const sopymep = { template: `
+	<div>
+		<navbar></navbar>
+		<transition name="fade">
+			<div>
+				<div class="container presentation" >
+					<h1><div class="logo">SOPYMEP</div> du groupe HALOGMA</h1>
+				</div>
+				<hr>
+			</div>
+		</transition>
+	</div>
+` }
+
+const sopymepnews = { 
+	props: [ 'posts' ], 
+	template: `
+	<div>
+		<navbar></navbar>
+		<transition name="fade">
+			<div>
+				<div class="container title">
+					<div>News</div>
+				</div>
+				<div class="card-list container info" id="card-list">
+					<news-card v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></news-card>
+				</div>
+			</div>
+		</transition>
+	</div>
+` }
+
+const contact = { 
+	template: `
+	<div>
+		<navbar></navbar>
+		<transition name="fade">
+			<halogma-form></halogma-form>
+		</transition>
+	</div>
+` }
+
+const routes = [
+
+	{ 
+		path: '/sopymep', 
+		component: sopymep , 
+
+	},
+	{ 
+		path: '/sopymep/news', 
+		component: sopymepnews ,
+		props: {
+			posts: [
+			  { id: 1, title: 'Mon initiation avec Vue' , date : '25 mars 2020' , desc : 'desc' },
+			  { id: 2, title: 'Blogger avec Vue' , date : '25 mars 2020' , desc : 'desc' },
+			  { id: 3, title: 'Pourquoi Vue est tellement cool' , date : '25 mars 2020' , desc : 'desc' },
+			  { id: 4, title: 'vuejs yay' , date : '25 mars 2020' , desc : 'desc' }
+			],
+		}  
+		
+	},
+	{ 
+		path: '/contact', 
+		component: contact , 
+
+	},
+	{ path: '/news/:id', component: Bar }
+]
+
+const router = new VueRouter({
+  routes, // raccourci pour `routes: routes`
+
+})
+
+
 let vm = new Vue({
   router : router,
   el: '#app',
@@ -264,4 +320,5 @@ router.beforeEach((to, from, next) => {
 	next()
 })
 
-GrabNews()
+
+//GrabNews()

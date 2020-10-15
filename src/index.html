@@ -11,40 +11,20 @@
 		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	</head>
 	<body class="landing-page container">
-		<div class="landing-page"id="app" >
-		<navbar></navbar>
-		<transition name="fade">
-			<div v-if="$route.path=='/sopymep'">
-				<div class="container presentation" >
-					<h1><div class="logo">SOPYMEP</div> du groupe HALOGMA</h1>
-				</div>
-				<hr>
-			</div>
-		</transition>
-		<transition name="fade">
-			<div v-show="$route.path=='/sopymep/news'">
-				<div class="container title">
-					<div>News</div>
-				</div>
-				<div class="card-list container info" id="card-list">
-					<news-card v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title"></news-card>
-				</div>
-			</div>
-		</transition>
-		<transition name="fade">
-			<halogma-form v-if="$route.path=='/contact'"></halogma-form>
-		</transition>
+		<div class="landing-page" id="app">
+			<router-view>
+			
+			</router-view>
+			<footer class="footer container">
+				<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+				<a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+				<a href="#" target="_blank"><i class="fa fa-github"></i></a>
+				<a href="#" target="_blank"><i class="fa fa-dribbble"></i></a>
+				<a href="#" target="_blank"><i class="fa fa-codepen"></i></a>
+				<p class="copyright-text">Tous droits réservés <a href="/">Sopymep</a>. Copyright © 2020</p>
+			</footer>
+		</div>
 		
-		<div class="footer container">
-			<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-			<a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-			<a href="#" target="_blank"><i class="fa fa-github"></i></a>
-			<a href="#" target="_blank"><i class="fa fa-dribbble"></i></a>
-			<a href="#" target="_blank"><i class="fa fa-codepen"></i></a>
-			<p class="copyright-text">Tous droits réservés <a href="/">Sopymep</a>. Copyright © 2020
-		</p>
-	</div>
-	
-</body>
-<script src="js/script.js"></script>
+	</body>
+	<script src="js/script.js"></script>
 </html>

@@ -7,24 +7,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-		<script src="https://unpkg.com/vue/dist/vue.js"></script>
+		<script src="https://unpkg.com/vue"></script>
 		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	</head>
 	<body class="landing-page container">
 		<div class="landing-page" id="app">
-			<router-view>
+			<navbar>
+				
+			</navbar>
 			
-			</router-view>
-			<footer class="footer container">
-				<a href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-github"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-dribbble"></i></a>
-				<a href="#" target="_blank"><i class="fa fa-codepen"></i></a>
+			<transition name="fade">
+				<router-view></router-view>
+			</transition>
+			<footer class="footer container shadow-lg">
+				<a href="#" target="_blank" name="facebook" aria-label="notre facebook"><i class="fa fa-facebook"></i></a>
+				<a href="https://www.linkedin.com/company/sopymep" rel="noreferrer" target="_blank" name="linkedin" aria-label="notre linkedin"><i class="fa fa-linkedin"></i></a>
 				<p class="copyright-text">Tous droits réservés <a href="/">Sopymep</a>. Copyright © 2020</p>
 			</footer>
 		</div>
-		
 	</body>
 	<script src="js/script.js"></script>
 </html>

@@ -184,44 +184,33 @@ function displayMenu() {
 }
 
 function HideNavbar( exept ){
-	document.querySelectorAll( "nav ul li a:not(:only-child)").forEach(function(el){
-		if( exept != el){
-			let sib = el.parentNode.querySelector( "ul" )
-			if( sib ){
-				DOMAnimations.slideUp( sib )
-			}
-		}
-	})
-
-	if(!exept){
-		let v = Select('nav ul')
-		if (window.getComputedStyle(v).display != 'none') {
-			v.style.display = "none"
-			Select( "#navbar-toggle").classList.remove("active");
-		}
-		
-	}
+	
 	
 }
 
 function HookNavbar(){
 
-	Select( "#navbar-toggle").addEventListener( "click" , function() {
-		DOMAnimations.slideToggle( Select('nav ul') )
-		this.classList.toggle('active');
-	})
+	// Get all "navbar-burger" elements
+	const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-	document.querySelectorAll( "nav ul li a:not(:only-child)").forEach(function(el){
-	
-		el.addEventListener( "click" , function() {
-			HideNavbar( el )
-			let sib = el.parentNode.querySelector( "ul" )
-			console.log( el , sib )
-			if( sib ){
-				DOMAnimations.slideToggle( sib )
-			}
+	// Check if there are any navbar burgers
+	if ($navbarBurgers.length > 0) {
+
+		// Add a click event on each of them
+		$navbarBurgers.forEach( el => {
+			el.addEventListener('click', () => {
+
+				// Get the target from the "data-target" attribute
+				const target = el.dataset.target;
+				const $target = document.getElementById(target);
+
+				// Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+				el.classList.toggle('is-active');
+				$target.classList.toggle('is-active');
+
+			});
 		});
-	})
+	}
 }
 
 
@@ -332,35 +321,73 @@ Vue.component('news-card', {
 
 
 Vue.component('halogma-form', {
-  template: `
-		<div class="containerFormulaire" id="ContactForm">
-			<div class="row">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
-					<h2>Contact</h2>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-3">
-					<form id="contact-form" class="form" action="#" method="POST" role="form">
-						<div class="form-group">
-							<input type="text" class="form-control" id="name" name="name" placeholder="Votre Nom" tabindex="1" required>
-						</div>
-						<div class="form-group">
-							<input type="email" class="form-control" id="email" name="email" placeholder="Votre E-mail" tabindex="2" required>
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" id="subject" name="subject" placeholder="Objet" tabindex="3" required>
-						</div>
-						<div class="form-group">
-							<textarea rows="5" cols="50" name="message" class="form-control" id="message" placeholder="Message..." tabindex="4" required></textarea>
-						</div>
-						<div class="text-center">
-							<div class="envoie"><button type="submit" class="button button-primary">Envoyer Message</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
+	//props: ['name' , 'email' , 'date' , 'phone' , 'company'],
+
+	data: function () {
+		return {
+			name: '',
+			email: '',
+			date: [],
+			phone : '',
+			company : ''
+		}
+	},
+	template: `
+		<div class="container containerFormulaire box shadow-lg" id="ContactForm">
+			<template>
+				<section>
+					<h1 class="title is-3">Demande de devis</h1>
+					<b-field label="Nom">
+						<b-input  placeholder="Nom"
+							v-model="name"
+							type="text"
+							icon="account">
+						</b-input required>
+					</b-field>
+
+					<b-field label="Email">
+						<b-input  placeholder="Email"
+							v-model="email"
+							type="email"
+							icon="email">
+						</b-input required>
+					</b-field>
+
+					<b-field label="Tél">
+						<b-input  placeholder="+33 X XX XX XX XX"
+							v-model="phone"
+							type="email"
+							icon="phone">
+						</b-input required>
+					</b-field>
+
+					<b-field label="Entreprise">
+						<b-input  placeholder="Entreprise"
+							v-model="company"
+							type="text"
+							icon="city">
+						</b-input required>
+					</b-field>
+
+					<b-field label="Pour le">
+						<b-datepicker
+							v-model="date"
+							placeholder="Type or select a date..."
+							icon="calendar-today"
+							editable>
+						</b-datepicker>
+					</b-field>
+			
+					<b-field label="Message">
+						<b-input maxlength="500" type="textarea"></b-input>
+					</b-field>
+
+					<div class="columns is-mobile is-centered">
+						<button class="button is-info shadow-lg">Envoyer</button>
+					</div>
+					
+				</section>
+			</template>
 		</div>
 	`
 })
@@ -480,6 +507,13 @@ const routes = [
 	{ 
 		path: '/contact', 
 		component: contact , 
+		props:{
+			'name' : "" ,
+			'email' : "" ,
+			'date' : "" ,
+			'phone' : "" ,
+			'company' : ""
+		}
 
 	},
 	{ 

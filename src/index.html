@@ -6,81 +6,162 @@
 		<meta name="description" content="description" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+		<link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css">
+		
 		<script src="https://unpkg.com/vue"></script>
+		<script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
 		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	</head>
-	<body class="landing-page container">
-		<div class="landing-page" id="app">
-			
-			<section class="navigation shadow-lg">
-				<div class="nav-container">
-					<div class="brand">
-						<router-link to="/">Halogma</router-link>
+	<body>
+		<div id="app">
+			<!-- NAVBAR -->
+			<nav class="navbar shadow-lg" role="navigation" aria-label="main navigation">
+				<div class="navbar-brand">
+					<a class="navbar-item" href="/">
+						<h3 class="logo">HALOGMA</h3>
+					</a>
+					<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarDev">
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</a>
+				</div>
+				<div id="navbarDev" class="navbar-menu">
+					<div class="navbar-start">
+						<router-link to="/news" class="navbar-item">News</router-link>
+						<div class="navbar-item has-dropdown is-hoverable">
+							<a class="navbar-link">
+								Sopymep
+							</a>
+							<div class="navbar-dropdown is-boxed">
+								<router-link to="/" class="navbar-item">link</router-link>
+								<router-link to="/" class="navbar-item">link</router-link>
+							</div>
+						</div>
+						<div class="navbar-item has-dropdown is-hoverable">
+							<a class="navbar-link">
+								CCMPI
+							</a>
+							<div class="navbar-dropdown is-boxed">
+								<router-link to="/" class="navbar-item">link</router-link>
+								<router-link to="/" class="navbar-item">link</router-link>
+							</div>
+						</div>
+						<div class="navbar-item has-dropdown is-hoverable">
+							<a class="navbar-link">
+								Bettega et fils
+							</a>
+							<div class="navbar-dropdown is-boxed">
+								<router-link to="/" class="navbar-item">link</router-link>
+								<router-link to="/" class="navbar-item">link</router-link>
+							</div>
+						</div>
+						<div class="navbar-item has-dropdown is-hoverable">
+							<a class="navbar-link">
+								Plus
+							</a>
+							<div class="navbar-dropdown is-boxed">
+								<a class="navbar-item">
+									À propos
+								</a>
+								<router-link to="/contact" class="navbar-item">Contact</router-link>
+								<hr class="navbar-divider">
+								<a class="navbar-item">
+									Signaler un problème
+								</a>
+							</div>
+						</div>
 					</div>
-					<nav>
-						<div class="nav-mobile"><a id="navbar-toggle"><span></span></a></div>
-						<ul class="nav-list">
-							<li>
-								<a>Sopymep</a>
-								<ul class="navbar-dropdown">
-									<li>
-										<router-link to="/sopymep/news">News</router-link>
-									</li>
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-								</ul>
-							</li>
-							<li>
-								<a>CCMPI</a>
-								<ul class="navbar-dropdown">
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-								</ul>
-							</li>
-							<li>
-								<a>Bettega et fils</a>
-								<ul class="navbar-dropdown">
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-									<li>
-										<router-link to="/">info</router-link>
-									</li>
-								</ul>
-							</li>
-							
-							<li>
-								<router-link to="/contact">Contact</router-link>
-							</li>
-						</ul>
-					</nav>
+					<div class="navbar-end">
+						<div class="navbar-item">
+							<div class="buttons">
+								<a class="button is-primary" v-if="false">
+									<strong>Sign up</strong>
+								</a>
+								<router-link to="/contact" class="button is-info shadow-lg">Contact</router-link>
+							</div>
+						</div>
+					</div>
+				</div>
+			</nav>
+			<!-- NAVBAR -->
+			<section class="hero is-large is-primary is-bold">
+				<div class="hero-body">
+					<div class="container">
+						<h1 class="title">Halogma</h1>
+						<h2 class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h2>
+					</div>
 				</div>
 			</section>
-			
-			<transition name="fade">
-				<router-view></router-view>
-			</transition>
-			<footer class="footer container shadow-lg">
-				<a href="#" target="_blank" name="facebook" aria-label="notre facebook"><i class="fa fa-facebook"></i></a>
-				<a href="https://www.linkedin.com/company/sopymep" rel="noreferrer" target="_blank" name="linkedin" aria-label="notre linkedin"><i class="fa fa-linkedin"></i></a>
-				<p class="copyright-text">Tous droits réservés <a href="/">Sopymep</a>. Copyright © 2020</p>
-			</footer>
-		</div>
-	</body>
-	<script src="/js/script.js"></script>
+			<section class="section has-background-light shadow-lg">
+				<div class="container">
+					<h1 class="title" >Titre de la Section</h1>
+					<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, voluptate suscipit vero atque non aut doloribus dolorum esse. Explicabo dolores a hic officia! Tenetur rerum consequuntur a! Voluptates, perferendis corporis!</p>
+				</div>
+			</section>
+			<section class="section">
+				<div class="container">
+					<div class="tile is-parent">
+						<article class="tile is-child notification shadow-lg">
+							<router-link to="/sopymep" class="content">
+							<p class="title">Sopymep</p>
+							<p class="subtitle">Lorem ipsum dolor sit amet</p>
+							<div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur obcaecati laborum deleniti placeat error vero rerum? Mollitia, rerum iusto? Cupiditate nobis libero, repellat quae nisi laborum fugit doloribus quaerat similique?</div>
+							</router-link>
+						</article>
+					</div>
+					<div class="tile is-parent">
+						<article class="tile is-child notification shadow-lg">
+							<router-link to="/sopymep" class="content">
+							<p class="title">Sopymep</p>
+							<p class="subtitle">Lorem ipsum dolor sit amet</p>
+							<div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur obcaecati laborum deleniti placeat error vero rerum? Mollitia, rerum iusto? Cupiditate nobis libero, repellat quae nisi laborum fugit doloribus quaerat similique?</div>
+							</router-link>
+						</article>
+					</div>
+					<div class="tile is-parent">
+						<article class="tile is-child notification shadow-lg">
+							<router-link to="/sopymep" class="content">
+							<p class="title">Sopymep</p>
+							<p class="subtitle">Lorem ipsum dolor sit amet</p>
+							<div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur obcaecati laborum deleniti placeat error vero rerum? Mollitia, rerum iusto? Cupiditate nobis libero, repellat quae nisi laborum fugit doloribus quaerat similique?</div>
+							</router-link>
+						</article>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section has-background-light">
+			<div class="level">
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading is-size-6">Github Commits</p>
+						<p class="title">1k+</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading is-size-6">Github Forks</p>
+						<p class="title">2k+</p>
+					</div>
+				</div>
+				<div class="level-item has-text-centered">
+					<div>
+						<p class="heading is-size-6">Github Stars</p>
+						<p class="title">27k+</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<transition name="fade">
+			<router-view></router-view>
+		</transition>
+		<!--<footer class="footer shadow-lg"><a href="#" target="_blank" name="facebook" aria-label="notre facebook"><i class="fa fa-facebook"></i></a><a href="https://www.linkedin.com/company/sopymep" rel="noreferrer" target="_blank" name="linkedin" aria-label="notre linkedin"><i class="fa fa-linkedin"></i></a><p class="copyright-text">Tous droits réservés <a href="/">Sopymep</a>. Copyright © 2020</p>
+	</footer> -->
+</div>
+</div>
+</body>
+<script src="/js/script.js"></script>
 </html>

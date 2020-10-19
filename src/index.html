@@ -5,16 +5,72 @@
 		<title>SOPYMEP</title>
 		<meta name="description" content="description" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="/css/style.css" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 		<script src="https://unpkg.com/vue"></script>
 		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	</head>
 	<body class="landing-page container">
 		<div class="landing-page" id="app">
-			<navbar>
-				
-			</navbar>
+			
+			<section class="navigation shadow-lg">
+				<div class="nav-container">
+					<div class="brand">
+						<router-link to="/">Halogma</router-link>
+					</div>
+					<nav>
+						<div class="nav-mobile"><a id="navbar-toggle"><span></span></a></div>
+						<ul class="nav-list">
+							<li>
+								<a>Sopymep</a>
+								<ul class="navbar-dropdown">
+									<li>
+										<router-link to="/sopymep/news">News</router-link>
+									</li>
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a>CCMPI</a>
+								<ul class="navbar-dropdown">
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<a>Bettega et fils</a>
+								<ul class="navbar-dropdown">
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+									<li>
+										<router-link to="/">info</router-link>
+									</li>
+								</ul>
+							</li>
+							
+							<li>
+								<router-link to="/contact">Contact</router-link>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</section>
 			
 			<transition name="fade">
 				<router-view></router-view>
@@ -26,5 +82,5 @@
 			</footer>
 		</div>
 	</body>
-	<script src="js/script.js"></script>
+	<script src="/js/script.js"></script>
 </html>

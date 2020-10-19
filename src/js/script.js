@@ -1,5 +1,105 @@
 
 
+var DOMAnimations = {
+	
+	/**
+	* SlideUp
+	*
+	* @param {HTMLElement} element
+	* @param {Number} duration
+	* @returns {Promise<boolean>}
+	*/
+	slideUp: function (element, duration = 200) {
+
+		return new Promise(function (resolve, reject) {
+
+			element.style.height = element.offsetHeight + 'px';
+			element.style.transitionProperty = `height, margin, padding`;
+			element.style.transitionDuration = duration + 'ms';
+			element.offsetHeight;
+			element.style.overflow = 'hidden';
+			element.style.height = 0;
+			element.style.paddingTop = 0;
+			element.style.paddingBottom = 0;
+			element.style.marginTop = 0;
+			element.style.marginBottom = 0;
+			window.setTimeout(function () {
+				element.style.display = 'none';
+				element.style.removeProperty('height');
+				element.style.removeProperty('padding-top');
+				element.style.removeProperty('padding-bottom');
+				element.style.removeProperty('margin-top');
+				element.style.removeProperty('margin-bottom');
+				element.style.removeProperty('overflow');
+				element.style.removeProperty('transition-duration');
+				element.style.removeProperty('transition-property');
+				resolve(false);
+			}, duration)
+		})
+	},
+
+	/**
+	* SlideDown
+	*
+	* @param {HTMLElement} element
+	* @param {Number} duration
+	* @returns {Promise<boolean>}
+	*/
+	slideDown: function (element, duration = 200) {
+
+		return new Promise(function (resolve, reject) {
+
+			element.style.removeProperty('display');
+			let display = window.getComputedStyle(element).display;
+
+			if (display === 'none') 
+				display = 'block';
+
+			element.style.display = display;
+			let height = element.offsetHeight;
+			element.style.overflow = 'hidden';
+			element.style.height = 0;
+			element.style.paddingTop = 0;
+			element.style.paddingBottom = 0;
+			element.style.marginTop = 0;
+			element.style.marginBottom = 0;
+			element.offsetHeight;
+			element.style.transitionProperty = `height, margin, padding`;
+			element.style.transitionDuration = duration + 'ms';
+			element.style.height = height + 'px';
+			element.style.removeProperty('padding-top');
+			element.style.removeProperty('padding-bottom');
+			element.style.removeProperty('margin-top');
+			element.style.removeProperty('margin-bottom');
+			window.setTimeout(function () {
+				element.style.removeProperty('height');
+				element.style.removeProperty('overflow');
+				element.style.removeProperty('transition-duration');
+				element.style.removeProperty('transition-property');
+			}, duration)
+		})
+	},
+
+	/**
+	* SlideToggle
+	*
+	* @param {HTMLElement} element
+	* @param {Number} duration
+	* @returns {Promise<boolean>}
+	*/
+	slideToggle: function (element, duration = 200) {
+
+		if (window.getComputedStyle(element).display === 'none') {
+
+			return this.slideDown(element, duration);
+
+		} else {
+
+			return this.slideUp(element, duration);
+		}
+	}
+}
+
 const Select = document.querySelector.bind(document);
 
 function setCookie(cname, cvalue, exdays) {
@@ -83,9 +183,48 @@ function displayMenu() {
 	}
 }
 
-function HideNavbar(){
-	Select("#nav").classList.remove("responsive");
+function HideNavbar( exept ){
+	document.querySelectorAll( "nav ul li a:not(:only-child)").forEach(function(el){
+		if( exept != el){
+			let sib = el.parentNode.querySelector( "ul" )
+			if( sib ){
+				DOMAnimations.slideUp( sib )
+			}
+		}
+	})
+
+	if(!exept){
+		let v = Select('nav ul')
+		if (window.getComputedStyle(v).display != 'none') {
+			v.style.display = "none"
+			Select( "#navbar-toggle").classList.remove("active");
+		}
+		
+	}
+	
 }
+
+function HookNavbar(){
+
+	Select( "#navbar-toggle").addEventListener( "click" , function() {
+		DOMAnimations.slideToggle( Select('nav ul') )
+		this.classList.toggle('active');
+	})
+
+	document.querySelectorAll( "nav ul li a:not(:only-child)").forEach(function(el){
+	
+		el.addEventListener( "click" , function() {
+			HideNavbar( el )
+			let sib = el.parentNode.querySelector( "ul" )
+			console.log( el , sib )
+			if( sib ){
+				DOMAnimations.slideToggle( sib )
+			}
+		});
+	})
+}
+
+
 
 function GrabNews(){
 
@@ -240,12 +379,17 @@ const sopymep = { template: `
 ` }
 
 const sopymepnews = { 
-	props: [ 'posts' , 'salut' , 'btnClickHandler' ], 
+	props: [ 'posts' , 'salut' ], 
+	watch: {
+	  $route(to, from) {
+		console.log( to, from )
+	  }
+	},
 	template: `
 	<div>
 		<div>
 			<div class="container title">
-				<div>News {{btnClickHandler}}</div>
+				<div>News</div>
 			</div>
 			<div class="card-list container info" id="card-list">
 				<news-card v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title" v-bind:desc="post.desc" v-bind:date="post.date" v-bind:id="post.id"></news-card>
@@ -254,8 +398,33 @@ const sopymepnews = {
 	</div>
 ` }
 
+
+function _linkify(inputText) {
+	var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+	//URLs starting with http://, https://, or ftp://
+	replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+	replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+	//URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+	replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+	replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+	//Change email addresses to mailto:: links.
+	replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+	replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+	return replacedText;
+}
+
 const sopymeparticle = { 
 	props: [ 'posts' , 'article' , 'id' ] , 
+	methods: {
+		  linkify: function ( p ) {
+			console.log( p )
+			return _linkify( p )
+		  }
+		},
 	template: `
 	<div>
 		<div class="wrapper">
@@ -306,7 +475,6 @@ const routes = [
 			  { id: 4, title: 'vuejs yay' , date : '25 mars 2020' , desc : '' }
 			],
 			salut : async function(){ console.log( this ); return "ok"; },
-			btnClickHandler: { type: Function }
 		}
 	},
 	{ 
@@ -317,7 +485,9 @@ const routes = [
 	{ 
 		path: '/sopymep/news/:id', 
 		component: sopymeparticle ,
+		
 		props: {
+			
 			posts: [
 			  { id: 1, title: 'Mon initiation avec Vue' , date : '25 mars 2020' , desc : 'desc' },
 			  { id: 2, title: 'Blogger avec Vue' , date : '25 mars 2020' , desc : 'desc' },
@@ -328,7 +498,7 @@ const routes = [
 				date: "25 mars 2020",
 				desc: "salut desc",
 				title: "salut title",
-				content : `Cumque pertinacius ut legum gnarus accusatorem flagitaret atque sollemnia, doctus id Caesar libertatemque superbiam ratus tamquam obtrectatorem audacem excarnificari praecepit, qui ita evisceratus ut cruciatibus membra deessent, inplorans caelo iustitiam, torvum renidens fundato pectore mansit inmobilis nec se incusare nec quemquam alium passus et tandem nec confessus nec confutatus cum abiecto consorte poenali est morte multatus. et ducebatur intrepidus temporum iniquitati insultans, imitatus Zenonem illum veterem Stoicum qui ut mentiretur quaedam laceratus diutius, avulsam sedibus linguam suam cum cruento sputamine in oculos interrogantis Cyprii regis inpegit.
+				content : `Cumque pertinacius ut legum gnarus https://vuejs.org/v2/guide/components.html accusatorem flagitaret atque sollemnia, doctus id Caesar libertatemque superbiam ratus tamquam obtrectatorem audacem excarnificari praecepit, qui ita evisceratus ut cruciatibus membra deessent, inplorans caelo iustitiam, torvum renidens fundato pectore mansit inmobilis nec se incusare nec quemquam alium passus et tandem nec confessus nec confutatus cum abiecto consorte poenali est morte multatus. et ducebatur intrepidus temporum iniquitati insultans, imitatus Zenonem illum veterem Stoicum qui ut mentiretur quaedam laceratus diutius, avulsam sedibus linguam suam cum cruento sputamine in oculos interrogantis Cyprii regis inpegit.
 Denique Antiochensis ordinis vertices sub uno elogio iussit occidi ideo efferatus, quod ei celebrari vilitatem intempestivam urgenti, cum inpenderet inopia, gravius rationabili responderunt; et perissent ad unum ni comes orientis tunc Honoratus fixa constantia restitisset.
 Raptim igitur properantes ut motus sui rumores celeritate nimia praevenirent, vigore corporum ac levitate confisi per flexuosas semitas ad summitates collium tardius evadebant. et cum superatis difficultatibus arduis ad supercilia venissent fluvii Melanis alti et verticosi, qui pro muro tuetur accolas circumfusus, augente nocte adulta terrorem quievere paulisper lucem opperientes. arbitrabantur enim nullo inpediente transgressi inopino adcursu adposita quaeque vastare, sed in cassum labores pertulere gravissimos.
 Post emensos insuperabilis expeditionis eventus languentibus partium animis, quas periculorum varietas fregerat et laborum, nondum tubarum cessante clangore vel milite locato per stationes hibernas, fortunae saevientis procellae tempestates alias rebus infudere communibus per multa illa et dira facinora Caesaris Galli, qui ex squalore imo miseriarum in aetatis adultae primitiis ad principale culmen insperato saltu provectus ultra terminos potestatis delatae procurrens asperitate nimia cuncta foedabat. propinquitate enim regiae stirpis gentilitateque etiam tum Constantini nominis efferebatur in fastus, si plus valuisset, ausurus hostilia in auctorem suae felicitatis, ut videbatur.
@@ -356,7 +526,8 @@ Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caed
 ]
 
 const router = new VueRouter({
-  routes, // raccourci pour `routes: routes`
+	mode: 'history',
+	routes, // raccourci pour `routes: routes`
 
 })
 
@@ -371,22 +542,60 @@ let vm = new Vue({
   }
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async function(to, from, next){
 	HideNavbar()
 
-	
 	next()
-
-	Vue.nextTick(function () {
-		
-	});
 
 	setTimeout(function(){
 		GrabNews()
 	}, 100);
 
-	console.log( to, from )
+	//console.log( to, from )
 })
 
 
+console.log( router )
+
 GrabNews()
+HookNavbar()
+
+
+
+
+
+
+
+
+
+//(function($) { 
+//  $(function() { 
+//
+//	//  open and close nav 
+//	$('#navbar-toggle').click(function() {
+//	  $('nav ul').slideToggle();
+//	});
+//
+//
+//	// Hamburger toggle
+//	$('#navbar-toggle').on('click', function() {
+//	  this
+//	});
+//
+//
+//	// If a link has a dropdown, add sub menu toggle.
+//	$('nav ul li a:not(:only-child)').click(function(e) {
+//	  $(this).siblings('.navbar-dropdown').slideToggle("slow");
+//
+//	  // Close dropdown when select another dropdown
+//	  $('.navbar-dropdown').not($(this).siblings()).hide("slow");
+//	  e.stopPropagation();
+//	});
+//
+//
+//	// Click outside the dropdown will remove the dropdown class
+//	$('html').click(function() {
+//	  $('.navbar-dropdown').hide();
+//	});
+//  }); 
+//})(jQuery); 

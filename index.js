@@ -6,11 +6,7 @@ var app = express();
 const auth = require('http-auth');
 
 app.get('/', function(req, res) {
-		res.sendFile( __dirname + "/src/index.html")
-});
-
-app.get('/sopymep*', function(req, res) {
-		res.sendFile( __dirname + "/src/index.html")
+	res.sendFile( __dirname + "/src/index.html")
 });
 
 app.get('/robots.txt', function(req, res) {
@@ -60,12 +56,12 @@ app.get('/css/:name', function (req, res, next) {
 			}
 	}
 
-	var fileName = req.params.name
-		res.sendFile(fileName, options, function (err) {
-			if (err) {
-				next(err)
-			}
-		})
+	let fileName = req.params.name
+	res.sendFile(fileName, options, function (err) {
+		if (err) {
+			next(err)
+		}
+	})
 })
 
 app.get('/js/:name', function (req, res, next) {
@@ -79,16 +75,16 @@ app.get('/js/:name', function (req, res, next) {
 			}
 	}
 
-	var fileName = req.params.name
-		res.sendFile(fileName, options, function (err) {
-			if (err) {
-				next(err)
-			}
-		})
+	let fileName = req.params.name
+	res.sendFile(fileName, options, function (err) {
+		if (err) {
+			next(err)
+		}
+	})
 })
 
 app.get('*', function(req, res) {
-	res.redirect('/')
+	res.sendFile( __dirname + "/src/index.html")
 });
 
 app.listen(80)

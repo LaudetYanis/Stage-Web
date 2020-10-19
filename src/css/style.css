@@ -13,6 +13,10 @@ html {
 	box-sizing: inherit;
 }
 
+a {
+	cursor: pointer;
+}
+
 body {
 	position: relative;
 	margin: 0;
@@ -114,7 +118,7 @@ li {
 	margin-left: 2.5%;
 	color: #5d5d5d;
 	cursor: pointer;
-	transition: color 200ms;
+	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 .landing-page .header-area .links li:hover:not(.active) {
@@ -138,202 +142,186 @@ li {
 	display: none;
 }
 
-.navbar {
-	position: fixed;
-	width: 100%;
-	overflow: hidden;
-	background: white;
-	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+.navigation {
+	height: 55px;
+	background: #3363B3;
 }
 
-.navbar a {
+.brand {
+	position: absolute;
+	padding-left: 20px;
 	float: left;
-	display: block;
-	color: #fff;
-	text-align: center;
-	font-size: 17px;
-	padding: 1.5rem 2rem;
+	line-height: 55px;
+	text-transform: uppercase;
+	font-size: 1.4em;
+}
+
+.brand a, .brand a:visited {
+	color: #ffffff;
 	text-decoration: none;
-	color: black;
-	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1)
 }
 
-.navbar a .active {
-	background-color: #337ab7;
-	color: white;
+.nav-container {
+	margin: 0 auto;
 }
 
-.dropdown .drop .active {
-	background-color: #337ab7;
-	color: white;
+nav {
+	float: right;
+	margin-right: 5%;
 }
 
-.navbar a .active {
-	background-color: #337ab7;
-	color: white;
-}
-
-.navbar .dropdown .active {
-	background-color: #337ab7;
-	color: white;
-}
-
-.navbar a:hover {
-	background-color: #337ab7;
-	color: white;
-}
-
-.navbar router-link {
-	float: left;
-	display: block;
-	color: #fff;
-	text-align: center;
-	font-size: 17px;
-	padding: 1.5rem 2rem;
-	text-decoration: none;
-	color: black;
-	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1)
-}
-
-.navbar router-link .active {
-	background-color: #337ab7;
-	color: white;
-}
-
-.navbar router-link .active {
-	background-color: #337ab7;
-	color: white;
-}
-
-.navbar router-link:hover {
-	cursor: pointer;
-	background-color: #337ab7;
-	color: white;
-}
-
-.navbar .icon {
-	display: none;
-}
-
-.dropdown {
-	float: left;
-	overflow: hidden;
-}
-
-.dropdown .drop {
-	font-size: 17px;
-	border: none;
-	outline: none;
-	color: black;
-	padding: 1.5rem 2rem;
-	background-color: inherit;
-	font-family: inherit;
+nav ul {
+	list-style: none;
 	margin: 0;
-	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
+	padding: 0;
 }
 
-.drop .fa-angle-double-up, .drop:hover .fa-angle-double-down {
-	display: none;
+nav ul li {
+	float: left;
+	position: relative;
 }
 
-.drop:hover .fa-angle-double-up {
-	display: inline;
-}
-
-.drop-content {
-	display: none;
-	opacity: 0;
-	position: fixed;
-	margin-top: auto;
-	background-color: white;
-	z-index: 1;
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-	margin-top: 68px;
-	min-width: 150px;
-	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
-}
-
-.drop-content a {
-	float: none;
-	color: black;
-	padding: 12px, 16px;
+nav ul li a, nav ul li a:visited {
+	display: block;
+	padding: 0 20px;
+	line-height: 55px;
+	color: #fff;
 	text-decoration: none;
-	display: block;
-	text-align: center;
 }
 
-.dropdown:hover .drop-content {
-	display: block;
-	opacity: 1;
+nav ul li a {
+	background: transparent;
+	color: #FFF;
+	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
-.drop-content a:hover {
-	background-color: #337ab7;
-	color: white !important;
+nav ul li a:hover, nav ul li a:visited:hover {
+	background: #3363B3;
+	color: #ffffff;
+}
+
+.navbar-dropdown li a {
+}
+
+nav ul li a:not(:only-child):after, nav ul li a:visited:not(:only-child):after {
+	padding-left: 4px;
+	content: ' \025BE';
+}
+
+nav ul li ul li {
+	min-width: 190px;
+}
+
+nav ul li ul li a {
+	padding: 15px;
+	line-height: 20px;
+	background-color: #262626;
+	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+.navbar-dropdown {
+	position: absolute;
+	display: none;
+	z-index: 1;
+	background: #fff;
+	box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* Mobile navigation */
+.nav-mobile {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: transparent;
+	height: 55px;
+	width: 70px;
 }
 
 @media screen and (max-width:768px) {
-	.navbar a:not(.active) {
+	.nav-mobile {
+		display: block;
+	}
+
+	nav {
+		width: 100%;
+		padding: 55px 0 15px;
+		margin-right: 0%;
+	}
+
+	nav ul {
 		display: none;
 	}
 
-	.navbar a.icon {
-		float: right;
-		display: block;
+	nav ul li {
+		float: none;
+	}
+
+	nav ul li a {
+		padding: 15px;
+		line-height: 20px;
+		background: #262626;
+	}
+
+	nav ul li ul li a {
+		padding-left: 40px;
+	}
+
+	.navbar-dropdown {
+		position: static;
 	}
 
 }
 
-@media screen and (max-width:768px) {
-	.navbar.responsive {
-		position: fixed;
-		background-color: white !important;
+@media screen and (min-width:768px) {
+	.nav-list {
+		display: block !important;
 	}
 
-	.navbar {
-		position: fixed;
-		background-color: #337ab7;
-	}
+}
 
-	.navbar.responsive a.icon {
-		position: absolute;
-		right: 0;
-		top: 0;
-	}
+#navbar-toggle {
+	position: absolute;
+	left: 18px;
+	top: 15px;
+	cursor: pointer;
+	padding: 10px 35px 16px 0px;
+}
 
-	.navbar.responsive a {
-		float: none;
-		display: block;
-		text-align: left;
-	}
+#navbar-toggle span, #navbar-toggle span:before, #navbar-toggle span:after {
+	cursor: pointer;
+	border-radius: 1px;
+	height: 3px;
+	width: 30px;
+	background: #ffffff;
+	position: absolute;
+	display: block;
+	content: '';
+	transition: all 300ms cubic-bezier(0.65, 0.05, 0.36, 1);
+}
 
-	.navbar.responsive .dropdown {
-		float: none;
-	}
+#navbar-toggle span:before {
+	top: -10px;
+}
 
-	.navbar.responsive .drop-content {
-		position: relative;
-		padding-left: 30px;
-		padding-right: 30px;
-		background-color: white;
-		margin-top: 0px;
-	}
+#navbar-toggle span:after {
+	bottom: -10px;
+}
 
-	.navbar.responsive .drop-content a {
-		color: black;
-	}
+#navbar-toggle.active span {
+	background-color: transparent;
+}
 
-	.navbar.responsive .dropdown .drop {
-		display: block;
-		width: 100%;
-		text-align: left;
-	}
+#navbar-toggle.active span:before, #navbar-toggle.active span:after {
+	top: 0;
+}
 
-	.navbar.responsive .dropdown .drop:hover {
-		background-color: #337ab7;
-	}
+#navbar-toggle.active span:before {
+	transform: rotate(45deg);
+}
 
+#navbar-toggle.active span:after {
+	transform: rotate(-45deg);
 }
 
 .landing-page .info {
@@ -704,7 +692,6 @@ textarea .form-control {
 	margin-bottom: 2rem;
 	margin-right: auto;
 	margin-left: auto;
-	overflow: hidden;
 	max-width: 70%;
 	background: #fff;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -737,6 +724,8 @@ textarea .form-control {
 	width: 100%;
 	-o-object-fit: fill;
 	object-fit: fill;
+	border-top-right-radius: 20px;
+	border-top-left-radius: 20px;
 }
 
 .body__heading {

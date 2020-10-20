@@ -6,7 +6,26 @@ const app = express();
 const auth = require('http-auth');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const sqlite = require('./aa-sqlite.js');
 
+;(async()=>{
+	
+console.log( await sqlite.open('./sopymep.db') )
+
+
+await sqlite.run( `DROP TABLE IF EXISTS Devis`)
+
+await sqlite.run( `CREATE TABLE IF NOT EXISTS Devis (
+	devis_id INTEGER PRIMARY KEY, 
+	nom VARCHAR(64),
+	email VARCHAR(320),
+	tel VARCHAR(10),
+	date DATETIME DEFAULT CURRENT_TIMESTAMP,
+	pourle DATETIME,
+	ip VARCHAR(15),
+	message TEXT,
+	files TEXT
+)`)
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,7 +47,22 @@ app.post('/api/contact', function(req, res) {
 	
 	console.log( req.body )
 
-	console.log( req.files )
+	//console.log( req.files )
+
+
+	let arr = []
+
+	for (let k in req.files["file"]) {
+		let v = req.files["file"][k]
+		arr[k] = {name : v.name , md5 : v.md5}
+		console.log( v )
+		console.log( arr )
+		v.mv('./data/' + v.md5 + path.extname(v.name) , function(err) {
+			if (err) {
+				console.log(err);
+			}
+		});
+	}
 
 	res.send( "ok" )
 });
@@ -118,3 +152,6 @@ app.get('*', function(req, res) {
 });
 
 app.listen(80)
+
+
+})();

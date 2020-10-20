@@ -184,9 +184,20 @@ function displayMenu() {
 }
 
 function HideNavbar( exept ){
-	
-	
+
+	let el = document.querySelectorAll(".has-dropdown")
+
+	el.forEach( d => {
+		d.style.display = "none"
+
+		setTimeout(()=>{
+			d.style.display = ""
+		},1)
+	});
+
 }
+
+
 
 function HookNavbar(){
 
@@ -204,12 +215,37 @@ function HookNavbar(){
 				const target = el.dataset.target;
 				const $target = document.getElementById(target);
 
+				console.log( el )
+
 				// Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
 				el.classList.toggle('is-active');
 				$target.classList.toggle('is-active');
 
 			});
 		});
+
+
+		let f = function ( el ){
+			el.addEventListener('click', () => {
+				$navbarBurgers.forEach( el => {
+					const target = el.dataset.target;
+					const $target = document.getElementById(target);
+					el.classList.remove('is-active');
+					$target.classList.remove('is-active');
+				});
+			});
+		}
+
+		let el = document.querySelectorAll("a.navbar-item.router-link-active")
+
+		el.forEach( el => {
+			f( el )
+		});
+
+
+		console.log( el )
+
+
 	}
 }
 
@@ -311,7 +347,7 @@ Vue.component('news-card', {
 				<p class="date">{{date}}</p>
 				<h2 class="card-title">{{title}}</h2>
 				<p class="body-content">{{desc}}</p>
-				<router-link class="button button-primary" v-bind:to="'/sopymep/news/'+ this.id"id="Contact">
+				<router-link class="button button-primary" v-bind:to="'/news/'+ this.id"id="Contact">
 					<button class="button button-primary">En savoir plus</button>
 				</router-link>
 			</div>
@@ -319,20 +355,200 @@ Vue.component('news-card', {
 	`
 })
 
+Vue.component('news-card2', {
+  props: ['id' , 'title' , 'date' , 'desc'],
+  template: `
 
-Vue.component('halogma-form', {
-	//props: ['name' , 'email' , 'date' , 'phone' , 'company'],
+		<div class="card">
+			<router-link v-bind:to="'/news/'+ this.id" >
+				<div class="card-image">
+					<figure class="image is-4by3">
+						<img src="https://source.unsplash.com/random/1280x960" alt="Placeholder image">
+					</figure>
+				</div>
+				<div class="card-content">
+					<div class="media">
+						<div class="media-left">
+							<figure class="image is-48x48">
+								<img src="https://source.unsplash.com/random/96x96" class="is-rounded" alt="Placeholder image">
+							</figure>
+						</div>
+						<div class="media-content">
+							<p class="title is-4">John Smith</p>
+							<p class="subtitle is-6">{{date}}</p>
+						</div>
+					</div>
+					<div class="content">
+						{{title}}
+						<br>
+					</div>
+				</div>
+			</router-link>
+		</div>
+	`
+})
 
-	data: function () {
-		return {
-			name: '',
-			email: '',
-			date: [],
-			phone : '',
-			company : ''
-		}
+
+
+const Bar = { template: '<div>bar</div>' }
+
+const sopymep = { template: `
+	<div>
+		<div>
+			<div class="container presentation" >
+				<h1><div class="logo">SOPYMEP</div> du groupe HALOGMA</h1>
+			</div>
+			<hr>
+		</div>
+	</div>
+` }
+
+
+const halogma = { template: `
+	<div>
+		<section class="hero is-large is-primary is-bold">
+			<div class="hero-body">
+				<div class="container">
+					<h1 class="title">Halogma</h1>
+					<h2 class="subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h2>
+				</div>
+			</div>
+		</section>
+		<section class="section has-background-light shadow-lg">
+			<div class="container">
+				<h1 class="title" >Titre de la Section</h1>
+				<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt, voluptate suscipit vero atque non aut doloribus dolorum esse. Explicabo dolores a hic officia! Tenetur rerum consequuntur a! Voluptates, perferendis corporis!</p>
+			</div>
+		</section>
+		<section class="section">
+			<div class="container">
+				<div class="tile is-parent">
+					<article class="tile is-child notification shadow-lg">
+						<router-link to="/sopymep" class="content">
+						<p class="title">Sopymep</p>
+						<p class="subtitle">Lorem ipsum dolor sit amet</p>
+						<div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur obcaecati laborum deleniti placeat error vero rerum? Mollitia, rerum iusto? Cupiditate nobis libero, repellat quae nisi laborum fugit doloribus quaerat similique?</div>
+						</router-link>
+					</article>
+				</div>
+				<div class="tile is-parent">
+					<article class="tile is-child notification shadow-lg">
+						<router-link to="/sopymep" class="content">
+						<p class="title">CCMPI</p>
+						<p class="subtitle">Lorem ipsum dolor sit amet</p>
+						<div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur obcaecati laborum deleniti placeat error vero rerum? Mollitia, rerum iusto? Cupiditate nobis libero, repellat quae nisi laborum fugit doloribus quaerat similique?</div>
+						</router-link>
+					</article>
+				</div>
+				<div class="tile is-parent">
+					<article class="tile is-child notification shadow-lg">
+						<router-link to="/sopymep" class="content">
+						<p class="title">Bettega et fils</p>
+						<p class="subtitle">Lorem ipsum dolor sit amet</p>
+						<div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur obcaecati laborum deleniti placeat error vero rerum? Mollitia, rerum iusto? Cupiditate nobis libero, repellat quae nisi laborum fugit doloribus quaerat similique?
+						</div>
+						</router-link>
+					</article>
+				</div>
+			</div>
+		</section>
+	</div>
+` }
+
+//const sopymepnews = { 
+//	props: [ 'posts' , 'salut' ], 
+//	watch: {
+//	  $route(to, from) {
+//		console.log( to, from )
+//	  }
+//	},
+//	template: `
+//	<div>
+//		<div>
+//			<div class="container title">
+//				<div>News</div>
+//			</div>
+//			<div class="card-list container info" id="card-list">
+//				<news-card v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title" v-bind:desc="post.desc" v-bind:date="post.date" v-bind:id="post.id"></news-card>
+//			</div>
+//		</div>
+//	</div>
+//` }
+
+const news = { 
+	props: [ 'posts' ], 
+	watch: {
+	  $route(to, from) {
+		console.log( to, from )
+	  }
 	},
 	template: `
+	<section class="section">
+		<div class="container has-text-centered">
+			<h2 class="title">Lorem Ipsum</h2>
+			<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+			<div class="cardcolumns is-centered has-text-left mx-4" >
+				<news-card2 v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title" v-bind:desc="post.desc" v-bind:date="post.date" v-bind:id="post.id"></news-card2>
+			</div>
+		</div>
+		
+	</section>
+` }
+
+
+function _linkify(inputText) {
+	var replacedText, replacePattern1, replacePattern2, replacePattern3;
+
+	//URLs starting with http://, https://, or ftp://
+	replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+	replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+
+	//URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+	replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+	replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+
+	//Change email addresses to mailto:: links.
+	replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+	replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+
+	return replacedText;
+}
+
+const sopymeparticle = { 
+	props: [ 'posts' , 'article' , 'id' ] , 
+	methods: {
+		  linkify: function ( p ) {
+			console.log( p )
+			return _linkify( p )
+		  }
+		},
+	template: `
+	<div>
+		<div class="wrapper">
+			<div class="news-container">
+				<div class="news__header">
+					<img class="header__thumbnail" src="https://source.unsplash.com/1920x1080/" alt="" />
+				</div>
+				
+				<div class="news__body">
+					<h1 class="body__heading">{{article.title}}</h1>
+					
+					<small class="body__meta">{{article.date}}</small>
+					
+					<p class="body__text" v-for="v in (article.content.split('\\n'))">{{v}}</p>
+				</div>
+			</div>
+		</div>
+		<div>
+			
+		</div>
+	</div>
+` }
+
+const contact = { 
+	props: ['name','email','date','phone','company'],
+	template: `
+	<div>
 		<div class="container containerFormulaire box shadow-lg" id="ContactForm">
 			<template>
 				<section>
@@ -382,6 +598,24 @@ Vue.component('halogma-form', {
 						<b-input maxlength="500" type="textarea"></b-input>
 					</b-field>
 
+
+					<div class="file has-name">
+						<label class="file-label">
+							<input class="file-input" type="file" name="resume">
+							<span class="file-cta">
+								<span class="file-icon">
+								  <i class="fas fa-upload"></i>
+								</span>
+								<span class="file-label">
+									Choisir un fichier...
+								</span>
+							</span>
+							<span class="file-name">
+								Screen Shot 2017-07-29 at 15.54.25.png
+							</span>
+						</label>
+					</div>
+
 					<div class="columns is-mobile is-centered">
 						<button class="button is-info shadow-lg">Envoyer</button>
 					</div>
@@ -389,111 +623,32 @@ Vue.component('halogma-form', {
 				</section>
 			</template>
 		</div>
-	`
-})
-
-const Bar = { template: '<div>bar</div>' }
-
-const sopymep = { template: `
-	<div>
-		<div>
-			<div class="container presentation" >
-				<h1><div class="logo">SOPYMEP</div> du groupe HALOGMA</h1>
-			</div>
-			<hr>
-		</div>
 	</div>
 ` }
 
-const sopymepnews = { 
-	props: [ 'posts' , 'salut' ], 
-	watch: {
-	  $route(to, from) {
-		console.log( to, from )
-	  }
-	},
+const _404 = { 
 	template: `
-	<div>
-		<div>
-			<div class="container title">
-				<div>News</div>
-			</div>
-			<div class="card-list container info" id="card-list">
-				<news-card v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title" v-bind:desc="post.desc" v-bind:date="post.date" v-bind:id="post.id"></news-card>
-			</div>
+	<div id="main">
+		<div class="fof">
+				<h1>Error 404</h1>
 		</div>
-	</div>
-` }
-
-
-function _linkify(inputText) {
-	var replacedText, replacePattern1, replacePattern2, replacePattern3;
-
-	//URLs starting with http://, https://, or ftp://
-	replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-	replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
-
-	//URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-	replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-	replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
-
-	//Change email addresses to mailto:: links.
-	replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-	replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
-
-	return replacedText;
-}
-
-const sopymeparticle = { 
-	props: [ 'posts' , 'article' , 'id' ] , 
-	methods: {
-		  linkify: function ( p ) {
-			console.log( p )
-			return _linkify( p )
-		  }
-		},
-	template: `
-	<div>
-		<div class="wrapper">
-			<div class="news-container">
-				<div class="news__header">
-					<img class="header__thumbnail" src="https://source.unsplash.com/1920x1080/" alt="" />
-				</div>
-				
-				<div class="news__body">
-					<h1 class="body__heading">{{article.title}}</h1>
-					
-					<small class="body__meta">{{article.date}}</small>
-					
-					<p class="body__text" v-for="v in (article.content.split('\\n'))">{{v}}</p>
-				</div>
-			</div>
-		</div>
-		<div>
-			<div class="card-list container info" id="card-list">
-				<news-card v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title" v-bind:desc="post.desc" v-bind:date="post.date" v-bind:id="post.id"></news-card>
-			</div>
-		</div>
-	</div>
-` }
-
-const contact = { 
-	template: `
-	<div>
-		<halogma-form></halogma-form>
 	</div>
 ` }
 
 const routes = [
+	{ 
+		path: '/', 
+		component: halogma , 
 
+	},
 	{ 
 		path: '/sopymep', 
 		component: sopymep , 
 
 	},
 	{ 
-		path: '/sopymep/news', 
-		component: sopymepnews ,
+		path: '/news', 
+		component: news ,
 		props: {
 			posts: [
 			  { id: 1, title: 'Mon initiation avec Vue' , date : '25 mars 2020' , desc : 'desc' },
@@ -501,23 +656,22 @@ const routes = [
 			  { id: 3, title: 'Pourquoi Vue est tellement cool' , date : '25 mars 2020' , desc : 'desc' },
 			  { id: 4, title: 'vuejs yay' , date : '25 mars 2020' , desc : '' }
 			],
-			salut : async function(){ console.log( this ); return "ok"; },
 		}
 	},
 	{ 
 		path: '/contact', 
 		component: contact , 
-		props:{
-			'name' : "" ,
-			'email' : "" ,
-			'date' : "" ,
-			'phone' : "" ,
-			'company' : ""
-		}
+		props: {
+			name: '',
+			email: '',
+			date: new Date(),
+			phone : '',
+			company : ''
+		},
 
 	},
 	{ 
-		path: '/sopymep/news/:id', 
+		path: '/news/:id', 
 		component: sopymeparticle ,
 		
 		props: {
@@ -556,7 +710,11 @@ Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caed
 			},
 		}
 
-	}
+	},
+	{ 
+		path: '/*', 
+		component: _404 ,
+	},
 ]
 
 const router = new VueRouter({

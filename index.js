@@ -2,23 +2,53 @@
 
 const path = require("path");
 const express = require('express');
-var app = express();
+const app = express();
 const auth = require('http-auth');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(fileUpload({
+   limits: {
+	   fileSize: 20000000 //20mb
+   },
+   abortOnLimit: true,
+   useTempFiles : true,
+   tempFileDir : '/tmp/'
+}));
+
+
+
+// API 
+
+app.post('/api/contact', function(req, res) {
+	
+	console.log( req.body )
+
+	console.log( req.files )
+
+	res.send( "ok" )
+});
+
+
+//
 
 app.get('/', function(req, res) {
 	res.sendFile( __dirname + "/src/index.html")
 });
 
 app.get('/robots.txt', function(req, res) {
-		res.set ('Content-Type', 'text/plain')
-		res.sendFile( __dirname + "/src/robot.txt")
+	res.set ('Content-Type', 'text/plain')
+	res.sendFile( __dirname + "/src/robot.txt")
 });
 
 app.get('/favicon.ico', function(req, res) {
-		res.sendFile( __dirname + "/src/favicon.ico")
+	res.sendFile( __dirname + "/src/favicon.ico")
 });
 
-console.log( auth )
 const basic = auth.basic({
 	realm: "Admin",
 	file: __dirname + "/admin.htpasswd" // user:admin114, pass:zDvzxU0RNqSaugdxzxIi
@@ -26,7 +56,7 @@ const basic = auth.basic({
 
 
 app.get('/admin', basic.check((req, res) => {
-		res.end(`Welcome to private area - ${req.user}!`);
+	res.end(`Welcome to private area - ${req.user}!`);
 }));
 
 let domain = "http://www.example.com/"

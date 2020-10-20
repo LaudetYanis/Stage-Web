@@ -1,5 +1,7 @@
 
 
+
+
 var DOMAnimations = {
 	
 	/**
@@ -242,6 +244,18 @@ function HookNavbar(){
 			f( el )
 		});
 
+		el = document.querySelectorAll("#navbarDev > div.navbar-start > a")
+
+		el.forEach( el => {
+			f( el )
+		});
+
+		el = document.querySelector("#navbarDev > div.navbar-end > div > div").childNodes
+
+		el.forEach( el => {
+			f( el )
+		});
+
 
 		console.log( el )
 
@@ -378,7 +392,7 @@ Vue.component('news-card2', {
 							<p class="subtitle is-6">{{date}}</p>
 						</div>
 					</div>
-					<div class="content">
+					<div class="subtitle is-5">
 						{{title}}
 						<br>
 					</div>
@@ -546,7 +560,83 @@ const sopymeparticle = {
 ` }
 
 const contact = { 
-	props: ['name','email','date','phone','company'],
+	//props: ['name','email','date','phone','company','text'],
+	data:function(){
+		return { name: '', email: '', date: new Date() , phone: '', company: '' , text:'' , files: [] , size: 0 , maxsize: 20000000 };
+	},
+
+	methods: {
+
+
+		ValidateEmail: function(mail) {
+			if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)){
+				return true
+			}
+			return false
+		},
+		handleFileUpload: function (event) {
+			this.size = 0;
+			this.files = this.$refs.file.files;
+
+			for (const [k, v] of Object.entries(this.files)) {
+				console.log( k , v )
+				this.size += v.size
+			}
+
+			console.log( this.size )
+		},
+		Valid: function() {
+
+			if(this.size > this.maxsize){
+				return false
+			}
+
+			if(!this.ValidateEmail(this.email)){
+				return false
+			}
+
+			if(!this.ValidateEmail(this.email)){
+				return false
+			}
+
+			if( this.name.trim().length < 1 ){
+				return false
+			}
+
+			if( this.text.trim().length < 1 ){
+				return false
+			}
+
+			return true;
+		},
+		Send : function(){
+
+			let formData = new FormData();
+
+			console.log( this.name )
+
+			formData.append('name', this.name);
+			formData.append('email', this.email);
+			formData.append('date', this.date.getTime());
+			formData.append('phone', this.phone);
+			formData.append('company', this.company);
+			formData.append('text', this.text);
+			
+			for (const [k, v] of Object.entries(this.files)) {
+				formData.append('file', v);
+			}
+
+
+			axios.post( '/api/contact',
+				formData,{
+					headers: {
+						'Content-Type': 'multipart/form-data'
+					}
+				}
+			)
+
+		},
+	},
 	template: `
 	<div>
 		<div class="container containerFormulaire box shadow-lg" id="ContactForm">
@@ -570,10 +660,13 @@ const contact = {
 					</b-field>
 
 					<b-field label="Tél">
-						<b-input  placeholder="+33 X XX XX XX XX"
+						<b-input placeholder="0XXXXXXXXX"
 							v-model="phone"
-							type="email"
-							icon="phone">
+							id="phone"
+							type="tel"
+							pattern="^(?:(?:\\+|00)33[\\s.-]{0,3}(?:\\(0\\)[\\s.-]{0,3})?|0)[1-9](?:(?:[\\s.-]?\\d{2}){4}|\\d{2}(?:[\\s.-]?\\d{3}){2})$"
+							icon="phone"
+							class="">
 						</b-input required>
 					</b-field>
 
@@ -595,30 +688,29 @@ const contact = {
 					</b-field>
 			
 					<b-field label="Message">
-						<b-input maxlength="500" type="textarea"></b-input>
+						<b-input maxlength="500" type="textarea" v-model="text"></b-input>
 					</b-field>
 
-
-					<div class="file has-name">
-						<label class="file-label">
-							<input class="file-input" type="file" name="resume">
-							<span class="file-cta">
-								<span class="file-icon">
-								  <i class="fas fa-upload"></i>
+					<b-field label="20mo max">
+						<div class="file has-name my-4">
+							<label class="file-label shadow-lg">
+								<input class="file-input" type="file" name="fichies" ref="file" v-on:change="handleFileUpload()" multiple>
+								<span class="file-cta">
+									<span class="file-icon">
+									  <i class="fas fa-upload"></i>
+									</span>
+									<span class="file-label">
+										Choisir des fichiers...
+									</span>
 								</span>
-								<span class="file-label">
-									Choisir un fichier...
+								<span class="file-name button" v-if="files[0] != null" v-bind:class="{ 'is-danger': size > maxsize }" v-for="(value, name, index) in files">
+									{{value.name}}
 								</span>
-							</span>
-							<span class="file-name">
-								Screen Shot 2017-07-29 at 15.54.25.png
-							</span>
-						</label>
-					</div>
+							</label>
+						</div>
+					</b-field>
 
-					<div class="columns is-mobile is-centered">
-						<button class="button is-info shadow-lg">Envoyer</button>
-					</div>
+					<button class="button is-info shadow-lg my-4 " :disabled="!Valid()" v-on:click="Send()">Envoyer</button>
 					
 				</section>
 			</template>
@@ -661,13 +753,7 @@ const routes = [
 	{ 
 		path: '/contact', 
 		component: contact , 
-		props: {
-			name: '',
-			email: '',
-			date: new Date(),
-			phone : '',
-			company : ''
-		},
+		
 
 	},
 	{ 
@@ -741,6 +827,9 @@ router.beforeEach(async function(to, from, next){
 
 	setTimeout(function(){
 		GrabNews()
+
+		
+		
 	}, 100);
 
 	//console.log( to, from )

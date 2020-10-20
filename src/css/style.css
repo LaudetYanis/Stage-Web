@@ -362,6 +362,7 @@ textarea .form-control {
 }
 
 #main {
+	position: relative;
 	text-align: center;
 }
 
@@ -390,4 +391,8 @@ textarea .form-control {
 
 .card {
 	margin: 3rem auto;
+}
+
+textarea {
+	resize: none !important;
 }

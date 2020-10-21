@@ -47,7 +47,7 @@ var inboxVue = new Vue({
 			document.body.appendChild(element);
 			element.click();
 			document.body.removeChild(element);
-			
+
 		}
 	}
 });

@@ -59,8 +59,8 @@
 							<p class="body__text" v-for="v in (content.split('\\n'))">{{v}}</p>
 							<div v-if="messages[id]">
 								<div class="field" v-for="(v, k) in (messages[id].files)" >
-									<div class="file" v-on:click="Download(k)">
-										<label class="file-label">
+									<div class="file">
+										<label class="file-label"  v-on:click="Download(k)">
 											<span class="file-cta">
 												<span class="file-icon">
 													<i class="fas fa-download"></i>

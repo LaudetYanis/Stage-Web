@@ -6,16 +6,23 @@ const app = express();
 const auth = require('http-auth');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const fs = require('fs');
 const sqlite = require('./aa-sqlite.js');
 
 const nodemailer = require("nodemailer");
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
+const readFile = (path, opts = 'utf8') =>
+new Promise((resolve, reject) => {
+	fs.readFile(path, opts, (err, data) => {
+	  if (err) reject(err)
+	  else resolve(data)
+	})
+})
+
+
+async function SendDevisMail( receiver ) {
 
 	let testAccount = await nodemailer.createTestAccount();
-
-	console.log( testAccount )
 
 	let transporter = nodemailer.createTransport({
 		host: "smtp.ethereal.email",
@@ -27,14 +34,14 @@ async function main() {
 		},
 	});
 
-	// send mail with defined transport object
 	let info = await transporter.sendMail({
-		from: '"Fred Foo 👻" <foo@example.com>', // sender address
-		to: "alf.hammes@ethereal.email", // list of receivers
-		subject: "Hello ✔", // Subject line
-		text: "Hello world?", // plain text body
-		html: "<b>Hello html?</b>", // html body
+		from: '"Halogma" <noreply@halogma.fr>',
+		to: receiver,
+		subject: "Demande de devis",
+		html: await readFile('./mail/index.html'),
 	});
+
+	console.log( info )
 
 	console.log("Message sent: %s", info.messageId);
 
@@ -42,14 +49,14 @@ async function main() {
 
 }
 
-main().catch(console.error);
+SendDevisMail("alf.hammes@ethereal.email")
 
 ;(async()=>{
 	
 console.log( await sqlite.open('./sopymep.db') )
 
 
-await sqlite.run( `DROP TABLE IF EXISTS Devis`)
+//await sqlite.run( `DROP TABLE IF EXISTS Devis`)
 
 await sqlite.run( `CREATE TABLE IF NOT EXISTS Devis (
 	devis_id INTEGER PRIMARY KEY, 
@@ -210,11 +217,16 @@ app.post('/api/contact', async function(req, res) {
 			VALUES( '${escapeString(req.body.name)}', '${escapeString(req.body.email)}' , '${escapeString(req.body.phone)}' , '${Date.now()}', '${req.body.date}', '${escapeString(req.body.company)}', '${escapeString(req.body.text)}', '${JSON.stringify(arr)}' );
 		`)
 
-		let r = await sqlite.all("SELECT * FROM Devis ORDER BY date DESC", [])
-
-		r.forEach(function(row) {
-			console.log( row )
-		})
+		try{
+			await SendDevisMail( req.body.email )
+		}catch(e){
+			res.json({
+				err : "Inpossible d'envoyer un mail à " + req.body.email,
+				status : 500
+			})
+			return
+		}
+		
 
 		res.json({
 			err : null,
@@ -241,6 +253,22 @@ app.get('/api/devis', basic.check(async function(req, res) {
 		row.files = JSON.parse( row.files )
 	})
 	res.json(r);
+}));
+
+app.get('/api/delete/:id', basic.check(async function(req, res) {
+	
+	try{
+		let id = req.params.id
+		let rows = await sqlite.all(`SELECT * FROM Devis WHERE devis_id = ${ id } ORDER BY date DESC`, [])
+		console.log( rows )
+		let success = await sqlite.run( `DELETE FROM Devis WHERE devis_id = ${ id };` )
+	}catch(e){
+		res.json( { err : e , status : 500 })
+		return
+	}
+
+	res.json( { err : null , status : 200 })
+
 }));
 
 

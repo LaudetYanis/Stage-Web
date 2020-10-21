@@ -258,5 +258,11 @@ html, body {
 }
 
 .card-content {
+	min-height: 100px;
 	cursor: pointer;
+	overflow: hidden;
+}
+
+.files {
+	display: inline;
 }

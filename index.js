@@ -8,6 +8,42 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const sqlite = require('./aa-sqlite.js');
 
+const nodemailer = require("nodemailer");
+
+// async..await is not allowed in global scope, must use a wrapper
+async function main() {
+
+	let testAccount = await nodemailer.createTestAccount();
+
+	console.log( testAccount )
+
+	let transporter = nodemailer.createTransport({
+		host: "smtp.ethereal.email",
+		port: 587,
+		secure: false, // true for 465, false for other ports
+		auth: {
+			user: testAccount.user, // generated ethereal user
+			pass: testAccount.pass, // generated ethereal password
+		},
+	});
+
+	// send mail with defined transport object
+	let info = await transporter.sendMail({
+		from: '"Fred Foo 👻" <foo@example.com>', // sender address
+		to: "alf.hammes@ethereal.email", // list of receivers
+		subject: "Hello ✔", // Subject line
+		text: "Hello world?", // plain text body
+		html: "<b>Hello html?</b>", // html body
+	});
+
+	console.log("Message sent: %s", info.messageId);
+
+	console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+}
+
+main().catch(console.error);
+
 ;(async()=>{
 	
 console.log( await sqlite.open('./sopymep.db') )
@@ -208,6 +244,24 @@ app.get('/api/devis', basic.check(async function(req, res) {
 }));
 
 
+app.get('/api/file/:name', basic.check(async function(req, res) {
+	var options = {
+			root: path.join(__dirname, 'data'),
+			dotfiles: 'deny',
+			headers: {
+				'x-timestamp': Date.now(),
+				'x-sent': true,
+			}
+	}
+
+	let fileName = req.params.name + ".dat"
+	res.sendFile(fileName, options, function (err) {
+		if (err) {
+			next(err)
+		}
+	})
+}));
+
 
 //
 
@@ -245,6 +299,8 @@ app.get('/sitemap.xml', async function(req, res, next){
 	res.set('Content-Type', 'text/xml')
 	res.send(xml_content.join('\n'))
 })
+
+
 
 app.get('/css/:name', function (req, res, next) {
 	var options = {

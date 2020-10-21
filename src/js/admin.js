@@ -8,10 +8,10 @@ var inboxVue = new Vue({
 	data: {
 		content: "",
 		messages: {},
+		id:0,
 	},
 	methods: {
 		showMessage: function(msg, index) {
-			console.log( msg, index )
 			Select( "#message-pane").classList.remove( 'is-hidden' )
 			document.querySelectorAll(".card").forEach( el => {
 				el.classList.remove( 'active' )
@@ -20,11 +20,34 @@ var inboxVue = new Vue({
 			if( Select( "#msg-card-" + index) ){
 				Select( "#msg-card-" + index).classList.add( 'active' )
 			}
+
+			let mail_entre
+
+			if( msg.entreprise != "NULL" ){
+				mail_entre = msg.email + " ( " + msg.entreprise + " )"
+			}else{
+				mail_entre = msg.email
+			}
 			
-			Select( "#mail").innerText = msg.email
+			Select( "#mail").innerText = mail_entre
+			Select( "#phone").innerText = msg.tel
 			Select( "#name").innerText = msg.nom
 
 			this.content = msg.message
+			this.id = index
+		},
+		Download: function( num ){
+
+			let file = this.messages[this.id].files[num]
+			let element = document.createElement('a');
+			element.href = "/api/file/" + file.md5
+			let filename = file.name
+			element.setAttribute('download', filename );
+			element.style.display = 'none';
+			document.body.appendChild(element);
+			element.click();
+			document.body.removeChild(element);
+			
 		}
 	}
 });

@@ -17,12 +17,12 @@ await sqlite.run( `DROP TABLE IF EXISTS Devis`)
 
 await sqlite.run( `CREATE TABLE IF NOT EXISTS Devis (
 	devis_id INTEGER PRIMARY KEY, 
-	nom VARCHAR(64),
+	nom VARCHAR(128),
 	email VARCHAR(320),
 	tel VARCHAR(10),
 	date DATETIME DEFAULT CURRENT_TIMESTAMP,
 	pourle DATETIME,
-	ip VARCHAR(15),
+	entreprise VARCHAR(128),
 	message TEXT,
 	files TEXT
 )`)
@@ -39,33 +39,174 @@ app.use(fileUpload({
    tempFileDir : '/tmp/'
 }));
 
-
+const basic = auth.basic({
+	realm: "Admin",
+	file: __dirname + "/admin.htpasswd" // user:admin114, pass:zDvzxU0RNqSaugdxzxIi
+});
 
 // API 
 
-app.post('/api/contact', function(req, res) {
+function ValidateEmail(mail) {
+	if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)){
+		return true
+	}
+	return false
+}
+
+function escapeString(val) {
+	if( !val ){ return val };
+	val = val.replace(/[\0\n\r\b\t\\'"\x1a]/g, function (s) {
+		switch (s) {
+			case "\0":
+			return "\\0";
+			case "\n":
+			return "\\n";
+			case "\r":
+			return "\\r";
+			case "\b":
+			return "\\b";
+			case "\t":
+			return "\\t";
+			case "\x1a":
+			return "\\Z";
+			case "'":
+			return "''";
+			case '"':
+			return '""';
+			default:
+			return "\\" + s;
+		}
+	});
+	return val;
+};
+
+app.post('/api/contact', async function(req, res) {
 	
 	console.log( req.body )
+
+	if(!req.body.name || req.body.name.trim().length < 1 || req.body.name.length > 128 ){
+		res.json({
+			err : "nom invalide",
+			status : 500
+		})
+		return
+	}
+
+	if(req.body.company && req.body.company.length > 128 ){
+		res.json({
+			err : "entreprise invalide",
+			status : 500
+		})
+		return
+	}
+
+	req.body.company = req.body.company || 'NULL';
+
+	if(req.body.text && req.body.text.length > 500 ){
+		res.json({
+			err : "message invalide",
+			status : 500
+		})
+		return
+	}
+
+	if(req.body.phone && req.body.phone.length > 10 ){
+		res.json({
+			err : "téléphone invalide",
+			status : 500
+		})
+		return
+	}
+
+	req.body.phone = req.body.phone || 'NULL';
+
+	if(!req.body.date ){
+		res.json({
+			err : "date invalide",
+			status : 500
+		})
+		return
+	}
+
+	req.body.date = Number( req.body.date )
+
+	if(!req.body.email || !ValidateEmail(req.body.email) || req.body.email.length > 320 ){
+		res.json({
+			err : "email invalide",
+			status : 500
+		})
+		return
+	}
 
 	//console.log( req.files )
 
 
 	let arr = []
 
-	for (let k in req.files["file"]) {
-		let v = req.files["file"][k]
-		arr[k] = {name : v.name , md5 : v.md5}
-		console.log( v )
-		console.log( arr )
-		v.mv('./data/' + v.md5 + path.extname(v.name) , function(err) {
-			if (err) {
-				console.log(err);
-			}
-		});
+	if( req.files ){
+		if( !req.files["file"][0] ){ // stupide
+			let file = req.files["file"]
+			req.files["file"] = []
+			req.files["file"][0] = file
+		}
+	
+		for (let k in req.files["file"]) {
+			let v = req.files["file"][k]
+			
+			arr[k] = {name : escapeString( v.name ) , md5 : v.md5}
+			
+			v.mv('./data/' + v.md5 + ".dat" , function(err) {
+				if (err) {
+					res.json({
+						err : err,
+						status : 500
+					})
+					return 
+				}
+			});
+		}	
 	}
 
-	res.send( "ok" )
+	console.log( arr )
+
+	try{
+		let success = await sqlite.run( `INSERT INTO Devis (nom , email , tel , date , pourle , entreprise , message , files ) 
+			VALUES( '${escapeString(req.body.name)}', '${escapeString(req.body.email)}' , '${escapeString(req.body.phone)}' , '${Date.now()}', '${req.body.date}', '${escapeString(req.body.company)}', '${escapeString(req.body.text)}', '${JSON.stringify(arr)}' );
+		`)
+
+		let r = await sqlite.all("SELECT * FROM Devis ORDER BY date DESC", [])
+
+		r.forEach(function(row) {
+			console.log( row )
+		})
+
+		res.json({
+			err : null,
+			status : 200
+		})
+
+		return
+
+	}catch(e){
+		console.log( e )
+		res.json({
+			err : e + "",
+			status : 500
+		})
+		return
+	}
+	
 });
+
+app.get('/api/devis', basic.check(async function(req, res) {
+	let r = await sqlite.all("SELECT * FROM Devis ORDER BY date DESC", [])
+
+	r.forEach(function(row) {
+		row.files = JSON.parse( row.files )
+	})
+	res.json(r);
+}));
+
 
 
 //
@@ -83,14 +224,10 @@ app.get('/favicon.ico', function(req, res) {
 	res.sendFile( __dirname + "/src/favicon.ico")
 });
 
-const basic = auth.basic({
-	realm: "Admin",
-	file: __dirname + "/admin.htpasswd" // user:admin114, pass:zDvzxU0RNqSaugdxzxIi
-});
-
 
 app.get('/admin', basic.check((req, res) => {
-	res.end(`Welcome to private area - ${req.user}!`);
+	//res.end(`Welcome to private area - ${req.user}!`);
+	res.sendFile( __dirname + "/src/admin.html")
 }));
 
 let domain = "http://www.example.com/"

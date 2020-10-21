@@ -595,10 +595,6 @@ const contact = {
 				return false
 			}
 
-			if(!this.ValidateEmail(this.email)){
-				return false
-			}
-
 			if( this.name.trim().length < 1 ){
 				return false
 			}
@@ -609,7 +605,27 @@ const contact = {
 
 			return true;
 		},
-		Send : function(){
+
+		HaveErrors: function(){
+			if(this.size > this.maxsize){
+				return "Vous avez dépassé la taille limite de pièce jointe"
+			}
+
+			if(!this.ValidateEmail(this.email)){
+				return "Votre adresse email n'est pas valide"
+			}
+
+			if( this.name.trim().length < 1 ){
+				return "Votre nom est invalide"
+			}
+
+			if( this.text.trim().length < 1 ){
+				return "Votre message est invalide"
+			}
+
+			return "Envoyer";
+		},
+		Send : async function(){
 
 			let formData = new FormData();
 
@@ -627,7 +643,7 @@ const contact = {
 			}
 
 
-			axios.post( '/api/contact',
+			let rep = await axios.post( '/api/contact',
 				formData,{
 					headers: {
 						'Content-Type': 'multipart/form-data'
@@ -635,6 +651,32 @@ const contact = {
 				}
 			)
 
+			console.log( rep )
+
+			if( !rep.data){
+				rep.data = {}
+				rep.data.err = "Impossible de se connecter au serveur"
+			}
+
+			if( rep.data.err ){
+				this.$buefy.dialog.alert({
+					title: 'Erreur',
+					message: rep.data.err,
+					type: 'is-danger',
+					hasIcon: true,
+					icon: 'times-circle',
+					iconPack: 'fa',
+					ariaRole: 'alertdialog',
+					ariaModal: true
+				})
+			}else{
+				this.$buefy.dialog.alert({
+					title: 'Demande de devis',
+					message: 'Votre demande à bien été prise en compte!',
+					confirmText: 'OK!',
+					onConfirm: () => {router.push({ path: '/' })}
+				})
+			}
 		},
 	},
 	template: `
@@ -647,6 +689,7 @@ const contact = {
 						<b-input  placeholder="Nom"
 							v-model="name"
 							type="text"
+							maxlength="128"
 							icon="account">
 						</b-input required>
 					</b-field>
@@ -655,6 +698,7 @@ const contact = {
 						<b-input  placeholder="Email"
 							v-model="email"
 							type="email"
+							maxlength="320"
 							icon="email">
 						</b-input required>
 					</b-field>
@@ -666,6 +710,7 @@ const contact = {
 							type="tel"
 							pattern="^(?:(?:\\+|00)33[\\s.-]{0,3}(?:\\(0\\)[\\s.-]{0,3})?|0)[1-9](?:(?:[\\s.-]?\\d{2}){4}|\\d{2}(?:[\\s.-]?\\d{3}){2})$"
 							icon="phone"
+							maxlength="10"
 							class="">
 						</b-input required>
 					</b-field>
@@ -673,6 +718,7 @@ const contact = {
 					<b-field label="Entreprise">
 						<b-input  placeholder="Entreprise"
 							v-model="company"
+							maxlength="128"
 							type="text"
 							icon="city">
 						</b-input required>
@@ -710,8 +756,10 @@ const contact = {
 						</div>
 					</b-field>
 
-					<button class="button is-info shadow-lg my-4 " :disabled="!Valid()" v-on:click="Send()">Envoyer</button>
-					
+					<b-tooltip
+						:label="HaveErrors()" multilined>
+						<button class="button shadow-lg my-4 is-primary" :disabled="!Valid()" v-on:click="Send()">Envoyer</button>
+					</b-tooltip>
 				</section>
 			</template>
 		</div>
@@ -825,12 +873,11 @@ router.beforeEach(async function(to, from, next){
 
 	next()
 
-	setTimeout(function(){
-		GrabNews()
+	//setTimeout(function(){
+	//	GrabNews()
+	//}, 100);
 
-		
-		
-	}, 100);
+	window.scrollTo(0,0)
 
 	//console.log( to, from )
 })
@@ -838,45 +885,16 @@ router.beforeEach(async function(to, from, next){
 
 console.log( router )
 
-GrabNews()
+//GrabNews()
 HookNavbar()
 
 
 
-
-
-
-
-
-
-//(function($) { 
-//  $(function() { 
-//
-//	//  open and close nav 
-//	$('#navbar-toggle').click(function() {
-//	  $('nav ul').slideToggle();
-//	});
-//
-//
-//	// Hamburger toggle
-//	$('#navbar-toggle').on('click', function() {
-//	  this
-//	});
-//
-//
-//	// If a link has a dropdown, add sub menu toggle.
-//	$('nav ul li a:not(:only-child)').click(function(e) {
-//	  $(this).siblings('.navbar-dropdown').slideToggle("slow");
-//
-//	  // Close dropdown when select another dropdown
-//	  $('.navbar-dropdown').not($(this).siblings()).hide("slow");
-//	  e.stopPropagation();
-//	});
-//
-//
-//	// Click outside the dropdown will remove the dropdown class
-//	$('html').click(function() {
-//	  $('.navbar-dropdown').hide();
-//	});
-//  }); 
-//})(jQuery); 
+//var element = document.createElement('a');
+//element.href = downloadUrl
+//const filename = v.Titre + ".mp3" //decodeURI( downloadUrl.substring(downloadUrl.lastIndexOf('/')+1) );
+//element.setAttribute('download', filename );
+//element.style.display = 'none';
+//document.body.appendChild(element);
+//element.click();
+//document.body.removeChild(element);

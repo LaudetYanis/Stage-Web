@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Inbox - Free Bulma template</title>
+		<link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+		<!-- Bulma Version 0.9.0-->
+		<link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+		<link rel="stylesheet" type="text/css" href="../css/inbox.css">
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js" integrity="sha256-QHdJObhDO++VITP6S4tMlDHRWMaUOk+s/xWIRgF/YY0=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js" integrity="sha256-4PIvl58L9q7iwjT654TQJM+C/acEyoG738iL8B8nhXg=" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div class="columns" id="mail-app">
+			<div class="column is-4 messages hero is-fullheight" id="message-feed">
+				<div class="inbox-messages" id="inbox-messages">
+					<div v-for="(msg, index) in messages" class="card" v-bind:id="'msg-card-'+index" v-on:click="showMessage(msg,index)" v-bind:data-preview-id="index">
+						<div class="card-content">
+							<div class="msg-header">
+								<span class="msg-from"><small>De: {{ msg.email }}</small></span>
+								<span class="msg-timestamp"></span>
+								<span class="msg-attachment"><i class="fa fa-paperclip"></i></span>
+							</div>
+							<div class="msg-snippet">
+								<p id="fake-snippet-1">{{ msg.message.substring(0, 100) }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="column is-6 message hero is-fullheight is-hidden" id="message-pane">
+				<div class="">
+					<div class="control is-grouped">
+						
+						<a class="button is-small"><i class="fa fa-inbox"></i></a>
+						<a class="button is-small"><i class="fa fa-trash-o"></i></a>
+						<a class="button is-small"><i class="fa fa-share"></i></a>
+					</div>
+				</div>
+				<div class="box message-preview">
+					<div class="top">
+						<div class="avatar">
+							<img src="https://placehold.it/128x128">
+						</div>
+						<div class="address">
+							<div class="name" id="name">John Smith</div>
+							<div class="email" id="mail">someone@gmail.com</div>
+						</div>
+						<hr>
+						<div class="content" id="centent">
+							<p class="body__text" v-for="v in (content.split('\\n'))">{{v}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="/js/admin.js"></script>
+	</body>
+</html>

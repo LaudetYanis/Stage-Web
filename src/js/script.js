@@ -1,322 +1,318 @@
-
-
-
-
 var DOMAnimations = {
-	
-	/**
-	* SlideUp
-	*
-	* @param {HTMLElement} element
-	* @param {Number} duration
-	* @returns {Promise<boolean>}
-	*/
-	slideUp: function (element, duration = 200) {
 
-		return new Promise(function (resolve, reject) {
+    /**
+     * SlideUp
+     *
+     * @param {HTMLElement} element
+     * @param {Number} duration
+     * @returns {Promise<boolean>}
+     */
+    slideUp: function(element, duration = 200) {
 
-			element.style.height = element.offsetHeight + 'px';
-			element.style.transitionProperty = `height, margin, padding`;
-			element.style.transitionDuration = duration + 'ms';
-			element.offsetHeight;
-			element.style.overflow = 'hidden';
-			element.style.height = 0;
-			element.style.paddingTop = 0;
-			element.style.paddingBottom = 0;
-			element.style.marginTop = 0;
-			element.style.marginBottom = 0;
-			window.setTimeout(function () {
-				element.style.display = 'none';
-				element.style.removeProperty('height');
-				element.style.removeProperty('padding-top');
-				element.style.removeProperty('padding-bottom');
-				element.style.removeProperty('margin-top');
-				element.style.removeProperty('margin-bottom');
-				element.style.removeProperty('overflow');
-				element.style.removeProperty('transition-duration');
-				element.style.removeProperty('transition-property');
-				resolve(false);
-			}, duration)
-		})
-	},
+        return new Promise(function(resolve, reject) {
 
-	/**
-	* SlideDown
-	*
-	* @param {HTMLElement} element
-	* @param {Number} duration
-	* @returns {Promise<boolean>}
-	*/
-	slideDown: function (element, duration = 200) {
+            element.style.height = element.offsetHeight + 'px';
+            element.style.transitionProperty = `height, margin, padding`;
+            element.style.transitionDuration = duration + 'ms';
+            element.offsetHeight;
+            element.style.overflow = 'hidden';
+            element.style.height = 0;
+            element.style.paddingTop = 0;
+            element.style.paddingBottom = 0;
+            element.style.marginTop = 0;
+            element.style.marginBottom = 0;
+            window.setTimeout(function() {
+                element.style.display = 'none';
+                element.style.removeProperty('height');
+                element.style.removeProperty('padding-top');
+                element.style.removeProperty('padding-bottom');
+                element.style.removeProperty('margin-top');
+                element.style.removeProperty('margin-bottom');
+                element.style.removeProperty('overflow');
+                element.style.removeProperty('transition-duration');
+                element.style.removeProperty('transition-property');
+                resolve(false);
+            }, duration)
+        })
+    },
 
-		return new Promise(function (resolve, reject) {
+    /**
+     * SlideDown
+     *
+     * @param {HTMLElement} element
+     * @param {Number} duration
+     * @returns {Promise<boolean>}
+     */
+    slideDown: function(element, duration = 200) {
 
-			element.style.removeProperty('display');
-			let display = window.getComputedStyle(element).display;
+        return new Promise(function(resolve, reject) {
 
-			if (display === 'none') 
-				display = 'block';
+            element.style.removeProperty('display');
+            let display = window.getComputedStyle(element).display;
 
-			element.style.display = display;
-			let height = element.offsetHeight;
-			element.style.overflow = 'hidden';
-			element.style.height = 0;
-			element.style.paddingTop = 0;
-			element.style.paddingBottom = 0;
-			element.style.marginTop = 0;
-			element.style.marginBottom = 0;
-			element.offsetHeight;
-			element.style.transitionProperty = `height, margin, padding`;
-			element.style.transitionDuration = duration + 'ms';
-			element.style.height = height + 'px';
-			element.style.removeProperty('padding-top');
-			element.style.removeProperty('padding-bottom');
-			element.style.removeProperty('margin-top');
-			element.style.removeProperty('margin-bottom');
-			window.setTimeout(function () {
-				element.style.removeProperty('height');
-				element.style.removeProperty('overflow');
-				element.style.removeProperty('transition-duration');
-				element.style.removeProperty('transition-property');
-			}, duration)
-		})
-	},
+            if (display === 'none')
+                display = 'block';
 
-	/**
-	* SlideToggle
-	*
-	* @param {HTMLElement} element
-	* @param {Number} duration
-	* @returns {Promise<boolean>}
-	*/
-	slideToggle: function (element, duration = 200) {
+            element.style.display = display;
+            let height = element.offsetHeight;
+            element.style.overflow = 'hidden';
+            element.style.height = 0;
+            element.style.paddingTop = 0;
+            element.style.paddingBottom = 0;
+            element.style.marginTop = 0;
+            element.style.marginBottom = 0;
+            element.offsetHeight;
+            element.style.transitionProperty = `height, margin, padding`;
+            element.style.transitionDuration = duration + 'ms';
+            element.style.height = height + 'px';
+            element.style.removeProperty('padding-top');
+            element.style.removeProperty('padding-bottom');
+            element.style.removeProperty('margin-top');
+            element.style.removeProperty('margin-bottom');
+            window.setTimeout(function() {
+                element.style.removeProperty('height');
+                element.style.removeProperty('overflow');
+                element.style.removeProperty('transition-duration');
+                element.style.removeProperty('transition-property');
+            }, duration)
+        })
+    },
 
-		if (window.getComputedStyle(element).display === 'none') {
+    /**
+     * SlideToggle
+     *
+     * @param {HTMLElement} element
+     * @param {Number} duration
+     * @returns {Promise<boolean>}
+     */
+    slideToggle: function(element, duration = 200) {
 
-			return this.slideDown(element, duration);
+        if (window.getComputedStyle(element).display === 'none') {
 
-		} else {
+            return this.slideDown(element, duration);
 
-			return this.slideUp(element, duration);
-		}
-	}
+        } else {
+
+            return this.slideUp(element, duration);
+        }
+    }
 }
 
 const Select = document.querySelector.bind(document);
 
 function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
 function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for(var i = 0; i < ca.length; i++) {
-	var c = ca[i];
-	while (c.charAt(0) == ' ') {
-	  c = c.substring(1);
-	}
-	if (c.indexOf(name) == 0) {
-	  return c.substring(name.length, c.length);
-	}
-  }
-  return undefined;
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return undefined;
 }
 
-async function POST( url , obj ) {
-	return new Promise(async function(resolve, reject) {
-		try {
-			var xhttp = new XMLHttpRequest();
+async function POST(url, obj) {
+    return new Promise(async function(resolve, reject) {
+        try {
+            var xhttp = new XMLHttpRequest();
 
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-				var responseText = this.responseText;
-					try{
-						resolve( responseText )
-					}catch (e) {
-						reject( e )
-					}
-				}
-			};
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var responseText = this.responseText;
+                    try {
+                        resolve(responseText)
+                    } catch (e) {
+                        reject(e)
+                    }
+                }
+            };
 
-			xhttp.open("POST", url , true);
-			xhttp.send( JSON.stringify( obj ) );
+            xhttp.open("POST", url, true);
+            xhttp.send(JSON.stringify(obj));
 
-		} catch (err) {
-			reject( err ) ;
-		}
-	})
+        } catch (err) {
+            reject(err);
+        }
+    })
 }
 
-async function GET( url ) {
-	return new Promise(async function(resolve, reject) {
-		try {
-			var xhttp = new XMLHttpRequest();
+async function GET(url) {
+    return new Promise(async function(resolve, reject) {
+        try {
+            var xhttp = new XMLHttpRequest();
 
-			xhttp.onreadystatechange = function() {
-				if (this.readyState == 4 && this.status == 200) {
-				var responseText = this.responseText;
-					try{
-						resolve( responseText )
-					}catch (e) {
-						resolve( undefined )
-					}
-				}
-			};
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var responseText = this.responseText;
+                    try {
+                        resolve(responseText)
+                    } catch (e) {
+                        resolve(undefined)
+                    }
+                }
+            };
 
-			xhttp.open("GET", url , true);
-			xhttp.send();
+            xhttp.open("GET", url, true);
+            xhttp.send();
 
-		} catch (err) {
-			resolve( undefined ) ;
-		}
-	})
+        } catch (err) {
+            resolve(undefined);
+        }
+    })
 }
 
 function displayMenu() {
-	var x = document.getElementById("nav");
-	if (!x.classList.contains("responsive")) {
-		x.classList.add("responsive");
-	} else {
-		x.classList.remove("responsive");
-	}
+    var x = document.getElementById("nav");
+    if (!x.classList.contains("responsive")) {
+        x.classList.add("responsive");
+    } else {
+        x.classList.remove("responsive");
+    }
 }
 
-function HideNavbar( exept ){
+function HideNavbar(exept) {
 
-	let el = document.querySelectorAll(".has-dropdown")
+    let el = document.querySelectorAll(".has-dropdown")
 
-	el.forEach( d => {
-		d.style.display = "none"
+    el.forEach(d => {
+        d.style.display = "none"
 
-		setTimeout(()=>{
-			d.style.display = ""
-		},1)
-	});
+        setTimeout(() => {
+            d.style.display = ""
+        }, 1)
+    });
 
-}
-
-
-
-function HookNavbar(){
-
-	// Get all "navbar-burger" elements
-	const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
-
-	// Check if there are any navbar burgers
-	if ($navbarBurgers.length > 0) {
-
-		// Add a click event on each of them
-		$navbarBurgers.forEach( el => {
-			el.addEventListener('click', () => {
-
-				// Get the target from the "data-target" attribute
-				const target = el.dataset.target;
-				const $target = document.getElementById(target);
-
-				console.log( el )
-
-				// Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-				el.classList.toggle('is-active');
-				$target.classList.toggle('is-active');
-
-			});
-		});
-
-
-		let f = function ( el ){
-			el.addEventListener('click', () => {
-				$navbarBurgers.forEach( el => {
-					const target = el.dataset.target;
-					const $target = document.getElementById(target);
-					el.classList.remove('is-active');
-					$target.classList.remove('is-active');
-				});
-			});
-		}
-
-		let el = document.querySelectorAll("a.navbar-item.router-link-active")
-
-		el.forEach( el => {
-			f( el )
-		});
-
-		el = document.querySelectorAll("#navbarDev > div.navbar-start > a")
-
-		el.forEach( el => {
-			f( el )
-		});
-
-		el = document.querySelector("#navbarDev > div.navbar-end > div > div").childNodes
-
-		el.forEach( el => {
-			f( el )
-		});
-
-
-		console.log( el )
-
-
-	}
 }
 
 
 
-function GrabNews(){
+function HookNavbar() {
 
-	const ele = document.getElementById('card-list');
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-	if( !ele ) return;
-	ele.style.cursor = 'grab';
-	
-	let pos = { top: 0, left: 0, x: 0, y: 0 };
-	
-	const mouseDownHandler = function(e) {
-		ele.style.cursor = 'grabbing';
-		ele.style.userSelect = 'none';
-	
-		pos = {
-			left: ele.scrollLeft,
-			top: ele.scrollTop,
-			// Get the current mouse position
-			x: e.clientX,
-			y: e.clientY,
-		};
-	
-		document.addEventListener('mousemove', mouseMoveHandler);
-		document.addEventListener('mouseup', mouseUpHandler);
-	};
-	
-	const mouseMoveHandler = function(e) {
-		// How far the mouse has been moved
-		const dx = e.clientX - pos.x;
-		const dy = e.clientY - pos.y;
-	
-		// Scroll the element
-		ele.scrollTop = pos.top - dy;
-		ele.scrollLeft = pos.left - dx;
-		//console.log( dx )
-	};
-	
-	const mouseUpHandler = function() {
-		ele.style.cursor = 'grab';
-		ele.style.removeProperty('user-select');
-	
-		document.removeEventListener('mousemove', mouseMoveHandler);
-		document.removeEventListener('mouseup', mouseUpHandler);
-	};
-	
-	// Attach the handler
-	ele.addEventListener('mousedown', mouseDownHandler);
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+            el.addEventListener('click', () => {
+
+                // Get the target from the "data-target" attribute
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
+
+                console.log(el)
+
+                // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
+
+            });
+        });
+
+
+        let f = function(el) {
+            el.addEventListener('click', () => {
+                $navbarBurgers.forEach(el => {
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+                    el.classList.remove('is-active');
+                    $target.classList.remove('is-active');
+                });
+            });
+        }
+
+        let el = document.querySelectorAll("a.navbar-item.router-link-active")
+
+        el.forEach(el => {
+            f(el)
+        });
+
+        el = document.querySelectorAll("#navbarDev > div.navbar-start > a")
+
+        el.forEach(el => {
+            f(el)
+        });
+
+        el = document.querySelector("#navbarDev > div.navbar-end > div > div").childNodes
+
+        el.forEach(el => {
+            f(el)
+        });
+
+
+        console.log(el)
+
+
+    }
+}
+
+
+
+function GrabNews() {
+
+    const ele = document.getElementById('card-list');
+
+    if (!ele) return;
+    ele.style.cursor = 'grab';
+
+    let pos = { top: 0, left: 0, x: 0, y: 0 };
+
+    const mouseDownHandler = function(e) {
+        ele.style.cursor = 'grabbing';
+        ele.style.userSelect = 'none';
+
+        pos = {
+            left: ele.scrollLeft,
+            top: ele.scrollTop,
+            // Get the current mouse position
+            x: e.clientX,
+            y: e.clientY,
+        };
+
+        document.addEventListener('mousemove', mouseMoveHandler);
+        document.addEventListener('mouseup', mouseUpHandler);
+    };
+
+    const mouseMoveHandler = function(e) {
+        // How far the mouse has been moved
+        const dx = e.clientX - pos.x;
+        const dy = e.clientY - pos.y;
+
+        // Scroll the element
+        ele.scrollTop = pos.top - dy;
+        ele.scrollLeft = pos.left - dx;
+        //console.log( dx )
+    };
+
+    const mouseUpHandler = function() {
+        ele.style.cursor = 'grab';
+        ele.style.removeProperty('user-select');
+
+        document.removeEventListener('mousemove', mouseMoveHandler);
+        document.removeEventListener('mouseup', mouseUpHandler);
+    };
+
+    // Attach the handler
+    ele.addEventListener('mousedown', mouseDownHandler);
 }
 
 
 
 Vue.component('navbar', {
-  template: `
+    template: `
 	<div class="container">
 		<div class="navbar shadow-lg" id= "nav">
 			<a href="#Home">HALOGMA</a>
@@ -351,8 +347,8 @@ Vue.component('navbar', {
 })
 
 Vue.component('news-card', {
-  props: ['id' , 'title' , 'date' , 'desc'],
-  template: `
+    props: ['id', 'title', 'date', 'desc'],
+    template: `
 		<article class="card">
 			<header class="card-header" style="background-image: url(https://source.unsplash.com/random);">
 				<h4 class="card-header--title">News</h4>
@@ -370,8 +366,8 @@ Vue.component('news-card', {
 })
 
 Vue.component('news-card2', {
-  props: ['id' , 'title' , 'date' , 'desc'],
-  template: `
+    props: ['id', 'title', 'date', 'desc'],
+    template: `
 
 		<div class="card">
 			<router-link v-bind:to="'/news/'+ this.id" >
@@ -489,14 +485,14 @@ const halogma = { template: `
 //	</div>
 //` }
 
-const news = { 
-	props: [ 'posts' ], 
-	watch: {
-	  $route(to, from) {
-		console.log( to, from )
-	  }
-	},
-	template: `
+const news = {
+    props: ['posts'],
+    watch: {
+        $route(to, from) {
+            console.log(to, from)
+        }
+    },
+    template: `
 	<section class="section">
 		<div class="container has-text-centered">
 			<h2 class="title">Lorem Ipsum</h2>
@@ -507,36 +503,37 @@ const news = {
 		</div>
 		
 	</section>
-` }
+`
+}
 
 
 function _linkify(inputText) {
-	var replacedText, replacePattern1, replacePattern2, replacePattern3;
+    var replacedText, replacePattern1, replacePattern2, replacePattern3;
 
-	//URLs starting with http://, https://, or ftp://
-	replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
-	replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
+    //URLs starting with http://, https://, or ftp://
+    replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+    replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
 
-	//URLs starting with "www." (without // before it, or it'd re-link the ones done above).
-	replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-	replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+    //URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+    replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+    replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
 
-	//Change email addresses to mailto:: links.
-	replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
-	replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+    //Change email addresses to mailto:: links.
+    replacePattern3 = /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+    replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
 
-	return replacedText;
+    return replacedText;
 }
 
-const sopymeparticle = { 
-	props: [ 'posts' , 'article' , 'id' ] , 
-	methods: {
-		  linkify: function ( p ) {
-			console.log( p )
-			return _linkify( p )
-		  }
-		},
-	template: `
+const sopymeparticle = {
+    props: ['posts', 'article', 'id'],
+    methods: {
+        linkify: function(p) {
+            console.log(p)
+            return _linkify(p)
+        }
+    },
+    template: `
 	<div>
 		<div class="wrapper">
 			<div class="news-container">
@@ -557,130 +554,131 @@ const sopymeparticle = {
 			
 		</div>
 	</div>
-` }
+`
+}
 
 
-const contact = { 
-	//props: ['name','email','date','phone','company','text'],
-	data:function(){
-		return { name: '', email: '', date: new Date() , phone: '', company: '' , text:'' , files: [] , size: 0 , maxsize: 20000000 , isLoading : false };
-	},
+const contact = {
+    //props: ['name','email','date','phone','company','text'],
+    data: function() {
+        return { name: '', email: '', date: new Date(), phone: '', company: '', text: '', files: [], size: 0, maxsize: 20000000, isLoading: false };
+    },
 
-	methods: {
+    methods: {
 
-		ValidateEmail: function(mail) {
-			if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)){
-				return true
-			}
-			return false
-		},
-		handleFileUpload: function (event) {
-			this.size = 0;
-			this.files = this.$refs.file.files;
+        ValidateEmail: function(mail) {
+            if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)) {
+                return true
+            }
+            return false
+        },
+        handleFileUpload: function(event) {
+            this.size = 0;
+            this.files = this.$refs.file.files;
 
-			for (const [k, v] of Object.entries(this.files)) {
-				console.log( k , v )
-				this.size += v.size
-			}
+            for (const [k, v] of Object.entries(this.files)) {
+                console.log(k, v)
+                this.size += v.size
+            }
 
-			console.log( this.size )
-		},
-		Valid: function() {
+            console.log(this.size)
+        },
+        Valid: function() {
 
-			if(this.size > this.maxsize){
-				return false
-			}
+            if (this.size > this.maxsize) {
+                return false
+            }
 
-			if(!this.ValidateEmail(this.email)){
-				return false
-			}
+            if (!this.ValidateEmail(this.email)) {
+                return false
+            }
 
-			if( this.name.trim().length < 1 ){
-				return false
-			}
+            if (this.name.trim().length < 1) {
+                return false
+            }
 
-			if( this.text.trim().length < 1 ){
-				return false
-			}
+            if (this.text.trim().length < 1) {
+                return false
+            }
 
-			return true;
-		},
+            return true;
+        },
 
-		HaveErrors: function(){
-			if(this.size > this.maxsize){
-				return "Vous avez dépassé la taille limite de pièce jointe"
-			}
+        HaveErrors: function() {
+            if (this.size > this.maxsize) {
+                return "Vous avez dépassé la taille limite de pièce jointe"
+            }
 
-			if(!this.ValidateEmail(this.email)){
-				return "Votre adresse email n'est pas valide"
-			}
+            if (!this.ValidateEmail(this.email)) {
+                return "Votre adresse email n'est pas valide"
+            }
 
-			if( this.name.trim().length < 1 ){
-				return "Votre nom est invalide"
-			}
+            if (this.name.trim().length < 1) {
+                return "Votre nom est invalide"
+            }
 
-			if( this.text.trim().length < 1 ){
-				return "Votre message est invalide"
-			}
+            if (this.text.trim().length < 1) {
+                return "Votre message est invalide"
+            }
 
-			return "Envoyer";
-		},
-		Send : async function(){
+            return "Envoyer";
+        },
+        Send: async function() {
 
-			this.isLoading = true
+            this.isLoading = true
 
-			let formData = new FormData();
+            let formData = new FormData();
 
-			formData.append('name', this.name);
-			formData.append('email', this.email);
-			formData.append('date', this.date.getTime());
-			formData.append('phone', this.phone);
-			formData.append('company', this.company);
-			formData.append('text', this.text);
-			
-			for (const [k, v] of Object.entries(this.files)) {
-				formData.append('file', v);
-			}
+            formData.append('name', this.name);
+            formData.append('email', this.email);
+            formData.append('date', this.date.getTime());
+            formData.append('phone', this.phone);
+            formData.append('company', this.company);
+            formData.append('text', this.text);
 
-			let rep = await axios.post( '/api/contact',
-				formData,{
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
-				}
-			)
+            for (const [k, v] of Object.entries(this.files)) {
+                formData.append('file', v);
+            }
 
-			console.log( rep )
+            let rep = await axios.post('/api/contact',
+                formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
 
-			if( !rep.data){
-				rep.data = {}
-				rep.data.err = "Impossible de se connecter au serveur"
-			}
+            console.log(rep)
 
-			if( rep.data.err ){
-				this.$buefy.dialog.alert({
-					title: 'Erreur',
-					message: rep.data.err,
-					type: 'is-danger',
-					hasIcon: true,
-					icon: 'times-circle',
-					iconPack: 'fa',
-					ariaRole: 'alertdialog',
-					ariaModal: true
-				})
-			}else{
-				this.$buefy.dialog.alert({
-					title: 'Demande de devis',
-					message: 'Votre demande à bien été prise en compte!',
-					confirmText: 'OK!',
-					onConfirm: () => {router.push({ path: '/' })}
-				})
-			}
+            if (!rep.data) {
+                rep.data = {}
+                rep.data.err = "Impossible de se connecter au serveur"
+            }
 
-			this.isLoading = false
-		},
-	},
-	template: `
+            if (rep.data.err) {
+                this.$buefy.dialog.alert({
+                    title: 'Erreur',
+                    message: rep.data.err,
+                    type: 'is-danger',
+                    hasIcon: true,
+                    icon: 'times-circle',
+                    iconPack: 'fa',
+                    ariaRole: 'alertdialog',
+                    ariaModal: true
+                })
+            } else {
+                this.$buefy.dialog.alert({
+                    title: 'Demande de devis',
+                    message: 'Votre demande à bien été prise en compte!',
+                    confirmText: 'OK!',
+                    onConfirm: () => { router.push({ path: '/' }) }
+                })
+            }
+
+            this.isLoading = false
+        },
+    },
+    template: `
 	<div>
 		<div class="container containerFormulaire box shadow-lg" id="ContactForm">
 			<template>
@@ -766,63 +764,64 @@ const contact = {
 			</template>
 		</div>
 	</div>
-` }
+`
+}
 
-const _404 = { 
-	template: `
+const _404 = {
+    template: `
 	<div id="main">
 		<div class="fof">
 				<h1>Error 404</h1>
 		</div>
 	</div>
-` }
+`
+}
 
-const routes = [
-	{ 
-		path: '/', 
-		component: halogma , 
+const routes = [{
+        path: '/',
+        component: halogma,
 
-	},
-	{ 
-		path: '/sopymep', 
-		component: sopymep , 
+    },
+    {
+        path: '/sopymep',
+        component: sopymep,
 
-	},
-	{ 
-		path: '/news', 
-		component: news ,
-		props: {
-			posts: [
-			  { id: 1, title: 'Mon initiation avec Vue' , date : '25 mars 2020' , desc : 'desc' },
-			  { id: 2, title: 'Blogger avec Vue' , date : '25 mars 2020' , desc : 'desc' },
-			  { id: 3, title: 'Pourquoi Vue est tellement cool' , date : '25 mars 2020' , desc : 'desc' },
-			  { id: 4, title: 'vuejs yay' , date : '25 mars 2020' , desc : '' }
-			],
-		}
-	},
-	{ 
-		path: '/contact', 
-		component: contact , 
-		
+    },
+    {
+        path: '/news',
+        component: news,
+        props: {
+            posts: [
+                { id: 1, title: 'Mon initiation avec Vue', date: '25 mars 2020', desc: 'desc' },
+                { id: 2, title: 'Blogger avec Vue', date: '25 mars 2020', desc: 'desc' },
+                { id: 3, title: 'Pourquoi Vue est tellement cool', date: '25 mars 2020', desc: 'desc' },
+                { id: 4, title: 'vuejs yay', date: '25 mars 2020', desc: '' }
+            ],
+        }
+    },
+    {
+        path: '/contact',
+        component: contact,
 
-	},
-	{ 
-		path: '/news/:id', 
-		component: sopymeparticle ,
-		
-		props: {
-			
-			posts: [
-			  { id: 1, title: 'Mon initiation avec Vue' , date : '25 mars 2020' , desc : 'desc' },
-			  { id: 2, title: 'Blogger avec Vue' , date : '25 mars 2020' , desc : 'desc' },
-			  { id: 3, title: 'Pourquoi Vue est tellement cool' , date : '25 mars 2020' , desc : 'desc' },
-			  { id: 4, title: 'vuejs yay' , date : '25 mars 2020' , desc : 'Ob haec et huius modi multa, quae cernebantur in paucis, omnibus timeri sunt coepta. et ne tot malis dissimulatis paulatimque serpentibus acervi crescerent aerumnarum, nobilitatis decreto legati mittuntur: Praetextatus ex urbi praefecto et ex vicario Venust' }
-			],
-			article: {
-				date: "25 mars 2020",
-				desc: "salut desc",
-				title: "salut title",
-				content : `Cumque pertinacius ut legum gnarus https://vuejs.org/v2/guide/components.html accusatorem flagitaret atque sollemnia, doctus id Caesar libertatemque superbiam ratus tamquam obtrectatorem audacem excarnificari praecepit, qui ita evisceratus ut cruciatibus membra deessent, inplorans caelo iustitiam, torvum renidens fundato pectore mansit inmobilis nec se incusare nec quemquam alium passus et tandem nec confessus nec confutatus cum abiecto consorte poenali est morte multatus. et ducebatur intrepidus temporum iniquitati insultans, imitatus Zenonem illum veterem Stoicum qui ut mentiretur quaedam laceratus diutius, avulsam sedibus linguam suam cum cruento sputamine in oculos interrogantis Cyprii regis inpegit.
+
+    },
+    {
+        path: '/news/:id',
+        component: sopymeparticle,
+
+        props: {
+
+            posts: [
+                { id: 1, title: 'Mon initiation avec Vue', date: '25 mars 2020', desc: 'desc' },
+                { id: 2, title: 'Blogger avec Vue', date: '25 mars 2020', desc: 'desc' },
+                { id: 3, title: 'Pourquoi Vue est tellement cool', date: '25 mars 2020', desc: 'desc' },
+                { id: 4, title: 'vuejs yay', date: '25 mars 2020', desc: 'Ob haec et huius modi multa, quae cernebantur in paucis, omnibus timeri sunt coepta. et ne tot malis dissimulatis paulatimque serpentibus acervi crescerent aerumnarum, nobilitatis decreto legati mittuntur: Praetextatus ex urbi praefecto et ex vicario Venust' }
+            ],
+            article: {
+                date: "25 mars 2020",
+                desc: "salut desc",
+                title: "salut title",
+                content: `Cumque pertinacius ut legum gnarus https://vuejs.org/v2/guide/components.html accusatorem flagitaret atque sollemnia, doctus id Caesar libertatemque superbiam ratus tamquam obtrectatorem audacem excarnificari praecepit, qui ita evisceratus ut cruciatibus membra deessent, inplorans caelo iustitiam, torvum renidens fundato pectore mansit inmobilis nec se incusare nec quemquam alium passus et tandem nec confessus nec confutatus cum abiecto consorte poenali est morte multatus. et ducebatur intrepidus temporum iniquitati insultans, imitatus Zenonem illum veterem Stoicum qui ut mentiretur quaedam laceratus diutius, avulsam sedibus linguam suam cum cruento sputamine in oculos interrogantis Cyprii regis inpegit.
 Denique Antiochensis ordinis vertices sub uno elogio iussit occidi ideo efferatus, quod ei celebrari vilitatem intempestivam urgenti, cum inpenderet inopia, gravius rationabili responderunt; et perissent ad unum ni comes orientis tunc Honoratus fixa constantia restitisset.
 Raptim igitur properantes ut motus sui rumores celeritate nimia praevenirent, vigore corporum ac levitate confisi per flexuosas semitas ad summitates collium tardius evadebant. et cum superatis difficultatibus arduis ad supercilia venissent fluvii Melanis alti et verticosi, qui pro muro tuetur accolas circumfusus, augente nocte adulta terrorem quievere paulisper lucem opperientes. arbitrabantur enim nullo inpediente transgressi inopino adcursu adposita quaeque vastare, sed in cassum labores pertulere gravissimos.
 Post emensos insuperabilis expeditionis eventus languentibus partium animis, quas periculorum varietas fregerat et laborum, nondum tubarum cessante clangore vel milite locato per stationes hibernas, fortunae saevientis procellae tempestates alias rebus infudere communibus per multa illa et dira facinora Caesaris Galli, qui ex squalore imo miseriarum in aetatis adultae primitiis ad principale culmen insperato saltu provectus ultra terminos potestatis delatae procurrens asperitate nimia cuncta foedabat. propinquitate enim regiae stirpis gentilitateque etiam tum Constantini nominis efferebatur in fastus, si plus valuisset, ausurus hostilia in auctorem suae felicitatis, ut videbatur.
@@ -843,49 +842,48 @@ Per hoc minui studium suum existimans Paulus, ut erat in conplicandis negotiis a
 Quod cum ita sit, paucae domus studiorum seriis cultibus antea celebratae nunc ludibriis ignaviae torpentis exundant, vocali sonu, perflabili tinnitu fidium resultantes. denique pro philosopho cantor et in locum oratoris doctor artium ludicrarum accitur et bybliothecis sepulcrorum ritu in perpetuum clausis organa fabricantur hydraulica, et lyrae ad speciem carpentorum ingentes tibiaeque et histrionici gestus instrumenta non levia.
 Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caedes relinquo; libidines praetereo, quarum acerbissimum extat indicium et ad insignem memoriam turpitudinis et paene ad iustum odium imperii nostri, quod constat nobilissimas virgines se in puteos abiecisse et morte voluntaria necessariam turpitudinem depulisse. Nec haec idcirco omitto, quod non gravissima sint, sed quia nunc sine teste dico.
 `
-			},
-		}
+            },
+        }
 
-	},
-	{ 
-		path: '/*', 
-		component: _404 ,
-	},
+    },
+    {
+        path: '/*',
+        component: _404,
+    },
 ]
 
 const router = new VueRouter({
-	mode: 'history',
-	routes, // raccourci pour `routes: routes`
+    mode: 'history',
+    routes, // raccourci pour `routes: routes`
 
 })
 
 
 let vm = new Vue({
-	router : router,
-	el: '#app',
-	data: {
-	
-	},
-	computed: {
-	}
+    router: router,
+    el: '#app',
+    data: {
+
+    },
+    computed: {}
 })
 
-router.beforeEach(async function(to, from, next){
-	HideNavbar()
+router.beforeEach(async function(to, from, next) {
+    HideNavbar()
 
-	next()
+    next()
 
-	//setTimeout(function(){
-	//	GrabNews()
-	//}, 100);
+    //setTimeout(function(){
+    //	GrabNews()
+    //}, 100);
 
-	window.scrollTo(0,0)
+    window.scrollTo(0, 0)
 
-	//console.log( to, from )
+    //console.log( to, from )
 })
 
 
-console.log( router )
+console.log(router)
 
 //GrabNews()
 HookNavbar()

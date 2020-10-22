@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Poster une news</title>
+    <meta name="description" content="description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css">
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+</head>
+
+<style>
+
+</style>
+
+<body>
+    <div id="app">
+
+        <div>
+            <div class="wrapper">
+                <div class="news-container">
+                    <div class="news__header" class="image-upload">
+                        <img class="header__thumbnail" ref="image" src="https://via.placeholder.com/1920x1080" alt="" />
+
+                        <div class="file has-name is-fullwidth">
+                            <label class="file-label">
+							  <input class="file-input" type="file" name="resume" ref="inputimage" @change="refresh">
+							  <span class="file-cta">
+								<span class="file-icon">
+								  <i class="fas fa-upload"></i>
+								</span>
+								<span class="file-label">
+								  Choisir une image
+								</span>
+							  </span>
+							  <span class="file-name">
+								  {{ filename() }}
+							  </span>
+							</label>
+                        </div>
+
+                    </div>
+
+                    <div class="news__body">
+                        <h1 class="body__heading">
+                            <b-input v-model="title"></b-input>
+                        </h1>
+
+                        <small class="body__meta">{{new Date().toLocaleDateString()}}</small>
+
+                        <p class="body__text">
+                            <b-input type="textarea" v-model="content"></b-input>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+
+        <section class="section has-background-light">
+            <div class="level">
+                <div class="level-item has-text-centered">
+                    <div>
+                        <p class="is-size-6">Tous droits réservés halogma. Copyright © 2020</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="/js/newspost.js"></script>
+
+</html>

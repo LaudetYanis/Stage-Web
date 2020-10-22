@@ -19,6 +19,13 @@ var inboxVue = new Vue({
 		isLoading: false
 	},
 	methods: {
+		alertCustom( num ) {
+			this.$buefy.dialog.alert({
+				title: 'Title Alert',
+				message: num,
+				confirmText: 'Cool!'
+			})
+		},
 		showMessage: function(msg, index) {
 
 			Select( "#message-pane").classList.remove( 'is-hidden' )
@@ -98,6 +105,7 @@ var inboxVue = new Vue({
 					}else{
 						// tout hide
 						Select( "#message-pane").classList.add( 'is-hidden' )
+						inboxVue.alertCustom( "vous avez plus de messages" )
 					}
 
 					inboxVue.$forceUpdate()
@@ -136,7 +144,10 @@ async function Devis(){
 		}
 	})
 
-
+	
+	if( inboxVue.messages.lenght == 0 ){
+		inboxVue.alertCustom( "vous avez plus de messages" )
+	}
 	
 }
 

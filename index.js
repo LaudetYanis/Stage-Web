@@ -13,23 +13,23 @@ const axios = require('axios')
 
 const nodemailer = require("nodemailer");
 
-const AuthenticationContext = require('adal-node').AuthenticationContext;
- 
-let clientId = '2ab88adf-7328-4e59-b542-e594da3c21bb';
-let clientSecret = 'EH2_5z-v3k7b.kkExnYvNB6Ex3N-DF35fu'
-let authorityHostUrl = 'https://login.windows.net';
-let tenant = 'ba45cba8-42a7-40ed-8f50-a391fa7a6e79';
-let authorityUrl = authorityHostUrl + '/' + tenant;
-let redirectUri = 'http://localhost/ms/getAToken';
-let resource = '00000002-0000-0000-c000-000000000000';
-let templateAuthzUrl = 'https://login.windows.net/' + 
-						tenant + 
-						'/oauth2/authorize?response_type=code&client_id=' +
-						clientId + 
-						'&redirect_uri=' + 
-						redirectUri + 
-						'&state=<state>&resource=' + 
-						resource;
+//const AuthenticationContext = require('adal-node').AuthenticationContext;
+// 
+//let clientId = '2ab88adf-7328-4e59-b542-e594da3c21bb';
+//let clientSecret = 'EH2_5z-v3k7b.kkExnYvNB6Ex3N-DF35fu'
+//let authorityHostUrl = 'https://login.windows.net';
+//let tenant = 'ba45cba8-42a7-40ed-8f50-a391fa7a6e79';
+//let authorityUrl = authorityHostUrl + '/' + tenant;
+//let redirectUri = 'http://localhost/ms/getAToken';
+//let resource = '00000002-0000-0000-c000-000000000000';
+//let templateAuthzUrl = 'https://login.windows.net/' + 
+//						tenant + 
+//						'/oauth2/authorize?response_type=code&client_id=' +
+//						clientId + 
+//						'&redirect_uri=' + 
+//						redirectUri + 
+//						'&state=<state>&resource=' + 
+//						resource;
 
 function createAuthorizationUrl(state) {
   return templateAuthzUrl.replace('<state>', state);
@@ -431,63 +431,76 @@ app.get('/js/:name', function (req, res, next) {
 // Clients get redirected here in order to create an OAuth authorize url and redirect them to AAD.
 // There they will authenticate and give their consent to allow this app access to
 // some resource they own.
-app.get('/ms/auth', function(req, res) {
-	crypto.randomBytes(48, function(ex, buf) {
-		var token = buf.toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
-		
-		res.cookie('authstate', token);
-		var authorizationUrl = createAuthorizationUrl(token);
-		
-		res.redirect(authorizationUrl);
-	});
-});
+//app.get('/ms/auth', function(req, res) {
+//	crypto.randomBytes(48, function(ex, buf) {
+//		var token = buf.toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
+//		
+//		res.cookie('authstate', token);
+//		var authorizationUrl = createAuthorizationUrl(token);
+//		
+//		res.redirect(authorizationUrl);
+//	});
+//});
  
 // After consent is granted AAD redirects here.  The ADAL library is invoked via the
 // AuthenticationContext and retrieves an access token that can be used to access the
 // user owned resource.
-app.get('/ms/getAToken', function(req, res) {
-
-	if (!req.cookies.authstate) {
-		res.send('error: no cookies');
-		return
-	}
-
-	if (req.cookies.authstate !== req.query.state) {
-		res.send('error: state does not match');
-		return
-	}
-	
-	var authenticationContext = new AuthenticationContext(authorityUrl);
-	
-	authenticationContext.acquireTokenWithAuthorizationCode(
-		req.query.code,
-		redirectUri,
-		resource,
-		clientId, 
-		clientSecret,
-		function(err, response) {
-			var message = '';
-			if (err) {
-			  message = 'error: ' + err.message + '\n';
-			}
-			message += 'response: ' + JSON.stringify(response);
-			
-			console.log ( response )
-
-			let options = {
-				url: "https://outlook.office.com/api/v2.0/me/taskfolders('salut')/tasks",
-				headers:{
-					'Authoization' : 'Bearer' + response.accessToken,
-					json : true,
-				}
-			}
-
-			let rep = axios.post( options )
-			console.log( rep )
-		}
-	);
-	
-});
+//app.get('/ms/getAToken', function(req, res) {
+//
+//	if (!req.cookies.authstate) {
+//		res.send('error: no cookies');
+//		return
+//	}
+//
+//	if (req.cookies.authstate !== req.query.state) {
+//		res.send('error: state does not match');
+//		return
+//	}
+//	
+//	var authenticationContext = new AuthenticationContext(authorityUrl);
+//	
+//	authenticationContext.acquireTokenWithAuthorizationCode(
+//		req.query.code,
+//		redirectUri,
+//		resource,
+//		clientId, 
+//		clientSecret,
+//		async function(err, response) {
+//			var message = '';
+//			if (err) {
+//			  message = 'error: ' + err.message + '\n';
+//			}
+//			message += 'response: ' + JSON.stringify(response);
+//			
+//			console.log ( response )
+//
+//			let options = {
+//				method: 'POST',
+//				url: "https://outlook.office.com/api/v2.0/me/taskfolders('salut')/tasks",
+//				headers:{
+//					'Authoization' : "Baerer " + response.accessToken,
+//				},
+//				body:{
+//						"Subject": "Shop for dinner",
+//						"StartDateTime": {
+//							"DateTime": "2016-04-23T18:00:00",
+//							"TimeZone": "Pacific Standard Time"
+//						},
+//						"DueDateTime":  {
+//							"DateTime": "2016-04-25T13:00:00",
+//							"TimeZone": "Pacific Standard Time"
+//						}
+//					}
+//				},
+//				json: true,
+//			}
+//
+//			let rep = await axios(options);
+//			console.log( rep )
+//		}
+//	);
+//	
+//});
 
 app.get('*', function(req, res) {
 	res.sendFile( __dirname + "/src/index.html")

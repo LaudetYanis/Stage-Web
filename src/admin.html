@@ -1,66 +1,64 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
-    <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/inbox.css">
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
-
-    <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
-</head>
-
-<body>
-    <div class="columns" id="mail-app">
-        <b-loading :is-full-page="true" v-model="isLoading" :can-cancel="false"></b-loading>
-        <div class="column is-4 messages hero is-fullheight" id="message-feed">
-            <div class="inbox-messages" id="inbox-messages">
-                <div v-for="(msg, index) in messages" class="card" v-bind:id="'msg-card-'+index" v-on:click="showMessage(msg,index)" v-bind:data-preview-id="index">
-                    <div class="card-content">
-                        <div class="msg-header">
-                            <span class="msg-from"><small>De: {{ msg.email }}</small></span>
-                            <span class="msg-timestamp">{{ new Date(msg.date).toLocaleDateString() }}</span>
-                            <span class="msg-attachment"><i class="fa fa-paperclip"></i></span>
-                        </div>
-                        <div class="msg-snippet">
-                            <p id="fake-snippet-1">{{ msg.message.substring(0, 100) }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="column is-6 message hero is-fullheight is-hidden" id="message-pane">
-            <div class="">
-                <div class="control is-grouped">
-                    <a class="button is-small"><i class="fa fa-inbox"></i></a>
-                    <a class="button is-small" v-on:click="Delete()"><i class="fa fa-trash"></i></a>
-                    <a class="button is-small"><i class="fa fa-share"></i></a>
-                </div>
-            </div>
-            <div class="box message-preview">
-                <div class="top">
-                    <div class="avatar">
-                        <img src="https://yoyoungdesign.com/IMG/Portfolio/element6-contenu.png">
-                    </div>
-                    <div class="address">
-                        <div class="name" id="name"></div>
-                        <div class="email" id="mail"></div>
-                        <div class="email" id="phone"></div>
-                    </div>
-                    <hr>
-                    <div class="content" id="centent">
-                        <p class="body__text" v-for="v in (content.split('\\n'))">{{v}}</p>
-                        <div v-if="messages[id]">
-                            <div class="field" v-for="(v, k) in (messages[id].files)">
-                                <div class="file">
-                                    <label class="file-label" v-on:click="Download(k)">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Admin</title>
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+		<link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/inbox.css">
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://unpkg.com/vue@2.5.16/dist/vue.min.js"></script>
+		<script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+	</head>
+	<body>
+		<div class="columns" id="mail-app">
+			<b-loading :is-full-page="true" v-model="isLoading" :can-cancel="false"></b-loading>
+			<div class="column is-4 messages hero is-fullheight" id="message-feed">
+				<div class="positionCercle"><div class="circle">{{messages.length}}</div></div>
+				<div class="inbox-messages" id="inbox-messages">
+					<div v-for="(msg, index) in messages" class="card" v-bind:id="'msg-card-'+index" v-on:click="showMessage(msg,index)" v-bind:data-preview-id="index">
+						<div class="card-content">
+							<div class="msg-header">
+								<span class="msg-from"><small>De: {{ msg.email }}</small></span>
+								<span class="msg-timestamp">{{ new Date(msg.date).toLocaleDateString() }}</span>
+								<span class="msg-attachment"><i class="fa fa-paperclip"></i></span>
+							</div>
+							<div class="msg-snippet">
+								<p id="fake-snippet-1">{{ msg.message.substring(0, 100) }}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="column is-6 message hero is-fullheight is-hidden" id="message-pane">
+				<div class="">
+					<div class="control is-grouped">
+						<a class="button is-small"><i class="fa fa-inbox"></i></a>
+						<a class="button is-small" v-on:click="Delete()"><i class="fa fa-trash"></i></a>
+						<a class="button is-small"><i class="fa fa-share"></i></a>
+					</div>
+				</div>
+				<div class="box message-preview">
+					<div class="top">
+						<div class="avatar">
+							<img src="https://placehold.it/128x128">
+						</div>
+						<div class="address">
+							<div class="name" id="name"></div>
+							<div class="email" id="mail"></div>
+							<div class="email" id="phone"></div>
+						</div>
+						<hr>
+						<div class="content" id="centent">
+							<p class="body__text" v-for="v in (content.split('\\n'))">{{v}}</p>
+							<div v-if="messages[id]">
+								<div class="field" v-for="(v, k) in (messages[id].files)" >
+									<div class="file">
+										<label class="file-label"  v-on:click="Download(k)">
 											<span class="file-cta">
 												<span class="file-icon">
 													<i class="fas fa-download"></i>
@@ -70,16 +68,15 @@
 												</span>
 											</span>
 										</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="/js/admin.js"></script>
-</body>
-
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script src="/js/admin.js"></script>
+	</body>
 </html>

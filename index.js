@@ -1,5 +1,5 @@
 
-
+const crypto = require('crypto');
 const path = require("path");
 const express = require('express');
 const app = express();
@@ -8,8 +8,32 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const sqlite = require('./aa-sqlite.js');
+const cookieParser = require('cookie-parser')
+const axios = require('axios')
 
 const nodemailer = require("nodemailer");
+
+const AuthenticationContext = require('adal-node').AuthenticationContext;
+ 
+let clientId = '2ab88adf-7328-4e59-b542-e594da3c21bb';
+let clientSecret = 'EH2_5z-v3k7b.kkExnYvNB6Ex3N-DF35fu'
+let authorityHostUrl = 'https://login.windows.net';
+let tenant = 'ba45cba8-42a7-40ed-8f50-a391fa7a6e79';
+let authorityUrl = authorityHostUrl + '/' + tenant;
+let redirectUri = 'http://localhost/ms/getAToken';
+let resource = '00000002-0000-0000-c000-000000000000';
+let templateAuthzUrl = 'https://login.windows.net/' + 
+						tenant + 
+						'/oauth2/authorize?response_type=code&client_id=' +
+						clientId + 
+						'&redirect_uri=' + 
+						redirectUri + 
+						'&state=<state>&resource=' + 
+						resource;
+
+function createAuthorizationUrl(state) {
+  return templateAuthzUrl.replace('<state>', state);
+}
 
 const readFile = (path, opts = 'utf8') =>
 new Promise((resolve, reject) => {
@@ -19,8 +43,11 @@ new Promise((resolve, reject) => {
 	})
 })
 
-
 async function SendDevisMail( receiver ) {
+
+	if( true ){
+		return // a voir plus tard
+	}
 
 	let testAccount = await nodemailer.createTestAccount();
 
@@ -49,7 +76,7 @@ async function SendDevisMail( receiver ) {
 
 }
 
-SendDevisMail("alf.hammes@ethereal.email")
+//SendDevisMail("alf.hammes@ethereal.email")
 
 ;(async()=>{
 	
@@ -58,7 +85,8 @@ console.log( await sqlite.open('./sopymep.db') )
 
 //await sqlite.run( `DROP TABLE IF EXISTS Devis`)
 
-await sqlite.run( `CREATE TABLE IF NOT EXISTS Devis (
+await sqlite.run( `
+	CREATE TABLE IF NOT EXISTS Devis (
 	devis_id INTEGER PRIMARY KEY, 
 	nom VARCHAR(128),
 	email VARCHAR(320),
@@ -72,6 +100,7 @@ await sqlite.run( `CREATE TABLE IF NOT EXISTS Devis (
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser())
 
 app.use(fileUpload({
    limits: {
@@ -255,15 +284,46 @@ app.get('/api/devis', basic.check(async function(req, res) {
 	res.json(r);
 }));
 
+async function IsFileUseless( filename ){
+
+	// consequence de mon shitcode
+
+	let r = await sqlite.all(`SELECT * FROM Devis`, [])
+
+	r.forEach(function(row) {
+		row.files = JSON.parse( row.files )
+	})
+
+	for (const [k, v] of Object.entries( row )) {
+		//console.log(`${key}: ${value}`);
+	}
+
+	return r[0] == undefined;
+}
+
 app.get('/api/delete/:id', basic.check(async function(req, res) {
 	
 	try{
 		let id = req.params.id
-		let rows = await sqlite.all(`SELECT * FROM Devis WHERE devis_id = ${ id } ORDER BY date DESC`, [])
-		console.log( rows )
-		let success = await sqlite.run( `DELETE FROM Devis WHERE devis_id = ${ id };` )
+		let rows = await sqlite.all(`SELECT * FROM Devis WHERE devis_id = ${ id }`, [])
+
+		console.log( "json" , rows[0].files )
+		let files = JSON.parse( rows[0].files )
+
+		console.log( "files" ,files[0])
+
+		//for (const k of files) {
+		//	let v = files[k]
+		//	console.log( v )
+		//
+		//	if( await IsFileUseless( v.md5 ) ){
+		//
+		//	}
+		//}
+
+		//let success = await sqlite.run( `DELETE FROM Devis WHERE devis_id = ${ id };` )
 	}catch(e){
-		res.json( { err : e , status : 500 })
+		res.json( { err : e + "" , status : 500 })
 		return
 	}
 
@@ -367,6 +427,67 @@ app.get('/js/:name', function (req, res, next) {
 		}
 	})
 })
+
+// Clients get redirected here in order to create an OAuth authorize url and redirect them to AAD.
+// There they will authenticate and give their consent to allow this app access to
+// some resource they own.
+app.get('/ms/auth', function(req, res) {
+	crypto.randomBytes(48, function(ex, buf) {
+		var token = buf.toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
+		
+		res.cookie('authstate', token);
+		var authorizationUrl = createAuthorizationUrl(token);
+		
+		res.redirect(authorizationUrl);
+	});
+});
+ 
+// After consent is granted AAD redirects here.  The ADAL library is invoked via the
+// AuthenticationContext and retrieves an access token that can be used to access the
+// user owned resource.
+app.get('/ms/getAToken', function(req, res) {
+
+	if (!req.cookies.authstate) {
+		res.send('error: no cookies');
+		return
+	}
+
+	if (req.cookies.authstate !== req.query.state) {
+		res.send('error: state does not match');
+		return
+	}
+	
+	var authenticationContext = new AuthenticationContext(authorityUrl);
+	
+	authenticationContext.acquireTokenWithAuthorizationCode(
+		req.query.code,
+		redirectUri,
+		resource,
+		clientId, 
+		clientSecret,
+		function(err, response) {
+			var message = '';
+			if (err) {
+			  message = 'error: ' + err.message + '\n';
+			}
+			message += 'response: ' + JSON.stringify(response);
+			
+			console.log ( response )
+
+			let options = {
+				url: "https://outlook.office.com/api/v2.0/me/taskfolders('salut')/tasks",
+				headers:{
+					'Authoization' : 'Bearer' + response.accessToken,
+					json : true,
+				}
+			}
+
+			let rep = axios.post( options )
+			console.log( rep )
+		}
+	);
+	
+});
 
 app.get('*', function(req, res) {
 	res.sendFile( __dirname + "/src/index.html")

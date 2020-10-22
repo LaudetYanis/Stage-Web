@@ -559,14 +559,14 @@ const sopymeparticle = {
 	</div>
 ` }
 
+
 const contact = { 
 	//props: ['name','email','date','phone','company','text'],
 	data:function(){
-		return { name: '', email: '', date: new Date() , phone: '', company: '' , text:'' , files: [] , size: 0 , maxsize: 20000000 };
+		return { name: '', email: '', date: new Date() , phone: '', company: '' , text:'' , files: [] , size: 0 , maxsize: 20000000 , isLoading : false };
 	},
 
 	methods: {
-
 
 		ValidateEmail: function(mail) {
 			if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail)){
@@ -627,9 +627,9 @@ const contact = {
 		},
 		Send : async function(){
 
-			let formData = new FormData();
+			this.isLoading = true
 
-			console.log( this.name )
+			let formData = new FormData();
 
 			formData.append('name', this.name);
 			formData.append('email', this.email);
@@ -641,7 +641,6 @@ const contact = {
 			for (const [k, v] of Object.entries(this.files)) {
 				formData.append('file', v);
 			}
-
 
 			let rep = await axios.post( '/api/contact',
 				formData,{
@@ -677,6 +676,8 @@ const contact = {
 					onConfirm: () => {router.push({ path: '/' })}
 				})
 			}
+
+			this.isLoading = false
 		},
 	},
 	template: `
@@ -760,6 +761,7 @@ const contact = {
 						:label="HaveErrors()" multilined>
 						<button class="button shadow-lg my-4 is-primary" :disabled="!Valid()" v-on:click="Send()">Envoyer</button>
 					</b-tooltip>
+					<b-loading :is-full-page="true" v-model="isLoading" :can-cancel="false"></b-loading>
 				</section>
 			</template>
 		</div>
@@ -859,13 +861,13 @@ const router = new VueRouter({
 
 
 let vm = new Vue({
-  router : router,
-  el: '#app',
-  data: {
+	router : router,
+	el: '#app',
+	data: {
 	
-  },
-  computed: {
-  }
+	},
+	computed: {
+	}
 })
 
 router.beforeEach(async function(to, from, next){

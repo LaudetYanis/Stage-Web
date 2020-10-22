@@ -266,3 +266,18 @@ html, body {
 .files {
 	display: inline;
 }
+
+.circle{
+    width:50px;
+    background:#3d3dc6;
+    height:50px;
+    text-align:center;
+    border-radius:100px;
+    line-height: 45px;
+    color: white;
+    font-weight: bold;
+    font-size: 150%;
+}
+.positionCercle  {
+	padding-left: 45%;
+}

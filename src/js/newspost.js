@@ -8,8 +8,6 @@ var vm = new Vue({
     methods: {
         filename: function() {
 
-            console.log("think")
-
             if (this.$refs.inputimage) {
                 if (this.$refs.inputimage.files.length > 0) {
 
@@ -25,8 +23,33 @@ var vm = new Vue({
 
             return ""
         },
-        refresh: function() {
+        refresh: function(event) {
             this.$forceUpdate()
+        },
+        Errors() {
+            let errors = [];
+
+            if (this.title.trim().length == 0) {
+                errors.push("Le titre est vide")
+            }
+
+            if (this.content.trim().length == 0) {
+                errors.push("Le post est vide")
+            }
+
+            if (this.$refs.inputimage && !this.$refs.inputimage.files[0]) {
+                errors.push("Le post n'a pas d'image")
+            }
+
+            return errors;
+        },
+        Post() {
+            let formData = new FormData();
+            formData.append('title', this.title);
+            formData.append('content', this.content);
+            formData.append('image', this.$refs.inputimage.files[0]);
+
+            console.log("post", formData)
         }
     }
 });

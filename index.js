@@ -371,8 +371,12 @@ async function SendDevisMail(receiver) {
         res.sendFile(__dirname + "/src/favicon.ico")
     });
 
-
     app.get('/admin', basic.check((req, res) => {
+        //res.end(`Welcome to private area - ${req.user}!`);
+        res.sendFile(__dirname + "/src/adminmenu.html")
+    }));
+
+    app.get('/admin/inbox', basic.check((req, res) => {
         //res.end(`Welcome to private area - ${req.user}!`);
         res.sendFile(__dirname + "/src/admin.html")
     }));

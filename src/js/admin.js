@@ -1,155 +1,158 @@
-
-
 const Select = document.querySelector.bind(document);
 
-function resolveAfter2Seconds() {
-  return new Promise(resolve => {
-	setTimeout(() => {
-	  resolve('resolved');
-	}, 2000);
-  });
-}
+
 
 var inboxVue = new Vue({
-	el: '#mail-app',
-	data: {
-		content: "",
-		messages: [],
-		id:0,
-		isLoading: false
-	},
-	methods: {
-		alertCustom( num ) {
-			this.$buefy.dialog.alert({
-				title: 'Title Alert',
-				message: num,
-				confirmText: 'Cool!'
-			})
-		},
-		showMessage: function(msg, index) {
+    el: '#mail-app',
+    data: {
+        content: "",
+        messages: [],
+        id: 0,
+        isLoading: false
+    },
+    methods: {
+        alertCustom(num) {
+            this.$buefy.dialog.alert({
+                title: 'Title Alert',
+                message: num,
+                confirmText: 'Cool!'
+            })
+        },
+        showMessage: function(msg, index) {
 
-			Select( "#message-pane").classList.remove( 'is-hidden' )
+            Select("#message-pane").classList.remove('is-hidden')
 
-			document.querySelectorAll(".card").forEach( el => {
-				el.classList.remove( 'active' )
-			});
+            document.querySelectorAll(".card").forEach(el => {
+                el.classList.remove('active')
+            });
 
-			Select( "#mail").innerText = msg.email
+            Select("#mail").innerText = msg.email
 
-			Select( "#msg-card-" + index).classList.add( 'active' )
+            Select("#msg-card-" + index).classList.add('active')
 
-			let mail_entre
+            let mail_entre
 
-			if( msg.entreprise != "NULL" ){
-				mail_entre = msg.email + " ( " + msg.entreprise + " )"
-			}else{
-				mail_entre = msg.email
-			}
-			
-			Select( "#mail").innerText = mail_entre
-			Select( "#phone").innerText = msg.tel
-			Select( "#name").innerText = msg.nom
+            if (msg.entreprise != "NULL") {
+                mail_entre = msg.email + " ( " + msg.entreprise + " )"
+            } else {
+                mail_entre = msg.email
+            }
 
-			this.content = msg.message
-			this.id = index
-			this.isLoading = false
-		},
-		Download: function( num ){
+            Select("#mail").innerText = mail_entre
+            Select("#phone").innerText = msg.tel
+            Select("#name").innerText = msg.nom
 
-			let file = this.messages[this.id].files[num]
-			let element = document.createElement('a');
-			element.href = "/api/file/" + file.md5
-			let filename = file.name
-			element.setAttribute('download', filename );
-			element.style.display = 'none';
-			document.body.appendChild(element);
-			element.click();
-			document.body.removeChild(element);
+            this.content = msg.message
+            this.id = index
+            this.isLoading = false
+        },
+        Download: function(num) {
 
-		},
-		Delete: function(){
+            let file = this.messages[this.id].files[num]
+            let element = document.createElement('a');
+            element.href = "/api/file/" + file.md5
+            let filename = file.name
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
 
-			let self = this; // pfffffff
+        },
+        Delete: function() {
 
-			this.$buefy.dialog.confirm({
-				title: 'Supprimer la demande de devis ?',
-				message: 'Voulez-vous vraiment <b> supprimer </b> la demande? Cette action ne peut pas être annulée.',
-				confirmText: 'Supprimer',
-				type: 'is-danger',
-				hasIcon: true,
-				onConfirm: async function(){
+            let self = this; // pfffffff
 
-					console.log( self )
-					let rep = await axios.get('/api/delete/' + self.messages[self.id].devis_id)
+            this.$buefy.dialog.confirm({
+                title: 'Supprimer la demande de devis ?',
+                message: 'Voulez-vous vraiment <b> supprimer </b> la demande? Cette action ne peut pas être annulée.',
+                confirmText: 'Supprimer',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: async function() {
 
-					console.log( rep )
+                    console.log(self)
+                    let rep = await axios.get('/api/delete/' + self.messages[self.id].devis_id)
 
-					if(rep.data.err){
+                    console.log(rep)
 
-						return
-					}
+                    if (rep.data.err) {
 
-					console.log( self.messages )
+                        return
+                    }
 
-					this.$buefy.toast.open('Supprimé')
-					self.messages.splice(self.id, 1);
-					self.messages.filter(function(val){return val});
-					
+                    console.log(self.messages)
 
-					if( self.messages[self.id] ){ // horrible lol
-						inboxVue.showMessage( self.messages[self.id] , self.id )
-					}else if( self.messages[self.id+1] ){
-						inboxVue.showMessage( self.messages[self.id+1] , self.id+1 )
-					}else if( self.messages[self.id-1] ){
-						inboxVue.showMessage( self.messages[self.id-1] , self.id-1 )
-					}else{
-						// tout hide
-						Select( "#message-pane").classList.add( 'is-hidden' )
-						inboxVue.alertCustom( "vous avez plus de messages" )
-					}
+                    this.$buefy.toast.open('Supprimé')
+                    self.messages.splice(self.id, 1);
+                    self.messages.filter(function(val) { return val });
 
-					inboxVue.$forceUpdate()
-				}
-			})
-		},
-	}
+
+                    if (self.messages[self.id]) { // horrible lol
+                        inboxVue.showMessage(self.messages[self.id], self.id)
+                    } else if (self.messages[self.id + 1]) {
+                        inboxVue.showMessage(self.messages[self.id + 1], self.id + 1)
+                    } else if (self.messages[self.id - 1]) {
+                        inboxVue.showMessage(self.messages[self.id - 1], self.id - 1)
+                    } else {
+                        // tout hide
+                        Select("#message-pane").classList.add('is-hidden')
+                        inboxVue.alertCustom("vous avez plus de messages")
+                    }
+
+                    inboxVue.$forceUpdate()
+                }
+            })
+        },
+    }
 });
 
+function _1Seconds() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    });
+}
+
+async function Devis(wait) {
+
+    inboxVue.isLoading = true
+
+    if (wait) {
+        await _1Seconds();
+    }
+
+    let rep = await axios.get('/api/devis')
+
+    inboxVue.messages = []
+
+    for (const [k, v] of Object.entries(rep.data)) {
+
+        //for (var i = (k-1*10); i <= (k*10); i++) {
+        //	inboxVue.messages[i] = v
+        //}
+
+        inboxVue.messages[k] = v
+    }
+
+    inboxVue.isLoading = false
+
+    inboxVue.$forceUpdate()
 
 
-async function Devis(){
 
-	inboxVue.isLoading = true
+    Vue.nextTick(function() {
+        if (inboxVue.messages[0]) {
+            inboxVue.showMessage(inboxVue.messages[0], 0)
+        }
+    })
 
-	let rep = await axios.get('/api/devis')
 
-	for (const [k, v] of Object.entries(rep.data)) {
+    if (inboxVue.messages.lenght == 0) {
+        inboxVue.alertCustom("vous avez plus de messages")
+    }
 
-		//for (var i = (k-1*10); i <= (k*10); i++) {
-		//	inboxVue.messages[i] = v
-		//}
-
-		inboxVue.messages[k] = v
-	}
-
-	inboxVue.isLoading = false
-
-	inboxVue.$forceUpdate()
-	
-	
-
-	Vue.nextTick(function () {
-		if( inboxVue.messages[0] ){
-			inboxVue.showMessage( inboxVue.messages[0] , 0 )
-		}
-	})
-
-	
-	if( inboxVue.messages.lenght == 0 ){
-		inboxVue.alertCustom( "vous avez plus de messages" )
-	}
-	
 }
 
 Devis()
-

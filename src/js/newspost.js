@@ -43,13 +43,39 @@ var vm = new Vue({
 
             return errors;
         },
-        Post() {
+        async Post() {
             let formData = new FormData();
             formData.append('title', this.title);
             formData.append('content', this.content);
             formData.append('image', this.$refs.inputimage.files[0]);
 
-            console.log("post", formData)
+            let rep = await axios.post('/api/news',
+                formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            )
+
+            if (!rep.data.err) {
+                this.$buefy.dialog.alert({
+                    title: '',
+                    message: 'News posté avec succès',
+                    confirmText: 'OK',
+                    onConfirm: () => { window.location.href = '/news'; }
+                })
+            } else {
+                this.$buefy.dialog.alert({
+                    title: 'Erreur',
+                    message: ep.data.err,
+                    type: 'is-danger',
+                    hasIcon: true,
+                    icon: 'times-circle',
+                    iconPack: 'fa',
+                    ariaRole: 'alertdialog',
+                    ariaModal: true
+                })
+            }
         }
     }
 });

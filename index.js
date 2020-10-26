@@ -88,17 +88,26 @@ async function SendDevisMail(receiver) {
     //await sqlite.run( `DROP TABLE IF EXISTS Devis`)
 
     await sqlite.run(`
-	CREATE TABLE IF NOT EXISTS Devis (
-	devis_id INTEGER PRIMARY KEY, 
-	nom VARCHAR(128),
-	email VARCHAR(320),
-	tel VARCHAR(10),
-	date DATETIME DEFAULT CURRENT_TIMESTAMP,
-	pourle DATETIME,
-	entreprise VARCHAR(128),
-	message TEXT,
-	files TEXT
-)`)
+	    CREATE TABLE IF NOT EXISTS Devis (
+	    devis_id INTEGER PRIMARY KEY, 
+	    nom VARCHAR(128),
+	    email VARCHAR(320),
+	    tel VARCHAR(10),
+	    date DATETIME DEFAULT CURRENT_TIMESTAMP,
+	    pourle DATETIME,
+	    entreprise VARCHAR(128),
+	    message TEXT,
+	    files TEXT
+    )`)
+
+    await sqlite.run(`
+    	CREATE TABLE IF NOT EXISTS Articles (
+    	article_id INTEGER PRIMARY KEY, 
+    	title VARCHAR(128),
+    	content TEXT,
+        date DATETIME DEFAULT CURRENT_TIMESTAMP,
+        image VARCHAR(255)
+    )`)
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
@@ -277,6 +286,68 @@ async function SendDevisMail(receiver) {
 
     });
 
+    app.post('/api/news', basic.check(async function(req, res) {
+
+        if (!req.body.title || req.body.title.trim().length < 1 || req.body.title.length > 128) {
+            res.json({
+                err: "Le titre est invalide",
+                status: 500
+            })
+            return
+        }
+
+        if (!req.body.content || req.body.content.trim().length < 1) {
+            res.json({
+                err: "Le contenu est invalide",
+                status: 500
+            })
+            return
+        }
+
+        if (!req.files["image"]) {
+            res.json({
+                err: "L'image est invalide",
+                status: 500
+            })
+            return
+        }
+
+
+        try {
+
+            let image = req.files["image"]
+
+            let imagestr = image.md5 + path.extname(image.name)
+
+            image.mv("src/images/news/" + imagestr, function(err) {
+                if (err) {
+                    res.json({
+                        err: err,
+                        status: 500
+                    })
+                    return
+                }
+            });
+
+            let succes = await sqlite.run(`INSERT INTO Articles (title , content , image , date ) VALUES( '${ escapeString(req.body.title)}' , '${ escapeString(req.body.content)}' , '${escapeString(imagestr)}' , '${Date.now()}') `)
+
+            res.json({
+                err: null,
+                status: 200
+            })
+
+            return
+
+        } catch (e) {
+            res.json({
+                err: e + "",
+                status: 500
+            })
+            return
+        }
+
+    }));
+
     app.get('/api/devis', basic.check(async function(req, res) {
         let r = await sqlite.all("SELECT * FROM Devis ORDER BY date DESC", [])
 
@@ -286,26 +357,68 @@ async function SendDevisMail(receiver) {
         res.json(r);
     }));
 
-    async function IsFileUseless(filemd5) {
-        new Promise(async(resolve, reject) => {
-            // consequence de mon shitcode
+    app.get('/api/news', async function(req, res) {
 
-            let files = []
+        try {
+            let r = await sqlite.all("SELECT article_id , title , image , date FROM Articles ORDER BY date DESC", [])
+            res.json(r);
+            return
+        } catch (e) {
+            res.json({})
+            return
+        }
+    });
 
-            let r = await sqlite.all(`SELECT * FROM Devis`, [])
+    app.get('/api/news/:id', async function(req, res) {
 
-            r.forEach(function(row) {
-                row.files = JSON.parse(row.files)
+        try {
+            let id = req.params.id
+            let r = await sqlite.all(`SELECT * FROM Articles WHERE article_id = ${ id }`, [])
+            res.json(r);
+            return
+        } catch (e) {
+            res.json({})
+            return
+        }
+    });
 
-                for (const k of row.files) {
-                    files[row.files[k].md5] = true
-                }
-            })
+    app.delete('/api/news/:id', basic.check(async function(req, res) {
 
-            console.log(files)
+        try {
+            let id = req.params.id
+            let success = await sqlite.run(`DELETE FROM Articles WHERE article_id = ${ id };`)
 
-            resolve(files[filemd5] == undefined)
+            console.log("Articles ", id, "delete")
+
+            res.json({ err: null, status: 200 })
+
+        } catch (e) {
+            res.json({ err: e + "", status: 500 })
+            return
+        }
+
+    }));
+
+    async function GetAllfiles() {
+
+        let files = []
+
+        let r = await sqlite.all(`SELECT * FROM Devis`, [])
+
+        r.forEach(function(row) {
+            row.files = JSON.parse(row.files)
+
+            for (let i = 0; i < row.files.length; i++) {
+                const v = row.files[i];
+                files[v.md5] = true
+            }
         })
+
+        return files
+    }
+
+    async function IsFileUseless(files, filemd5) {
+        return files[filemd5] == undefined
     }
 
     app.get('/api/delete/:id', basic.check(async function(req, res) {
@@ -318,21 +431,28 @@ async function SendDevisMail(receiver) {
 
             let success = await sqlite.run(`DELETE FROM Devis WHERE devis_id = ${ id };`)
 
-            for (const k of files) {
-                let v = files[k]
-                if (await IsFileUseless(v.md5)) {
-                    console.log(v.name, "is useless")
-                } else {
-                    console.log(v.name, "is not useless")
+            res.json({ err: null, status: 200 })
+
+            let Allfiles = GetAllfiles()
+
+            for (let i = 0; i < files.length; i++) {
+                const v = files[i];
+
+                let useless = await IsFileUseless(Allfiles, v.md5)
+
+                if (useless == true) {
+                    fs.unlinkSync(`./data/${v.md5}.dat`)
+                    console.log(v.name, " removed ")
                 }
             }
 
+            return
+
         } catch (e) {
+            console.log(e)
             res.json({ err: e + "", status: 500 })
             return
         }
-
-        res.json({ err: null, status: 200 })
 
     }));
 
@@ -372,18 +492,19 @@ async function SendDevisMail(receiver) {
     });
 
     app.get('/admin', basic.check((req, res) => {
-        //res.end(`Welcome to private area - ${req.user}!`);
         res.sendFile(__dirname + "/src/adminmenu.html")
     }));
 
     app.get('/admin/inbox', basic.check((req, res) => {
-        //res.end(`Welcome to private area - ${req.user}!`);
         res.sendFile(__dirname + "/src/admin.html")
     }));
 
     app.get('/admin/news', basic.check((req, res) => {
-        //res.end(`Welcome to private area - ${req.user}!`);
         res.sendFile(__dirname + "/src/postnews.html")
+    }));
+
+    app.get('/admin/newsmanager', basic.check((req, res) => {
+        res.sendFile(__dirname + "/src/newsmanage.html")
     }));
 
     let domain = "http://www.example.com/"
@@ -401,8 +522,6 @@ async function SendDevisMail(receiver) {
         res.set('Content-Type', 'text/xml')
         res.send(xml_content.join('\n'))
     })
-
-
 
     app.get('/css/:name', function(req, res, next) {
         var options = {
@@ -438,6 +557,25 @@ async function SendDevisMail(receiver) {
         res.sendFile(fileName, options, function(err) {
             if (err) {
                 next(err)
+            }
+        })
+    })
+
+    app.get('/images/news/:name', function(req, res, next) {
+        var options = {
+            root: path.join(__dirname, 'src/images/news'),
+            dotfiles: 'deny',
+            headers: {
+                'x-timestamp': Date.now(),
+                'x-sent': true,
+                'content-type': 'image/png'
+            }
+        }
+
+        let fileName = req.params.name
+        res.sendFile(fileName, options, function(err) {
+            if (err) {
+                res.sendFile(__dirname + "/src/images/default.png")
             }
         })
     })

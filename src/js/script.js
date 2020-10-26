@@ -251,11 +251,6 @@ function HookNavbar() {
         el.forEach(el => {
             f(el)
         });
-
-
-        console.log(el)
-
-
     }
 }
 
@@ -366,41 +361,33 @@ Vue.component('news-card', {
 })
 
 Vue.component('news-card2', {
-    props: ['id', 'title', 'date', 'desc'],
+    props: ['id', 'title', 'date', 'desc', 'image'],
     template: `
 
 		<div class="card">
 			<router-link v-bind:to="'/news/'+ this.id" >
 				<div class="card-image">
-					<figure class="image is-4by3">
-						<img src="https://source.unsplash.com/random/1280x960" alt="Placeholder image">
+					<figure class="image">
+						<img :src="'/images/news/' + image" alt="Placeholder image">
 					</figure>
 				</div>
 				<div class="card-content">
 					<div class="media">
 						<div class="media-left">
 							<figure class="image is-48x48">
-								<img src="https://source.unsplash.com/random/96x96" class="is-rounded" alt="Placeholder image">
+								<img src="https://yoyoungdesign.com/IMG/Portfolio/element6-contenu.png" class="is-rounded" alt="Placeholder image">
 							</figure>
 						</div>
 						<div class="media-content">
-							<p class="title is-4">John Smith</p>
+							<p class="title is-4">{{title}}</p>
 							<p class="subtitle is-6">{{date}}</p>
 						</div>
-					</div>
-					<div class="subtitle is-5">
-						{{title}}
-						<br>
 					</div>
 				</div>
 			</router-link>
 		</div>
 	`
 })
-
-
-
-const Bar = { template: '<div>bar</div>' }
 
 const sopymep = { template: `
 	<div>
@@ -486,19 +473,23 @@ const halogma = { template: `
 //` }
 
 const news = {
-    props: ['posts'],
-    watch: {
-        $route(to, from) {
-            console.log(to, from)
+    data: function() {
+        return {
+            posts: null
         }
+    },
+    mounted: async function() {
+
+        let rep = await axios.get('/api/news');
+        this.posts = rep.data
     },
     template: `
 	<section class="section">
 		<div class="container has-text-centered">
 			<h2 class="title">Lorem Ipsum</h2>
 			<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
-			<div class="cardcolumns is-centered has-text-left mx-4" >
-				<news-card2 v-for="post in posts" v-bind:key="post.id" v-bind:title="post.title" v-bind:desc="post.desc" v-bind:date="post.date" v-bind:id="post.id"></news-card2>
+			<div class="cardcolumns is-centered has-text-left mx-4" v-if="posts != null" >
+				<news-card2 v-for="post in posts" v-bind:key="post.article_id" v-bind:title="post.title" v-bind:image="post.image" v-bind:date="new Date(post.date).toLocaleDateString()" v-bind:id="post.article_id"></news-card2>
 			</div>
 		</div>
 		
@@ -526,25 +517,38 @@ function _linkify(inputText) {
 }
 
 const sopymeparticle = {
-    props: ['posts', 'article', 'id'],
-    methods: {
-        linkify: function(p) {
-            console.log(p)
-            return _linkify(p)
+    data: function() {
+        return {
+            article: {
+                title: "...",
+                date: "...",
+                content: "..."
+            }
         }
+    },
+    mounted: async function() {
+
+        let rep = await axios.get('/api/news/' + this.$route.params.id);
+
+        if (Object.keys(rep.data).length === 0) {
+            router.push({ path: '/news' })
+        } else {
+            this.article = rep.data[0]
+        }
+
     },
     template: `
 	<div>
 		<div class="wrapper">
 			<div class="news-container">
 				<div class="news__header">
-					<img class="header__thumbnail" src="https://source.unsplash.com/1920x1080/" alt="" />
+					<img class="header__thumbnail" :src="'/images/news/' + article.image" alt="" />
 				</div>
 				
 				<div class="news__body">
 					<h1 class="body__heading">{{article.title}}</h1>
 					
-					<small class="body__meta">{{article.date}}</small>
+					<small class="body__meta">{{new Date(article.date).toLocaleDateString() }}</small>
 					
 					<p class="body__text" v-for="v in (article.content.split('\\n'))">{{v}}</p>
 				</div>
@@ -790,14 +794,6 @@ const routes = [{
     {
         path: '/news',
         component: news,
-        props: {
-            posts: [
-                { id: 1, title: 'Mon initiation avec Vue', date: '25 mars 2020', desc: 'desc' },
-                { id: 2, title: 'Blogger avec Vue', date: '25 mars 2020', desc: 'desc' },
-                { id: 3, title: 'Pourquoi Vue est tellement cool', date: '25 mars 2020', desc: 'desc' },
-                { id: 4, title: 'vuejs yay', date: '25 mars 2020', desc: '' }
-            ],
-        }
     },
     {
         path: '/contact',
@@ -808,43 +804,6 @@ const routes = [{
     {
         path: '/news/:id',
         component: sopymeparticle,
-
-        props: {
-
-            posts: [
-                { id: 1, title: 'Mon initiation avec Vue', date: '25 mars 2020', desc: 'desc' },
-                { id: 2, title: 'Blogger avec Vue', date: '25 mars 2020', desc: 'desc' },
-                { id: 3, title: 'Pourquoi Vue est tellement cool', date: '25 mars 2020', desc: 'desc' },
-                { id: 4, title: 'vuejs yay', date: '25 mars 2020', desc: 'Ob haec et huius modi multa, quae cernebantur in paucis, omnibus timeri sunt coepta. et ne tot malis dissimulatis paulatimque serpentibus acervi crescerent aerumnarum, nobilitatis decreto legati mittuntur: Praetextatus ex urbi praefecto et ex vicario Venust' }
-            ],
-            article: {
-                date: "25 mars 2020",
-                desc: "salut desc",
-                title: "salut title",
-                content: `Cumque pertinacius ut legum gnarus https://vuejs.org/v2/guide/components.html accusatorem flagitaret atque sollemnia, doctus id Caesar libertatemque superbiam ratus tamquam obtrectatorem audacem excarnificari praecepit, qui ita evisceratus ut cruciatibus membra deessent, inplorans caelo iustitiam, torvum renidens fundato pectore mansit inmobilis nec se incusare nec quemquam alium passus et tandem nec confessus nec confutatus cum abiecto consorte poenali est morte multatus. et ducebatur intrepidus temporum iniquitati insultans, imitatus Zenonem illum veterem Stoicum qui ut mentiretur quaedam laceratus diutius, avulsam sedibus linguam suam cum cruento sputamine in oculos interrogantis Cyprii regis inpegit.
-Denique Antiochensis ordinis vertices sub uno elogio iussit occidi ideo efferatus, quod ei celebrari vilitatem intempestivam urgenti, cum inpenderet inopia, gravius rationabili responderunt; et perissent ad unum ni comes orientis tunc Honoratus fixa constantia restitisset.
-Raptim igitur properantes ut motus sui rumores celeritate nimia praevenirent, vigore corporum ac levitate confisi per flexuosas semitas ad summitates collium tardius evadebant. et cum superatis difficultatibus arduis ad supercilia venissent fluvii Melanis alti et verticosi, qui pro muro tuetur accolas circumfusus, augente nocte adulta terrorem quievere paulisper lucem opperientes. arbitrabantur enim nullo inpediente transgressi inopino adcursu adposita quaeque vastare, sed in cassum labores pertulere gravissimos.
-Post emensos insuperabilis expeditionis eventus languentibus partium animis, quas periculorum varietas fregerat et laborum, nondum tubarum cessante clangore vel milite locato per stationes hibernas, fortunae saevientis procellae tempestates alias rebus infudere communibus per multa illa et dira facinora Caesaris Galli, qui ex squalore imo miseriarum in aetatis adultae primitiis ad principale culmen insperato saltu provectus ultra terminos potestatis delatae procurrens asperitate nimia cuncta foedabat. propinquitate enim regiae stirpis gentilitateque etiam tum Constantini nominis efferebatur in fastus, si plus valuisset, ausurus hostilia in auctorem suae felicitatis, ut videbatur.
-Hae duae provinciae bello quondam piratico catervis mixtae praedonum a Servilio pro consule missae sub iugum factae sunt vectigales. et hae quidem regiones velut in prominenti terrarum lingua positae ob orbe eoo monte Amano disparantur.
-Qui cum venisset ob haec festinatis itineribus Antiochiam, praestrictis palatii ianuis, contempto Caesare, quem videri decuerat, ad praetorium cum pompa sollemni perrexit morbosque diu causatus nec regiam introiit nec processit in publicum, sed abditus multa in eius moliebatur exitium addens quaedam relationibus supervacua, quas subinde dimittebat ad principem.
-Sed fruatur sane hoc solacio atque hanc insignem ignominiam, quoniam uni praeter se inusta sit, putet esse leviorem, dum modo, cuius exemplo se consolatur, eius exitum expectet, praesertim cum in Albucio nec Pisonis libidines nec audacia Gabini fuerit ac tamen hac una plaga conciderit, ignominia senatus.
-Et prima post Osdroenam quam, ut dictum est, ab hac descriptione discrevimus, Commagena, nunc Euphratensis, clementer adsurgit, Hierapoli, vetere Nino et Samosata civitatibus amplis inlustris.
-Et licet quocumque oculos flexeris feminas adfatim multas spectare cirratas, quibus, si nupsissent, per aetatem ter iam nixus poterat suppetere liberorum, ad usque taedium pedibus pavimenta tergentes iactari volucriter gyris, dum exprimunt innumera simulacra, quae finxere fabulae theatrales.
-Adolescebat autem obstinatum propositum erga haec et similia multa scrutanda, stimulos admovente regina, quae abrupte mariti fortunas trudebat in exitium praeceps, cum eum potius lenitate feminea ad veritatis humanitatisque viam reducere utilia suadendo deberet, ut in Gordianorum actibus factitasse Maximini truculenti illius imperatoris rettulimus coniugem.
-Intellectum est enim mihi quidem in multis, et maxime in me ipso, sed paulo ante in omnibus, cum M. Marcellum senatui reique publicae concessisti, commemoratis praesertim offensionibus, te auctoritatem huius ordinis dignitatemque rei publicae tuis vel doloribus vel suspicionibus anteferre. Ille quidem fructum omnis ante actae vitae hodierno die maximum cepit, cum summo consensu senatus, tum iudicio tuo gravissimo et maximo. Ex quo profecto intellegis quanta in dato beneficio sit laus, cum in accepto sit tanta gloria.
-Quapropter a natura mihi videtur potius quam ab indigentia orta amicitia, applicatione magis animi cum quodam sensu amandi quam cogitatione quantum illa res utilitatis esset habitura. Quod quidem quale sit, etiam in bestiis quibusdam animadverti potest, quae ex se natos ita amant ad quoddam tempus et ab eis ita amantur ut facile earum sensus appareat. Quod in homine multo est evidentius, primum ex ea caritate quae est inter natos et parentes, quae dirimi nisi detestabili scelere non potest; deinde cum similis sensus exstitit amoris, si aliquem nacti sumus cuius cum moribus et natura congruamus, quod in eo quasi lumen aliquod probitatis et virtutis perspicere videamur.
-Superatis Tauri montis verticibus qui ad solis ortum sublimius attolluntur, Cilicia spatiis porrigitur late distentis dives bonis omnibus terra, eiusque lateri dextro adnexa Isauria, pari sorte uberi palmite viget et frugibus minutis, quam mediam navigabile flumen Calycadnus interscindit.
-Rogatus ad ultimum admissusque in consistorium ambage nulla praegressa inconsiderate et leviter proficiscere inquit ut praeceptum est, Caesar sciens quod si cessaveris, et tuas et palatii tui auferri iubebo prope diem annonas. hocque solo contumaciter dicto subiratus abscessit nec in conspectum eius postea venit saepius arcessitus.
-Quam ob rem id primum videamus, si placet, quatenus amor in amicitia progredi debeat. Numne, si Coriolanus habuit amicos, ferre contra patriam arma illi cum Coriolano debuerunt? num Vecellinum amici regnum adpetentem, num Maelium debuerunt iuvare?
-Eo adducta re per Isauriam, rege Persarum bellis finitimis inligato repellenteque a conlimitiis suis ferocissimas gentes, quae mente quadam versabili hostiliter eum saepe incessunt et in nos arma moventem aliquotiens iuvant, Nohodares quidam nomine e numero optimatum, incursare Mesopotamiam quotiens copia dederit ordinatus, explorabat nostra sollicite, si repperisset usquam locum vi subita perrupturus.
-Ut enim benefici liberalesque sumus, non ut exigamus gratiam (neque enim beneficium faeneramur sed natura propensi ad liberalitatem sumus), sic amicitiam non spe mercedis adducti sed quod omnis eius fructus in ipso amore inest, expetendam putamus.
-Per hoc minui studium suum existimans Paulus, ut erat in conplicandis negotiis artifex dirus, unde ei Catenae inditum est cognomentum, vicarium ipsum eos quibus praeerat adhuc defensantem ad sortem periculorum communium traxit. et instabat ut eum quoque cum tribunis et aliis pluribus ad comitatum imperatoris vinctum perduceret: quo percitus ille exitio urgente abrupto ferro eundem adoritur Paulum. et quia languente dextera, letaliter ferire non potuit, iam districtum mucronem in proprium latus inpegit. hocque deformi genere mortis excessit e vita iustissimus rector ausus miserabiles casus levare multorum.
-Quod cum ita sit, paucae domus studiorum seriis cultibus antea celebratae nunc ludibriis ignaviae torpentis exundant, vocali sonu, perflabili tinnitu fidium resultantes. denique pro philosopho cantor et in locum oratoris doctor artium ludicrarum accitur et bybliothecis sepulcrorum ritu in perpetuum clausis organa fabricantur hydraulica, et lyrae ad speciem carpentorum ingentes tibiaeque et histrionici gestus instrumenta non levia.
-Omitto iuris dictionem in libera civitate contra leges senatusque consulta; caedes relinquo; libidines praetereo, quarum acerbissimum extat indicium et ad insignem memoriam turpitudinis et paene ad iustum odium imperii nostri, quod constat nobilissimas virgines se in puteos abiecisse et morte voluntaria necessariam turpitudinem depulisse. Nec haec idcirco omitto, quod non gravissima sint, sed quia nunc sine teste dico.
-`
-            },
-        }
-
     },
     {
         path: '/*',
@@ -882,8 +841,6 @@ router.beforeEach(async function(to, from, next) {
     //console.log( to, from )
 })
 
-
-console.log(router)
 
 //GrabNews()
 HookNavbar()

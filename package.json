@@ -1,35 +1,36 @@
 {
-  "name": "sopymep",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LaudetYanis/SOPYMEP.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/LaudetYanis/SOPYMEP/issues"
-  },
-  "homepage": "https://github.com/LaudetYanis/SOPYMEP#readme",
-  "dependencies": {
-    "adal-node": "^0.2.1",
-    "axios": "^0.20.0",
-    "body-parser": "^1.19.0",
-    "cookie-parser": "^1.4.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-fileupload": "^1.2.0",
-    "http-auth": "^4.1.2",
-    "nodemailer": "^6.4.14",
-    "sqlite3": "^5.0.0"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.8",
-    "@types/http-auth": "^4.1.0"
-  }
+	"name": "sopymep",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"sopymep": "node index"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/LaudetYanis/SOPYMEP.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/LaudetYanis/SOPYMEP/issues"
+	},
+	"homepage": "https://github.com/LaudetYanis/SOPYMEP#readme",
+	"dependencies": {
+		"adal-node": "^0.2.1",
+		"axios": "^0.20.0",
+		"body-parser": "^1.19.0",
+		"cookie-parser": "^1.4.5",
+		"dotenv": "^8.2.0",
+		"express": "^4.17.1",
+		"express-fileupload": "^1.2.0",
+		"http-auth": "^4.1.2",
+		"nodemailer": "^6.4.14",
+		"sqlite3": "^5.0.0"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.8",
+		"@types/http-auth": "^4.1.0"
+	}
 }

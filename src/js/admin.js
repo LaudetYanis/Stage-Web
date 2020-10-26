@@ -11,11 +11,14 @@ var inboxVue = new Vue({
         isLoading: false
     },
     methods: {
-        alertCustom(num) {
+        alertCustom: async function(num) {
             this.$buefy.dialog.alert({
-                title: 'Title Alert',
+                title: 'Messagerie',
                 message: num,
-                confirmText: 'Cool!'
+                confirmText: 'OK',
+                onConfirm: () => {
+                    window.location.href = "/admin"
+                }
             })
         },
         showMessage: function(msg, index) {
@@ -78,6 +81,16 @@ var inboxVue = new Vue({
 
                     if (rep.data.err) {
 
+                        self.$buefy.dialog.alert({
+                            title: 'Erreur',
+                            message: rep.data.err,
+                            type: 'is-danger',
+                            hasIcon: true,
+                            icon: 'times-circle',
+                            iconPack: 'fa',
+                            ariaRole: 'alertdialog',
+                            ariaModal: true
+                        })
                         return
                     }
 
@@ -89,18 +102,18 @@ var inboxVue = new Vue({
 
 
                     if (self.messages[self.id]) { // horrible lol
-                        inboxVue.showMessage(self.messages[self.id], self.id)
+                        self.showMessage(self.messages[self.id], self.id)
                     } else if (self.messages[self.id + 1]) {
-                        inboxVue.showMessage(self.messages[self.id + 1], self.id + 1)
+                        self.showMessage(self.messages[self.id + 1], self.id + 1)
                     } else if (self.messages[self.id - 1]) {
-                        inboxVue.showMessage(self.messages[self.id - 1], self.id - 1)
+                        self.showMessage(self.messages[self.id - 1], self.id - 1)
                     } else {
                         // tout hide
                         Select("#message-pane").classList.add('is-hidden')
-                        inboxVue.alertCustom("vous avez plus de messages")
+                        self.alertCustom("Vous avez aucun messages")
                     }
 
-                    inboxVue.$forceUpdate()
+                    self.$forceUpdate()
                 }
             })
         },
@@ -149,8 +162,8 @@ async function Devis(wait) {
     })
 
 
-    if (inboxVue.messages.lenght == 0) {
-        inboxVue.alertCustom("vous avez plus de messages")
+    if (inboxVue.messages.length == 0) {
+        inboxVue.alertCustom("Vous avez aucun messages")
     }
 
 }

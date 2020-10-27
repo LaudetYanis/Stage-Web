@@ -1,106 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<title>SOPYMEP</title>
-		<meta name="description" content="description" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" type="text/css" href="/css/style.css" />
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
-		<link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
-		<link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css">
-		
-		<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.6/js/intlTelInput.min.js"></script> -->
-		
-		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-		<script src="https://unpkg.com/vue"></script>
-		<script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
-		<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-	</head>
-	<body>
-		<div id="app">
-			<!-- NAVBAR -->
-			<nav class="navbar shadow-lg" role="navigation" aria-label="main navigation">
-				<div class="navbar-brand">
-					<a class="navbar-item" href="/">
-						<h3 class="logo">HALOGMA</h3>
-					</a>
-					<a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarDev">
-						<span aria-hidden="true"></span>
-						<span aria-hidden="true"></span>
-						<span aria-hidden="true"></span>
-					</a>
-				</div>
-				<div id="navbarDev" class="navbar-menu">
-					<div class="navbar-start">
-						<router-link to="/news" class="navbar-item">News</router-link>
-						<div class="navbar-item has-dropdown is-hoverable">
-							<a class="navbar-link">
-								Sopymep
-							</a>
-							<div class="navbar-dropdown is-boxed">
-								<router-link to="/" class="navbar-item">link</router-link>
-								<router-link to="/" class="navbar-item">link</router-link>
-							</div>
-						</div>
-						<div class="navbar-item has-dropdown is-hoverable">
-							<a class="navbar-link">
+
+<head>
+    <meta charset="utf-8" />
+    <title>SOPYMEP</title>
+    <meta name="description" content="description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="stylesheet" href="https://unpkg.com/buefy/dist/buefy.min.css">
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/5.3.45/css/materialdesignicons.min.css">
+
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.6/js/intlTelInput.min.js"></script> -->
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- NAVBAR -->
+        <nav class="navbar shadow-lg" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <h3 class="logo">HALOGMA</h3>
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarDev">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarDev" class="navbar-menu">
+                <div class="navbar-start">
+                    <router-link to="/news" class="navbar-item" @click.native="Push">News</router-link>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
+							Sopymep
+						</a>
+                        <div class="navbar-dropdown is-boxed">
+                            <router-link to="/" class="navbar-item">link</router-link>
+                            <router-link to="/" class="navbar-item">link</router-link>
+                        </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
 								CCMPI
-							</a>
-							<div class="navbar-dropdown is-boxed">
-								<router-link to="/" class="navbar-item">link</router-link>
-								<router-link to="/" class="navbar-item">link</router-link>
-							</div>
-						</div>
-						<div class="navbar-item has-dropdown is-hoverable">
-							<a class="navbar-link">
+						</a>
+                        <div class="navbar-dropdown is-boxed">
+                            <router-link to="/" class="navbar-item">link</router-link>
+                            <router-link to="/" class="navbar-item">link</router-link>
+                        </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">
 								Bettega et fils
-							</a>
-							<div class="navbar-dropdown is-boxed">
-								<router-link to="/" class="navbar-item">link</router-link>
-								<router-link to="/" class="navbar-item">link</router-link>
-							</div>
-						</div>
-						<div class="navbar-item has-dropdown is-hoverable" v-if="false">
-							<a class="navbar-link">
-								Plus
-							</a>
-							<div class="navbar-dropdown is-boxed">
-								<router-link to="/about" class="navbar-item">À propos</router-link>
-								<router-link to="/contact" class="navbar-item">Contact</router-link>
-								<hr class="navbar-divider">
-								<router-link to="/" class="navbar-item">Signaler un problème</router-link>
-							</div>
-						</div>
-					</div>
-					<div class="navbar-end">
-						<div class="navbar-item">
-							<div class="buttons">
-								<a class="button is-primary" v-if="false">
-									<strong>Sign up</strong>
-								</a>
-								<router-link to="/contact" class="button is-primary shadow-lg">Contact</router-link>
-							</div>
-						</div>
-					</div>
-				</div>
-			</nav>
-			<!-- NAVBAR -->
-			
-			
-			<transition name="fade">
-				<router-view></router-view>
-			</transition>
-			<section class="section has-background-light">
-				<div class="level">
-					<div class="level-item has-text-centered">
-						<div>
-							<p class="is-size-6">Tous droits réservés halogma. Copyright © 2020</p>
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
-	</body>
-	<script src="/js/script.js"></script>
+						</a>
+                        <div class="navbar-dropdown is-boxed">
+                            <router-link to="/" class="navbar-item">link</router-link>
+                            <router-link to="/" class="navbar-item">link</router-link>
+                        </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <router-link to="/vidalmp" class="navbar-link" @click.native="Push">Vidal MP</router-link>
+                        <div class="navbar-dropdown is-boxed">
+                            <router-link to="/vidalmp#presentation" class="navbar-item" @click.native="Push">Qui sommes-nous ?</router-link>
+                            <router-link to="/vidalmp#produits" class="navbar-item" @click.native="Push">Nos produits & services</router-link>
+                            <router-link to="/vidalmp#machines" class="navbar-item" @click.native="Push">Notre parc machine</router-link>
+                            <router-link to="/vidalmp#references" class="navbar-item" @click.native="Push">Références & certifications</router-link>
+                        </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable" v-if="false">
+                        <a class="navbar-link">
+							Plus
+						</a>
+                        <div class="navbar-dropdown is-boxed">
+                            <router-link to="/about" class="navbar-item">À propos</router-link>
+                            <router-link to="/contact" class="navbar-item">Contact</router-link>
+                            <hr class="navbar-divider">
+                            <router-link to="/" class="navbar-item">Signaler un problème</router-link>
+                        </div>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary" v-if="false">
+                                <strong>Sign up</strong>
+                            </a>
+                            <router-link to="/contact" class="button is-primary shadow-lg" @click.native="Push">Contact</router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- NAVBAR -->
+
+
+        <transition :name="anim">
+            <router-view v-bind:key="push"></router-view>
+        </transition>
+        <section class="section has-background-light">
+            <div class="level">
+                <div class="level-item has-text-centered">
+                    <div>
+                        <p class="is-size-6">Tous droits réservés halogma. Copyright © 2020</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+<script src="/js/script.js"></script>
+
 </html>

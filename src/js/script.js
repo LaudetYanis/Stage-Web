@@ -181,7 +181,9 @@ function displayMenu() {
     }
 }
 
-function HideNavbar(exept) {
+function HideNavbar() {
+
+    console.log("HideNavbar")
 
     let el = document.querySelectorAll(".has-dropdown")
 
@@ -193,8 +195,27 @@ function HideNavbar(exept) {
         }, 1)
     });
 
-}
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
+    // Check if there are any navbar burgers
+    if ($navbarBurgers.length > 0) {
+
+        // Add a click event on each of them
+        $navbarBurgers.forEach(el => {
+
+            // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+
+            el.classList.remove('is-active');
+            $target.classList.remove('is-active');
+
+
+
+        });
+    }
+
+}
 
 
 function HookNavbar() {
@@ -219,37 +240,9 @@ function HookNavbar() {
                 el.classList.toggle('is-active');
                 $target.classList.toggle('is-active');
 
+                console.log("toogle")
+
             });
-        });
-
-
-        let f = function(el) {
-            el.addEventListener('click', () => {
-                $navbarBurgers.forEach(el => {
-                    const target = el.dataset.target;
-                    const $target = document.getElementById(target);
-                    el.classList.remove('is-active');
-                    $target.classList.remove('is-active');
-                });
-            });
-        }
-
-        let el = document.querySelectorAll("a.navbar-item.router-link-active")
-
-        el.forEach(el => {
-            f(el)
-        });
-
-        el = document.querySelectorAll("#navbarDev > div.navbar-start > a")
-
-        el.forEach(el => {
-            f(el)
-        });
-
-        el = document.querySelector("#navbarDev > div.navbar-end > div > div").childNodes
-
-        el.forEach(el => {
-            f(el)
         });
     }
 }
@@ -443,6 +436,16 @@ const halogma = { template: `
 						<p class="title">Bettega et fils</p>
 						<p class="subtitle">Lorem ipsum dolor sit amet</p>
 						<div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur obcaecati laborum deleniti placeat error vero rerum? Mollitia, rerum iusto? Cupiditate nobis libero, repellat quae nisi laborum fugit doloribus quaerat similique?
+						</div>
+						</router-link>
+					</article>
+                </div>
+                <div class="tile is-parent">
+					<article class="tile is-child notification shadow-lg">
+						<router-link to="/vidalmp" class="content">
+						<p class="title">Vidal MP</p>
+						<p class="subtitle">Mécanique de précision</p>
+						<div class="content">Aéronautique, Spatial, Recherche sous-marine, Médical, Bâtiment...
 						</div>
 						</router-link>
 					</article>
@@ -788,15 +791,465 @@ const ccmpi = {
 `
 }
 
+const vidalmp = {
+    data: function() {
+        return {
+            isImageModalActive: false
+        }
+    },
+    mounted: function() {
+        let path = this.$route.path
+        let hash = this.$route.hash
+        let self = this
+        if (hash) {
+            setTimeout(function() {
+                self.Scroll(hash.substring(1))
+                history.replaceState(null, null, ' ');
+            }, 300);
+        }
+    },
+    watch: {
+        $route(to, from) {
+
+            let path = to.path
+            let hash = to.hash
+            let self = this
+            if (hash) {
+                self.Scroll(hash.substring(1))
+                history.replaceState(null, null, ' ');
+            }
+
+            //HideNavbar()
+        }
+
+    },
+    methods: {
+        Scroll(to) {
+            let el = this.$refs[to]
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        },
+        FullScreenImg(event) {
+            let target = event.target
+            const h = this.$createElement
+            const vnode = h('p', { class: "my-6 image is-1by1" }, [
+                h('img', { attrs: { src: target.src } })
+            ])
+            this.$buefy.modal.open({
+                content: [vnode]
+            })
+        },
+        Video(event) {
+            let target = event.target
+            const h = this.$createElement
+            const vnode = h('p', { class: "my-6 image is-1by1" }, [
+                h('img', { attrs: { src: target.src } })
+            ])
+            this.$buefy.modal.open({
+                content: [vnode]
+            })
+        },
+    },
+    template: `
+    <div>
+        <section class="hero is-medium is-vidalmp is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                      VIDAL MP
+                    </h1>
+                    <h2 class="subtitle">
+                    MÉCANIQUE DE PRÉCISION
+                    </h2>
+                    <h2 class="subtitle">
+                    Aéronautique, Spatial, Recherche sous-marine, Médical, Bâtiment...
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6">
+            <div class="container is-fluid">
+                <div class="tile is-ancestor">
+                    <div class="tile is-vertical">
+                        <div class="tile">
+                            <a class="tile is-parent is-vertical" @click="Scroll('presentation')">
+                                <article class="tile is-child notification is-vidalmp">
+                                    <p class="title">QUI SOMMES-NOUS ?</p>
+                                    <p class="subtitle">Présentation</p>
+                                    <figure class="image">
+                                        <img src="/images/presentation-vidal-mp.jpg">
+                                    </figure>
+                                </article>
+                            </a>
+                            <a class="tile is-parent is-vertical" @click="Scroll('produits')">
+                                <article class="tile is-child notification is-vidalmp">
+                                    <p class="title">PRODUITS & SERVICES </p>
+                                    <p class="subtitle">Prestations</p>
+                                    <figure class="image">
+                                        <img src="/images/mecanique-de-precision-toulouse.jpg">
+                                    </figure>
+                                </article>
+                            </a>
+                            <a class="tile is-parent is-vertical" @click="Scroll('machines')">
+                                <article class="tile is-child notification is-vidalmp">
+                                    <p class="title">NOTRE PARC</p>
+                                    <p class="subtitle">Machines</p>
+                                    <figure class="image">
+                                        <img src="/images/parc-machines-vidal-mp.jpg">
+                                    </figure>
+                                </article>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="columns mt-6 shaar">
+                    <div class="column is-two-fifths">
+                        <figure class="image">
+                            <img src="/images/piece-de-precision.jpg">
+                        </figure>
+                    </div>
+                    <div class="column is-three-fifths">
+                        <div class="content is-medium">
+                            <h1>Vidal MP, spécialiste de la réalisation de pièces mécaniques de précision</h1>
+                            <h4>La SARL VIDAL MP est une société de fraisage, dynamique et réactive.</h4>
+                            <p>
+                            Nous pouvons réaliser des grandes, moyennes et petites séries mais aussi des pièces unitaires et des prototypages.
+                            Nous travaillons sur un panel de matières très varié et disposons de moyens de contrôle afin de vous garantir une qualité de service optimale. Nous développons en permanence notre parc machine notamment avec l'arrivée d'un bras robotisé en 2015.
+                            </p>
+                            <div class="buttons">
+                              <button class="button is-vidalmp" @click="Scroll('presentation')">En savoir plus</button>
+                              <button @click="isImageModalActive = true" class="button is-vidalmp">Voir notre vidéo de présentation<i class="ml-2 fa fa-play-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <b-modal v-model="isImageModalActive">
+            <video controls>
+                <source src="/images/robot.webm" type="video/webm">
+                Sorry, your browser doesn't support embedded videos.
+            </video>
+        </b-modal>
+
+        <section class="hero is-vidalmp mt-6" ref="presentation">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                    QUI SOMMES-NOUS ?
+                    </h1>
+                    <router-link to="/contact" class="subtitle">Nous contacter</router-link>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6" >
+            <div class="container is-fluid">
+                <div class="content is-medium">
+                    <h1>Réalisation de pièces mécaniques de précision</h1>
+                    <p>La SARL VIDAL MP est une société de fraisage, dynamique et réactive en constante évolution qui compte un effectif de trois personnes. Nos points forts : REACTIVITE, DISPONIBILITE, FLEXIBILITE, pour répondre à vos besoins avec professionnalisme. Notre politique de qualité est axée sur le service apporté aux clients à travers :</p>
+                    <ul>
+                        <li>La réalisation de pièces de petite et moyenne série pour lesquels nous sommes équipés, formés et expérimentés.</li>
+                        <li>Le respect des délais.</li>
+                        <li>La conformité de nos produits.</li>
+                        <li>L’amélioration continue de nos processus.</li>
+                    </ul>
+                    <div class="buttons">
+                        <button class="button is-vidalmp" @click="Scroll('produits')">En savoir plus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero is-vidalmp mt-6" ref="produits">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                    NOS PRODUITS & SERVICES
+                    </h1>
+                    <router-link to="/contact" class="subtitle">Nous contacter</router-link>
+                </div>
+            </div>
+        </section>
+
+        <div class="container" >
+            <div class="container is-fluid">
+                <div class="columns mt-6 shaar">
+                    <div class="column is-two-fifths">
+                        <figure class="image">
+                            <img src="/images/realisation-pieces-sur-mesure.jpg">
+                        </figure>
+                    </div>
+
+                    <div class="column is-three-fifths">
+                        <div class="content is-medium">
+                            <h2>Réalisation de tous types de pièces sur mesure, adaptées à tous les besoins</h2>
+                            <p>
+                            Grâce à notre parc machine, nos qualifications et notre faculté d’adaptation, nous vous proposons la réalisation de pièces mécaniques de précision en grande série, moyenne série, petite série, pièce unitaire ou prototypage. Pour toute demande de renseignements complémentaires, n’hésitez pas à nous contacter. Notre équipe de professionnels s’efforcera de vous répondre dans les plus brefs délais.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns mt-6 shaar">
+                    <div class="column is-three-fifths">
+                        <div class="content is-medium">
+                            <h2>Les matières travaillées et moyens de contrôle de production</h2>
+                            <p>
+                            Nous vous proposons tous types de pièces en acier, aluminium, inox, titane, matière plastique, carbonne ou cuivre. La grande diversité et complémentarité de nos machines nous permettent de travailler de nombreuses matières, de façon à répondre au mieux à vos attentes. Les rapports de contrôle de production sont réalisés selon vos besoins, au moyen d’une colonne de mesure Tesa et d’un bras Faro.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-two-fifths">
+                        <figure class="image">
+                            <img src="/images/bras-robot-articule.jpg">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero is-vidalmp mt-6" ref="machines">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                    DÉCOUVREZ NOTRE PARC MACHINE
+                    </h1>
+                    <router-link to="/contact" class="subtitle">Nous contacter</router-link>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6" >
+            <div class="container is-fluid">
+                <div class="columns">
+                
+                    <a class="column is-one-quarter" >
+                        <div class="hero is-vidalmp">
+                            <figure class="image is-1by1">
+                                <img src="/images/umc-750.png" @click="FullScreenImg">
+                            </figure>
+                            <div class="mx-4 my-4 machine">
+                                <h1 class="title is-5">HAAS UMC 750</h1>
+                                <h2 class="subtitle is-6">AVEC BRAS ROBOTISÉ ROBOFLEX 5 AXES</h2>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="column is-one-quarter" >
+                        <div class="hero is-vidalmp">
+                            <figure class="image is-square">
+                                <img src="/images/mikron-500.jpg" @click="FullScreenImg">
+                            </figure>
+                            <div class="mx-4 my-4 machine">
+                                <h1 class="title is-5">MIKRON 500</h1>
+                                <h2 class="subtitle is-6">COURSE - X : 500 - Y : 420 - Z : 400 BROCHE 7500 – 4ÈME AXE</h2>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="column is-one-quarter" >
+                        <div class="hero is-vidalmp">
+                            <figure class="image is-square">
+                                <img src="/images/super-minimill.jpg" @click="FullScreenImg">
+                            </figure>
+                            <div class="mx-4 my-4 machine">
+                                <h1 class="title is-5">SUPER MINIMILL HAAS</h1>
+                                <h2 class="subtitle is-6">COURSE - X : 400 - Y : 300 - Z : 200 BROCHE 10 000</h2>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="column is-one-quarter" >
+                        <div class="hero is-vidalmp">
+                            <figure class="image is-square">
+                                <img src="/images/vf2.jpg" @click="FullScreenImg">
+                            </figure>
+                            <div class="mx-4 my-4 machine">
+                                <h1 class="title is-5">VF2 HAAS</h1>
+                                <h2 class="subtitle is-6">COURSE - X : 750 - Y : 420 - Z : 400 BROCHE 7500 – 4ÈME AXE</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="columns">
+                
+                    <a class="column is-one-third" >
+                        <div class="hero is-vidalmp">
+                            <figure class="image is-square">
+                                <img src="/images/vf3.jpg" @click="FullScreenImg">
+                            </figure>
+                            <div class="mx-4 my-4 machine">
+                                <h1 class="title is-5">VF3 HAAS</h1>
+                                <h2 class="subtitle is-6">COURSE - X : 1020 - Y : 510 - Z : 500 BROCHE 10000 – 4ÈME & 5ÈME AXE</h2>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="column is-one-third" >
+                        <div class="hero is-vidalmp">
+                            <figure class="image is-square">
+                                <img src="/images/vf3ss.jpg" @click="FullScreenImg">
+                            </figure>
+                            <div class="mx-4 my-4 machine">
+                                <h1 class="title is-5">VF3SS HAAS PALETTISÉ</h1>
+                                <h2 class="subtitle is-6">COURSE - X : 1020 - Y : 510 - Z : 500 BROCHE 12500</h2>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a class="column is-one-third" >
+                        <div class="hero is-vidalmp">
+                            <figure class="image is-square">
+                                <img src="/images/vf4ss.jpg" @click="FullScreenImg">
+                            </figure>
+                            <div class="mx-4 my-4 machine">
+                                <h1 class="title is-5">VF4SS HAAS PALETTISÉ</h1>
+                                <h2 class="subtitle is-6">COURSE - X : 1250 – Y : 510 – Z : 500 BROCHE 12500</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero is-vidalmp mt-6" ref="references">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                    RÉFÉRENCES & CERTIFICATIONS
+                    </h1>
+                    <router-link to="/contact" class="subtitle">Nous contacter</router-link>
+                </div>
+            </div>
+        </section>
+
+        <div class="container" >
+            <div class="container is-fluid">
+                <div class="columns mt-6">
+                    <div class="column is-two-fifths shaar">
+                        <figure class="image p-20p">
+                            <img src="/images/avion.png">
+                        </figure>
+                    </div>
+
+                    <div class="column is-three-fifths shaar">
+                        <div class="content is-medium">
+                            <h2>Aéronautique</h2>
+                            <p>
+                            Dans le domaine aéronautique, notre parc machine nous permet de produire de nombreux types de pièces : pièces avionnables, pièces pour outillage, pièces de montage, etc... (Soumises à confidentialité).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns mt-6">
+                    <div class="column is-three-fifths shaar">
+                        <div class="content is-medium">
+                            <h2>Spatial</h2>
+                            <p>
+                            Nous sommes en capacité de produire également des éléments mécaniques de précision pour l’aérospatiale, comme des pièces embarquées pour satellites.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-two-fifths shaar">
+                        <figure class="image p-20p">
+                            <img src="/images/spatial.png">
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="columns mt-6">
+                    <div class="column is-two-fifths shaar">
+                        <figure class="image p-20p">
+                            <img src="/images/sous-marin.png">
+                        </figure>
+                    </div>
+
+                    <div class="column is-three-fifths shaar">
+                        <div class="content is-medium">
+                            <h2>Recherche sous-marine</h2>
+                            <p>
+                            La recherche sous-marine est un secteur à la pointe de la technologie et confidentiel, pour toute demande de renseignements complémentaires, nous contacter.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns mt-6">
+                    <div class="column is-three-fifths shaar">
+                        <div class="content is-medium">
+                            <h2>Médical</h2>
+                            <p>
+                            Production de pièces destinées à tout type de prothèses externes (Confidentialité du brevet client).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="column is-two-fifths shaar">
+                        <figure class="image p-20p">
+                            <img src="/images/medical.png">
+                        </figure>
+                    </div>
+                </div>
+
+                <div class="columns mt-6">
+                    <div class="column is-two-fifths shaar">
+                        <figure class="image p-20p">
+                            <img src="/images/batiment.png">
+                        </figure>
+                    </div>
+
+                    <div class="column is-three-fifths shaar">
+                        <div class="content is-medium">
+                            <h2>Bâtiment</h2>
+                            <p>
+                            Dans le domaine de la construction, nous réalisons tous types de pièces suivant plans, réparations, séries, pièces de liaison, etc…
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="container mt-6 mb-6">
+            <div class="container is-fluid">
+                <div class="columns mx-6">
+                    <div class="column is-three-fifths">
+                        <h1 class="title is-5 certif">NOS CERTIFICATIONS </h1>
+                    </div>
+                    <div class="column">
+                        <figure class="image">
+                            <img src="/images/logo-iso-9001.jpg">
+                        </figure>
+                    </div>
+                    <div class="column">
+                        <figure class="image">
+                            <img src="/images/logo-en-9100.jpg">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+`
+}
+
 const routes = [{
         path: '/',
         component: halogma,
-
     },
     {
         path: '/sopymep',
         component: sopymep,
-
     },
     {
         path: '/news',
@@ -807,10 +1260,12 @@ const routes = [{
         component: ccmpi,
     },
     {
+        path: '/vidalmp',
+        component: vidalmp,
+    },
+    {
         path: '/contact',
         component: contact,
-
-
     },
     {
         path: '/news/:id',
@@ -825,18 +1280,30 @@ const routes = [{
 const router = new VueRouter({
     mode: 'history',
     routes, // raccourci pour `routes: routes`
-
 })
-
 
 let vm = new Vue({
     router: router,
     el: '#app',
     data: {
+        push: 0,
+        anim: "fade",
+    },
+    methods: {
+        Push() { // big brain
+            this.anim = "none"
+            this.push += 1
+            let self = this
+            HideNavbar()
+            Vue.nextTick(function() {
+                self.anim = "fade"
+            })
 
+        },
     },
     computed: {}
 })
+
 
 router.beforeEach(async function(to, from, next) {
     HideNavbar()

@@ -781,6 +781,13 @@ const _404 = {
 `
 }
 
+const ccmpi = {
+    template: `
+    <div>
+	</div>
+`
+}
+
 const routes = [{
         path: '/',
         component: halogma,
@@ -794,6 +801,10 @@ const routes = [{
     {
         path: '/news',
         component: news,
+    },
+    {
+        path: '/ccmpi',
+        component: ccmpi,
     },
     {
         path: '/contact',

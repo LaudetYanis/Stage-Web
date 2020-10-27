@@ -580,6 +580,25 @@ async function SendDevisMail(receiver) {
         })
     })
 
+    app.get('/images/:name', function(req, res, next) {
+        var options = {
+            root: path.join(__dirname, 'src/images'),
+            dotfiles: 'deny',
+            headers: {
+                'x-timestamp': Date.now(),
+                'x-sent': true,
+                'content-type': 'image/png'
+            }
+        }
+
+        let fileName = req.params.name
+        res.sendFile(fileName, options, function(err) {
+            if (err) {
+                res.sendFile(__dirname + "/src/images/default.png")
+            }
+        })
+    })
+
     // Clients get redirected here in order to create an OAuth authorize url and redirect them to AAD.
     // There they will authenticate and give their consent to allow this app access to
     // some resource they own.

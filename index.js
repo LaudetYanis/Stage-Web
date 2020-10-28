@@ -1,4 +1,5 @@
-const crypto = require('crypto');
+require('dotenv').config()
+    //const crypto = require('crypto');
 const path = require("path");
 const express = require('express');
 const app = express();
@@ -8,7 +9,7 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const sqlite = require('./aa-sqlite.js');
 const cookieParser = require('cookie-parser')
-const axios = require('axios')
+    //const axios = require('axios')
 
 const nodemailer = require("nodemailer");
 
@@ -46,16 +47,16 @@ const readFile = (path, opts = 'utf8') =>
 
 async function SendDevisMail(receiver) {
 
-    if (true) {
-        return // a voir plus tard
-    }
+    //if (true) {
+    //    return // a voir plus tard
+    //}
 
-    let testAccount = await nodemailer.createTestAccount();
+    //let testAccount = await nodemailer.createTestAccount();
 
     let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
         auth: {
             user: testAccount.user, // generated ethereal user
             pass: testAccount.pass, // generated ethereal password

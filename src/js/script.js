@@ -501,6 +501,8 @@ const news = {
 }
 
 
+
+
 function _linkify(inputText) {
     var replacedText, replacePattern1, replacePattern2, replacePattern3;
 
@@ -786,8 +788,475 @@ const _404 = {
 
 const ccmpi = {
     template: `
-    <div>
-	</div>
+    </div>
+        <section class="hero is-medium is-ccmpi is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                      CCMPI
+                    </h1>
+                    <h2 class="subtitle">
+                        CONCEPTION ET COMMERCIALISATION DE MACHINES ET DE PRODUITS INDUSTRIELS
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6">
+            <div class="container is-fluid">
+
+            </div>
+        </div>
+    </div>
+`
+}
+
+const bettega = {
+    mounted: function() {
+        let path = this.$route.path
+        let hash = this.$route.hash
+        let self = this
+        if (hash) {
+            setTimeout(function() {
+                self.Scroll(hash.substring(1))
+                history.replaceState(null, null, ' ');
+            }, 300);
+        }
+    },
+    methods: {
+        Scroll(to) {
+            let el = this.$refs[to]
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        },
+    },
+    data() {
+        return {
+            carousels: [
+                ["c4962a_880737bca30a4ea38d9820960aa53a8c.webp", "c4962a_2c372a882527462f9af61f7a731935d3.webp", "c4962a_ff0ca6f577dd4190a0834a87d4528398.webp", "c4962a_4674a61d61004440ba78f6e68e5da4d7.webp", "c4962a_e9b7de3d79984cb0920adbf793b4d571.webp"],
+                ["c4962a_524f4128e9a24b64a7dcd59baf02cb21.webp", "c4962a_40ca30afec51454283638dc2a2c5858f.webp", "c4962a_b6cb1a65480f47e499f3aecc305a8b54.webp", "c4962a_5c435206e6a143dd861a904134016342.webp", "c4962a_4462052bc33043828248cce22e66cbab.webp"],
+                ["c4962a_28ffb5a6103d4e71809e2d0c1c1ec12f.webp", "c4962a_47a6404df5634477b3726a0e1819e820.webp", "c4962a_47d06cdcd27e40cfa22753065e7ce310.webp", "c4962a_8d5314fa4d674363b6927b7785d5c5b8.webp", "c4962a_6f5c435c12f047fb8a631b727f1b8e75.webp", "c4962a_067588a7d8084fc1a3a62be8ade4a24c.webp"]
+            ]
+        }
+    },
+    template: `
+	<div>
+        <section class="hero is-medium is-bettega is-bold">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                      BETTEGA-ET-FILS
+                    </h1>
+                    <h2 class="subtitle">
+                        MÉCANIQUE DE PRÉCISION
+                    </h2>
+                    <h2 class="subtitle">
+                    
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6">
+            <div class="container is-fluid">
+
+                <div class="content is-medium">
+                    <div class="subtitle is-3"><strong>40 ans</strong> de savoir-faire</div>
+                    <p>Implanté dans la région de Toulouse depuis 1971, en Haute Garonne, Bettega & Fils vous propose une prestation globale dans les domaines suivants :</p>
+                    <ul>
+                        <li>étude et conception.</li>
+                        <li>réalisation de pièces et d'outillages mécaniques.</li>
+                        <li>contrôle de pièces.</li>
+                        <li>montage d'équipement.</li>
+                        <li>conception, réalisation, mise au point et installation sur site de machines spéciales.</li>
+                        <li>formation (contrat d'apprentissage, contrat de professionnalisation).</li>
+                    </ul>
+                    <p>17 personnes qualifiées, certaines polyvalentes et d'autres vraiment spécialisées dans leur domaine d'intervention, répondent  à vos besoins. </p>
+                    <p>Bettega & Fils livre majoritairement en Midi-Pyrénées et expédie également vos commandes par transporteur en France et à l'étranger.</p>
+                </div>
+
+                <div class="mt-6">
+                    <div class="container-iframe">
+                        <iframe class="responsive-iframe" src="https://www.youtube.com/embed/orrkwDRLXVg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <div class="columns mt-6">
+                    <div class="column is-one-quarter">
+                        <figure class="image mt-2">
+                            <img src="/images/c4962a_7f2238ba43a84c6ba61b26852cf8d4c3.webp">
+                        </figure>
+                    </div>
+                    <div class="column is-three-quarter mt-2">
+                        <div class="content is-medium">
+                            <h3>CONCEPTION</h3>
+                            <p>Bureau d'étude pour la conception de pièces mécaniques, de postes de travail et de machines spéciales.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-one-quarter">
+                        <figure class="image mt-2">
+                            <img src="/images/c4962a_40ca30afec51454283638dc2a2c5858f.webp">
+                        </figure>
+                    </div>
+                    <div class="column is-three-quarter mt-2">
+                        <div class="content is-medium">
+                            <h3>USINAGE</h3>
+                            <p>Réalisation de pièces et d'outillages mécaniques du prototype, à la petite et moyenne série. Usinage de pièces (dimension : entre 1 mm et plus de 2 000 mm) selon différents procédés : fraisage, tournage. Travail sur tout type de matières : Acier, Carbure, Aluminium, Inox, Titane, Inconel, Matières Plastiques, Composites, Céramiques, etc.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-one-quarter">
+                        <figure class="image mt-2">
+                            <img src="https://via.placeholder.com/300x160">
+                        </figure>
+                    </div>
+                    <div class="column is-three-quarter mt-2">
+                        <div class="content is-medium">
+                            <h3>MONTAGE</h3>
+                            <p>La société assure l'activité d'assemblage, de montage et d'intégration sur site pour la réalisation de machines spéciales selon le cahier des charges et les besoins de ses clients. Elle dispose de compétences dans les domaines suivants: assemblage spécifique, automatisme, électricité, électronique, mécanique, pneumatique, usinage, tôlerie-serrurerie, vision (contrôle par caméra), supervision (informatique industrielle)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-one-quarter">
+                        <figure class="image mt-2">
+                            <img src="https://via.placeholder.com/300x160">
+                        </figure>
+                    </div>
+                    <div class="column is-three-quarter mt-2">
+                        <div class="content is-medium">
+                            <h3>CONTROLE QUALITE</h3>
+                            <p>Le contrôle est une activité très importante dans la société. Il est réalisé soit entre les différentes phases de production soit en continu. Grâce à sa machine à mesurer tridimensionnelle (2000 x 1000), il est possible de proposer des prestations de contrôle sur des pièces de dimensions importantes. L'entreprise est certifié ISO 9001 depuis 2015 et vise la certification EN9100 début 2019.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero is-bettega mt-6" ref="activite">
+            <div class="hero-body">
+                <div class="container mt-4 mb-4">
+                    <h1 class="title">
+                    DOMAINES D'ACTIVITE
+                    </h1>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6">
+            <div class="container is-fluid">
+                <div class="columns">
+                    <div class="column is-three-fifths mt-2">
+                        <div class="content is-medium">
+                            <h3>AERONAUTIQUE</h3>
+                            <p>Sous-traitant historique dans le secteur aéronautique, la société intervient sur la conception et la réalisation d'outillages et de pièces.</p>
+                        </div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <figure class="image mt-2">
+                            <img src="/images/c4962a_e9b7de3d79984cb0920adbf793b4d571.webp">
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <div class="columns">
+                    <div class="column is-three-fifths mt-2">
+                        <div class="content is-medium">
+                            <h3>SPATIAL</h3>
+                            <p>Usinage de pièces complexes. Travail de précision réalisé par des opérateurs de haut niveau avec une longue expérience.</p>
+                        </div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <figure class="image mt-2">
+                            <img src="/images/c4962a_880737bca30a4ea38d9820960aa53a8c.webp">
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <div class="columns">
+                    <div class="column is-three-fifths mt-2">
+                        <div class="content is-medium">
+                            <h3>ELECTRONIQUE</h3>
+                            <p>
+                            Usinage de pièces en alliage d'aluminium ou en matière plastique en petite et moyenne série.</p>
+                        </div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <figure class="image mt-2">
+                            <img src="/images/c4962a_2c372a882527462f9af61f7a731935d3.webp">
+                        </figure>
+                    </div>
+                </div>
+                <hr>
+                <div class="columns">
+                    <div class="column is-three-fifths mt-2">
+                        <div class="content is-medium">
+                            <h3>ELECTRONIQUE</h3>
+                            <p>
+                            Usinage de pièces en alliage d'aluminium ou en matière plastique en petite et moyenne série.</p>
+                        </div>
+                    </div>
+                    <div class="column is-two-fifths">
+                        <figure class="image mt-2">
+                            <img src="/images/c4962a_6f5c435c12f047fb8a631b727f1b8e75.webp">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero is-bettega mt-6" ref="partenaires">
+            <div class="hero-body">
+                <div class="container mt-4 mb-4">
+                    <h1 class="title">
+                    PARTENAIRES
+                    </h1>
+                </div>
+            </div>
+        </section>
+
+         <div class="container mt-6">
+            <div class="container is-fluid">
+                <div class="columns">
+                    <div class="column is-one-fifths">
+                        <figure class="image  mt-6 mb-6">
+                            <img class="i-33p" src="/images/c4962a_9f8d006a349b456480b6d197f74f4330.gif">
+                        </figure>
+                    </div>
+                    <div class="column is-four-fifths mt-6 mb-6">
+                        <div class="content is-medium">
+                            <h3>CCMPI</h3>
+                            <p>Le bureau d'études, CCMPI, est implanté dans la bâtiment et propose ses compétences dans le domaine de l'étude et de la machine d'étiquetage.</p>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="columns">
+                    <div class="column is-one-fifths">
+                        <figure class="image  mt-6 mb-6">
+                            <img class="i-33p" src="/images/ccilogo.png">
+                        </figure>
+                    </div>
+                    <div class="column is-four-fifths mt-6 mb-6">
+                        <div class="content is-medium">
+                            <h3>CCI TOULOUSE</h3>
+                            <p>Retrouvez les actualiatés et services de la vie économique et industrielle de Toulouse.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero is-bettega mt-6" ref="realisations">
+            <div class="hero-body">
+                <div class="container ">
+                    <h1 class="title">
+                        REALISATIONS
+                    </h1>
+                    <h2 class="subtitle">
+                        Etude et réalisation de pièces et d'outillages mécaniques, de machines spéciales Gamme complète dans le domaine de l'étiquetage
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6">
+            <div class="container is-fluid">
+                <div class="columns is-vcentered">
+                    <div class="column is-three-fifths">
+                        <template>
+                            <b-carousel>
+                                <b-carousel-item v-for="(v, i) in carousels[0]" :key="i">
+                                    <figure class="image is-16by9 mt-6 mb-6">
+                                        <img :src="'/images/' + v">
+                                    </figure>
+                                </b-carousel-item>
+                            </b-carousel>
+                        </template>
+                    </div>
+                    <div class="column">
+                        <div class="content is-medium">
+                            <h3>PIECES MECANIQUES</h3>
+                            <p>Du prototype à la petite et moyenne série Travail sur tout type de matière : Aluminium, Acier, Inox, Titane, Inconel, Matières Plastiques, Composites, Céramiques. Spécialités: usinage mécanique, rectification plane, ajustage, assemblage d'ensembles et de sous-ensembles, mécano-soudure, moletage crantage, usinage de profilés, gravage, marquage, micro-mécanique, parachèvement, usinage de pièces de fonderie.</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="container mt-6">
+            <div class="container is-fluid">
+                <div class="columns is-vcentered">
+                    <div class="column is-three-fifths">
+                        <template>
+                            <b-carousel>
+                                <b-carousel-item v-for="(v, i) in carousels[1]" :key="i">
+                                    <figure class="image is-16by9 mt-6 mb-6">
+                                        <img :src="'/images/' + v">
+                                    </figure>
+                                </b-carousel-item>
+                            </b-carousel>
+                        </template>
+                    </div>
+                    <div class="column">
+                        <div class="content is-medium">
+                            <h3>OUTILLAGES</h3>
+                            <p>Etude, réalisation de pièces et d'outillages. Fabrication de moule, maquette, modèle, étalon. Réalisations d'outils de contrôle, de pliage, de découpe, de reprise, d'outillages spéciaux.</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="container mt-6">
+            <div class="container is-fluid">
+                <div class="columns is-vcentered">
+                    <div class="column is-three-fifths">
+                        <template>
+                            <b-carousel>
+                                <b-carousel-item v-for="(v, i) in carousels[2]" :key="i">
+                                    <figure class="image is-16by9 mt-6 mb-6">
+                                        <img :src="'/images/' + v">
+                                    </figure>
+                                </b-carousel-item>
+                            </b-carousel>
+                        </template>
+                    </div>
+                    <div class="column">
+                        <div class="content is-medium">
+                            <h3>MACHINES SPECIALES</h3>
+                            <p>Notre filiale CCMPI, propose à ses clients la conception, l'assemblage et l'installation sur site de machines spéciales. L'entreprise accompagne ses clients dans leurs projets et leur apporte des solutions sur mesure grâce à ses compétences en mécanique, pneumatique, électrique et automatisme. CCMPI a développé pour ses clients des postes de travail et des machines spéciales ainsi qu'une gamme de produits propres de machines à étiquetage semi-automatiques.</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        <section class="hero is-bettega mt-6" ref="parc">
+            <div class="hero-body">
+                <div class="container mt-4 mb-4">
+                    <h1 class="title">
+                    PARC MACHINE ET ÉQUIPEMENTS
+                    </h1>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="container is-fluid">
+                <div class="box mt-6">
+                    <h3 class="title is-4 has-text-centered">PARC CN</h3>
+                    <div class="columns is-vcentered  ">
+
+                        <div class="column is-one-fifths shaar">
+
+                            <figure class="image is-full">
+                                <img src="/images/c4962a_4dbc106a855a4ab6b33b2c9cb8f7ddce.webp">
+                            </figure>
+                        </div>
+                        <div class="column is-four-fifths">
+                            <div class="content is-medium ">
+
+                                <ul>
+                                    <li>1 centre d'usinage HURCO - CN 5 axes - 1067x610x610</li>
+                                    <li>1 centre d'usinage HURCO - CN 3 axes - 2183x890x800</li>
+                                    <li>1 centre d'usinage HURCO - CN 3 axes - 1067x610x610</li>
+                                    <li>1 centre d'usinage MORI SEIKI - CN 4 axes - 850x480x460</li>
+                                    <li>1 centre d'usinage MORI SEIKI palettisé - CN 3 axes - 500x500x480</li>
+                                    <li>1 tour CN HURCO - diamètre 500 - EP 1000</li>
+                                    <li>1 tour CN CMZ avec axe C - diamètre 150 - EP 400</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box mt-6">
+                    <h3 class="title is-4 has-text-centered">PARC CONVENTIONNEL</h3>
+                    <div class="columns is-vcentered">
+
+                        <div class="column is-one-fifths shaar">
+
+                            <figure class="image is-full">
+                                <img src="/images/c4962a_2a67ba90e74a403ea7ca2a3f37e33b95.webp">
+                            </figure>
+                        </div>
+                        <div class="column is-four-fifths">
+                            <div class="content is-medium">
+                                <ul>
+                                    <li>1 fraiseuse HURON - 850x700x500</li>
+                                    <li>3 fraiseuses DUFOUR - 900x300x500</li>
+                                    <li>1 tour CAZENEUVE HBX diamètre 350 EP 600</li>
+                                    <li>1 tour RAMO diamètre 250 EP 400</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box mt-6">
+                    <h3 class="title is-4 has-text-centered">SALLE DE CONTRÔLE</h3>
+                    <div class="columns is-vcentered">
+
+                        <div class="column is-one-fifths shaar">
+
+                            <figure class="image is-full">
+                                <img src="/images/c4962a_183ee56e74f740e084aedd986b0f2fae.webp">
+                            </figure>
+                        </div>
+                        <div class="column is-four-fifths">
+                            <div class="content is-medium">
+                                <ul>
+                                    <li>Tridimensionnelle Zeiss par programmation ou par auto apprentissage - Capacité 2100x1000x800</li>
+                                    <li>Tridimensionnelle 600x500x500</li>
+                                    <li>Colonne de mesure TESA</li>
+                                    <li>Marbre 1000x650</li>
+                                    <li>Duromètre</li>
+                                    <li>Contrôle de conductivité</li>
+                                    <li>Binoculaire</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box mt-6">
+                    <h3 class="title is-4 has-text-centered">SALLE DE MONTAGE</h3>
+                    <div class="columns is-vcentered">
+
+                        <div class="column is-one-fifths shaar">
+
+                            <figure class="image is-full">
+                                <img src="/images/c4962a_2b0f605c77104befa0a8aaef08cbb397.webp">
+                            </figure>
+                        </div>
+                        <div class="column is-four-fifths">
+                            <div class="content is-medium">
+                                <ul>
+                                    <li>2 salles de montage dédiées de 40 m2</li>
+                                    <li>1 salle de 200 m2 dédié au montage d'outillage et de machine spéciale</li>
+                                    <li>1 zone d'ajustage équipée de: perceuse, taraudeuse, micro-taraudeuse, machien à graver par micro-percussion</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6"></div>
+            </div>
+        </div>
+
+    </div>
 `
 }
 
@@ -818,8 +1287,6 @@ const vidalmp = {
                 self.Scroll(hash.substring(1))
                 history.replaceState(null, null, ' ');
             }
-
-            //HideNavbar()
         }
 
     },
@@ -832,6 +1299,7 @@ const vidalmp = {
         },
         FullScreenImg(event) {
             let target = event.target
+            console.log(target.childNodes[1])
             const h = this.$createElement
             const vnode = h('p', { class: "my-6 image is-1by1" }, [
                 h('img', { attrs: { src: target.src } })
@@ -1030,8 +1498,8 @@ const vidalmp = {
                 
                     <a class="column is-one-quarter" >
                         <div class="hero is-vidalmp">
-                            <figure class="image is-1by1">
-                                <img src="/images/umc-750.png" @click="FullScreenImg">
+                            <figure class="image is-1by1" @click="FullScreenImg">
+                                <img src="/images/umc-750.png" >
                             </figure>
                             <div class="mx-4 my-4 machine">
                                 <h1 class="title is-5">HAAS UMC 750</h1>
@@ -1264,6 +1732,10 @@ const routes = [{
         component: vidalmp,
     },
     {
+        path: '/bettega',
+        component: bettega,
+    },
+    {
         path: '/contact',
         component: contact,
     },
@@ -1294,7 +1766,7 @@ let vm = new Vue({
             this.anim = "none"
             this.push += 1
             let self = this
-            HideNavbar()
+                //HideNavbar()
             Vue.nextTick(function() {
                 self.anim = "fade"
             })

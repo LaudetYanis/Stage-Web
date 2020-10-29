@@ -400,21 +400,15 @@ textarea {
     resize: none !important;
 }
 
-.carousel {
-    max-width: 20%;
-}
-
-@media (max-width:768px) {
-    .carousel {
-        max-width: auto;
-    }
-}
-
 .p-20p {
     padding: 35%;
     padding-top: 39px;
     -webkit-filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(700%) contrast(0.8);
     filter: grayscale(100%) brightness(30%) sepia(100%) hue-rotate(-180deg) saturate(700%) contrast(0.8);
+}
+
+.i-33p {
+    padding-top: 33px;
 }
 
 .certifimg {
@@ -441,6 +435,15 @@ textarea {
     overflow: hidden;
 }
 
+.image.is-full {
+    height: 100%;
+    width: 100%;
+}
+
+.vimg {
+    vertical-align: middle;
+}
+
 img {
     pointer-events: none;
     -webkit-touch-callout: none;
@@ -454,8 +457,26 @@ img {
     -ms-user-select: none;
     /* Internet Explorer/Edge */
     user-select: none;
-    /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+    /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+.container-iframe {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding-top: 56.25%;
+    /* 16:9 Aspect Ratio */
+}
+
+.responsive-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 .machineimg {
@@ -466,6 +487,9 @@ img {
     display: table-cell;
     vertical-align: middle;
 }
+
+
+/* Vidal MP */
 
 .hero .is-vidalmp {
     background-color: #283593;
@@ -512,5 +536,107 @@ img {
 
 .hero.is-vidalmp {
     background-color: #283593;
+    color: #fff;
+}
+
+
+/* Bettega */
+
+.hero .is-bettega {
+    background-color: #00A9FF;
+    color: white;
+}
+
+.hero.is-bettega.is-bold {
+    background-image: linear-gradient(141deg, #50c5ff 0, #00A9FF 10%, #006da3 100%);
+    color: white !important;
+}
+
+.hero.is-bettega .title {
+    color: #fff;
+}
+
+.hero.is-bettega .subtitle {
+    color: #fff;
+}
+
+.notification.is-bettega {
+    background-color: #00A9FF;
+    color: #fff;
+}
+
+.button.is-bettega {
+    -ms-transition: background-color 200ms ease-in;
+    transition: background-color 200ms ease-in;
+    background-color: #00A9FF;
+    border-color: transparent;
+    color: #fff;
+}
+
+.button.is-bettega:hover {
+    background-color: #002773;
+    border-color: transparent;
+    color: #fff;
+}
+
+.button.is-bettega:focus {
+    background-color: #002773;
+    border-color: transparent;
+    color: #fff;
+}
+
+.hero.is-bettega {
+    background-color: #00A9FF;
+    color: #fff;
+}
+
+
+/* ccmpi */
+
+.hero .is-ccmpi {
+    background-color: #FF6402;
+    color: white;
+}
+
+.hero.is-ccmpi.is-bold {
+    background-image: linear-gradient(141deg, #ff8032 0, #FF6402 10%, #ac4201 100%);
+    color: white !important;
+}
+
+.hero.is-ccmpi .title {
+    color: #fff;
+}
+
+.hero.is-ccmpi .subtitle {
+    color: #fff;
+}
+
+.notification.is-ccmpi {
+    background-color: #00A9FF;
+    color: #fff;
+}
+
+.button.is-ccmpi {
+    -ms-transition: background-color 200ms ease-in;
+    transition: background-color 200ms ease-in;
+    background-color: #00A9FF;
+    border-color: transparent;
+    color: #fff;
+}
+
+.button.is-ccmpi:hover {
+    background-color: #FF6402;
+    border-color: transparent;
+    color: #fff;
+}
+
+.button.is-ccmpi:focus {
+    background-color: #FF6402;
+    border-color: transparent;
+    color: #fff;
+}
+
+.hero.is-ccmpi {
+    background-color: #FF6402;
     color: #fff;
 }

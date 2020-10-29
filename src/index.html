@@ -46,21 +46,19 @@
                         </div>
                     </div>
                     <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-								CCMPI
-						</a>
+                        <router-link to="/ccmpi" class="navbar-link" @click.native="Push">CCMPI</router-link>
                         <div class="navbar-dropdown is-boxed">
                             <router-link to="/" class="navbar-item">link</router-link>
                             <router-link to="/" class="navbar-item">link</router-link>
                         </div>
                     </div>
                     <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-								Bettega et fils
-						</a>
+                        <router-link to="/bettega" class="navbar-link" @click.native="Push">Bettega et fils</router-link>
                         <div class="navbar-dropdown is-boxed">
-                            <router-link to="/" class="navbar-item">link</router-link>
-                            <router-link to="/" class="navbar-item">link</router-link>
+                            <router-link to="/bettega#activite" class="navbar-item" @click.native="Push">Domaines d'activite</router-link>
+                            <router-link to="/bettega#partenaires" class="navbar-item" @click.native="Push">Partenaires</router-link>
+                            <router-link to="/bettega#realisations" class="navbar-item" @click.native="Push">Réalisations</router-link>
+                            <router-link to="/bettega#parc" class="navbar-item" @click.native="Push">Parc machine et équipements</router-link>
                         </div>
                     </div>
                     <div class="navbar-item has-dropdown is-hoverable">

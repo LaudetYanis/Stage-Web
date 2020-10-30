@@ -428,6 +428,22 @@ textarea {
     padding: 0px !important;
 }
 
+.cover {
+    object-fit: contain !important;
+}
+
+.limt {
+    height: 30rem;
+}
+
+.centerimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: 30rem;
+}
+
 .machine {
     min-width: 6rem;
     max-height: 6rem;
@@ -468,6 +484,13 @@ img {
     /* 16:9 Aspect Ratio */
 }
 
+.container-carousel {
+    width: 1000px !important;
+    height: 560px !important;
+    vertical-align: middle;
+    /* 16:9 Aspect Ratio */
+}
+
 .responsive-iframe {
     position: absolute;
     top: 0;
@@ -486,6 +509,23 @@ img {
     overflow: hidden;
     display: table-cell;
     vertical-align: middle;
+}
+
+.marbtm {
+    margin-bottom: 0px !important;
+}
+
+.min400 {
+    min-height: 350px;
+}
+
+.min600 {
+    min-height: 500px;
+}
+
+.bold {
+    font-size: 24px;
+    font-weight: 500;
 }
 
 
@@ -537,6 +577,10 @@ img {
 .hero.is-vidalmp {
     background-color: #283593;
     color: #fff;
+}
+
+.box .is-ccmpi {
+    border-color: #283593 !important;
 }
 
 

@@ -1,103 +1,3 @@
-var DOMAnimations = {
-
-    /**
-     * SlideUp
-     *
-     * @param {HTMLElement} element
-     * @param {Number} duration
-     * @returns {Promise<boolean>}
-     */
-    slideUp: function(element, duration = 200) {
-
-        return new Promise(function(resolve, reject) {
-
-            element.style.height = element.offsetHeight + 'px';
-            element.style.transitionProperty = `height, margin, padding`;
-            element.style.transitionDuration = duration + 'ms';
-            element.offsetHeight;
-            element.style.overflow = 'hidden';
-            element.style.height = 0;
-            element.style.paddingTop = 0;
-            element.style.paddingBottom = 0;
-            element.style.marginTop = 0;
-            element.style.marginBottom = 0;
-            window.setTimeout(function() {
-                element.style.display = 'none';
-                element.style.removeProperty('height');
-                element.style.removeProperty('padding-top');
-                element.style.removeProperty('padding-bottom');
-                element.style.removeProperty('margin-top');
-                element.style.removeProperty('margin-bottom');
-                element.style.removeProperty('overflow');
-                element.style.removeProperty('transition-duration');
-                element.style.removeProperty('transition-property');
-                resolve(false);
-            }, duration)
-        })
-    },
-
-    /**
-     * SlideDown
-     *
-     * @param {HTMLElement} element
-     * @param {Number} duration
-     * @returns {Promise<boolean>}
-     */
-    slideDown: function(element, duration = 200) {
-
-        return new Promise(function(resolve, reject) {
-
-            element.style.removeProperty('display');
-            let display = window.getComputedStyle(element).display;
-
-            if (display === 'none')
-                display = 'block';
-
-            element.style.display = display;
-            let height = element.offsetHeight;
-            element.style.overflow = 'hidden';
-            element.style.height = 0;
-            element.style.paddingTop = 0;
-            element.style.paddingBottom = 0;
-            element.style.marginTop = 0;
-            element.style.marginBottom = 0;
-            element.offsetHeight;
-            element.style.transitionProperty = `height, margin, padding`;
-            element.style.transitionDuration = duration + 'ms';
-            element.style.height = height + 'px';
-            element.style.removeProperty('padding-top');
-            element.style.removeProperty('padding-bottom');
-            element.style.removeProperty('margin-top');
-            element.style.removeProperty('margin-bottom');
-            window.setTimeout(function() {
-                element.style.removeProperty('height');
-                element.style.removeProperty('overflow');
-                element.style.removeProperty('transition-duration');
-                element.style.removeProperty('transition-property');
-            }, duration)
-        })
-    },
-
-    /**
-     * SlideToggle
-     *
-     * @param {HTMLElement} element
-     * @param {Number} duration
-     * @returns {Promise<boolean>}
-     */
-    slideToggle: function(element, duration = 200) {
-
-        if (window.getComputedStyle(element).display === 'none') {
-
-            return this.slideDown(element, duration);
-
-        } else {
-
-            return this.slideUp(element, duration);
-        }
-    }
-}
-
 const Select = document.querySelector.bind(document);
 
 function setCookie(cname, cvalue, exdays) {
@@ -183,8 +83,6 @@ function displayMenu() {
 
 function HideNavbar() {
 
-    console.log("HideNavbar")
-
     let el = document.querySelectorAll(".has-dropdown")
 
     el.forEach(d => {
@@ -234,13 +132,13 @@ function HookNavbar() {
                 const target = el.dataset.target;
                 const $target = document.getElementById(target);
 
-                console.log(el)
+                //console.log(el)
 
                 // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
                 el.classList.toggle('is-active');
                 $target.classList.toggle('is-active');
 
-                console.log("toogle")
+                //console.log("toogle")
 
             });
         });
@@ -771,7 +669,13 @@ const contact = {
 					<b-loading :is-full-page="true" v-model="isLoading" :can-cancel="false"></b-loading>
 				</section>
 			</template>
-		</div>
+        </div>
+        
+        <div class="container mt-6 mb-6">
+            <div class="container is-fluid">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2888.377546522278!2d1.3451127157221567!3d43.619500362626816!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aeb017f06d276d%3A0x57ec0682c2e0ca4!2s1%20Avenue%20Didier%20Daurat%2C%2031770%20Colomiers!5e0!3m2!1sfr!2sfr!4v1604620930109!5m2!1sfr!2sfr" width="100%" height="450px" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
 	</div>
 `
 }
@@ -789,6 +693,10 @@ const _404 = {
 const ccmpi = {
     data: function() {
         return {
+            modal: false,
+            Dmodal: false,
+            id: 0,
+            Did: 0,
             carousel: [
                 "c4962a_e5763469824d4d12a66b188b1652fff9.jpg",
                 "c4962a_1a2cb1bf821e47c1901c1d3a34a7293a.jpg",
@@ -809,37 +717,275 @@ const ccmpi = {
                 "c4962a_3db4b9b47dbb4ca18dbed005cee410c6.jpg",
                 "c4962a_a5a46346826a40ab8cbe4762d394a9cd.jpg",
             ],
+            derouleur: [{
+                    Image: "e360e66d-2f7f-4da1-a095-009516ee3bbb.png",
+                    Nom: "Dérouleur/Réenrouleur DREEL120",
+                    Desc: "Les anciennes machines ayant eu pour référence REEL et DER ont été regroupées en une machine unique permettant de choisir la fontion voulue ainsi que le sens de rotation du moteur.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: "(L x l x h) : 303 x 300 x 360mm",
+                    Moteur: "courant continu 24V ",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "120mm (mandrin Ø 40)",
+                    Options: "-Adaptateurs 40-76"
+                },
+                {
+                    Image: "e360e66d-2f7f-4da1-a095-009516ee3bbb.png",
+                    Nom: "Dérouleur/Réenrouleur DREEL120+",
+                    Desc: "Les anciennes machines ayant eu pour référence REEL et DER ont été regroupées en une machine unique permettant de choisir la fontion voulue ainsi que le sens de rotation du moteur. La DREEL120+ est une évolution de la DREEL120 avec une motorisation plus rapide.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: "(L x l x h) : 303 x 300 x 360mm",
+                    Moteur: "courant continu 24V ",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "120mm (mandrin Ø 40)",
+                    Options: "-Adaptateurs 40-76"
+                },
+                {
+                    Image: "e360e66d-2f7f-4da1-a095-009516ee3bbb.png",
+                    Nom: "Dérouleur/Réenrouleur DREEL180",
+                    Desc: "Les anciennes machines ayant eu pour référence REEL et DER ont été regroupées en une machine unique permettant de choisir la fontion voulue ainsi que le sens de rotation du moteur.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: " (L x l x h) : 362 x 300 x 360mm",
+                    Moteur: "courant continu 24V",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "180mm (mandrin Ø 40)",
+                    Options: "-Adaptateurs 40-76"
+                },
+                {
+                    Image: "e360e66d-2f7f-4da1-a095-009516ee3bbb.png",
+                    Nom: "Dérouleur/Réenrouleur DREEL180+",
+                    Desc: "Les anciennes machines ayant eu pour référence REEL et DER ont été regroupées en une machine unique permettant de choisir la fontion voulue ainsi que le sens de rotation du moteur. La DREEL180+ est une évolution de la DREEL180 avec une motorisation plus rapide.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: " (L x l x h) : 362 x 300 x 360mm",
+                    Moteur: "courant continu 24V",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "180mm (mandrin Ø 40)",
+                    Options: "-Adaptateurs 40-76"
+                },
+                {
+                    Image: "46e81a18-0d2d-4a94-9fe3-798e7b.png",
+                    Nom: "Réenrouleur PREEL120",
+                    Desc: "Disposant d'une capacité d'enroulement inférieure à celle du DREEL120 et offrant de grandes possibilités de par son faible encombrement, le PREEL120 est idéalement conçu pour fonctionner avec de petites imprimantes.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 289 x 218 x 230mm",
+                    Moteur: "courant continu 24V",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 200 mm maxi",
+                    Etiquettes: "jusqu'à 120 mm (mandrin Ø 40)",
+                    Options: "-Adaptateur 40-76"
+                },
+                {
+                    Image: "46e81a18-0d2d-4a94-9fe3-798e7b.png",
+                    Nom: "Réenrouleur PREEL120+",
+                    Desc: "Disposant d'une capacité d'enroulement inférieure à celle du DREEL120 et offrant de grandes possibilités de par son faible encombrement, le PREEL120 est idéalement conçu pour fonctionner avec de petites imprimantes. La PREEL120+ est une évolution de la PREEL 120 avec une motorisation plus rapide.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 289 x 218 x 230mm",
+                    Moteur: "courant continu 24V",
+                    Vitesse: "218 mm/s en Ø40",
+                    Rouleaux: "Ø 200 mm maxi",
+                    Etiquettes: "jusqu'à 120 mm (mandrin Ø 40)",
+                    Options: "-Adaptateur 40-76"
+                },
+                {
+                    Image: "eb3367_f0de04ce40cb4b4c957a7eead3117416.png",
+                    Nom: "Dérouleur/réenrouleur PDE 120",
+                    Desc: "Disposant d'une capacité d'enroulement inférieure à celle du DREEL120 et offrant de grandes possibilités de par son faible encombrement, le PREEL120 est idéalement conçu pour fonctionner avec de petites imprimantes. La PREEL120+ est une évolution de la PREEL 120 avec une motorisation plus rapide.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 289 x 218 x 230mm",
+                    Moteur: "courant continu 24V",
+                    Vitesse: "218 mm/s en Ø40",
+                    Rouleaux: "Ø 200 mm maxi",
+                    Etiquettes: "jusqu'à 120 mm (mandrin Ø 40)",
+                    Options: "-Adaptateur 40-76"
+                },
+                {
+                    Image: "eb3367_f0de04ce40cb4b4c957a7eead3117416.png",
+                    Nom: "Dérouleur/réenrouleur PDE 120+",
+                    Desc: "Le PDE 120+ est le petit frère du DREEL 120+, Il permet d’avoir un dérouleur-enrouleur de faible encombrement à l’image du PREEL 120+ et ayant le même principe de fonctionnement.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 289 x 218 x 230mm",
+                    Moteur: "courant continu 24V",
+                    Vitesse: "218 mm/s en Ø40",
+                    Rouleaux: "Ø 200 mm maxi",
+                    Etiquettes: "jusqu'à 120 mm (mandrin Ø 40)",
+                    Options: "-Adaptateur 40-76"
+                },
+            ],
             distributrices: [{
-                    name: "Distributrice L 50",
-                    desc: "La distributrice L50, présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique et gestion par relai, elle fonctionne avec tous types de mandrins.",
-                    general: "Alimentation : 230 V-Mono/50hz \nPoids : 4 kg \nEncombrement(L x l x h): 300 x 181 x 180 mm",
-                    techniques: "Moteur : courant continu 24V \nDétection étiquette : par cellule photo-électrique \n Gestion : par relai sur embase \nVitesse de distribution : 98 mm/s en Ø40",
-                    produit: "Rouleaux Étiquettes : Ø 250 mm maxi \nÉtiquettes : laize de 5 à 50 mm",
-                    options: "-Brosse de tension étiquettes. \n-Détection par fibre optique. \n-Support cellule longue 60mm. \n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20 - 40 et 20 - 76. ",
+                    Image: "eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg",
+                    Nom: "Distributrice L50",
+                    Desc: "La distributrice L50, présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique et gestion par relai, elle fonctionne avec tous types de mandrins.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 300 x 181 x 180mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 250 mm maxi",
+                    Etiquettes: "laize de 5 à 50 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20-40 et 20-76."
                 },
                 {
-                    name: "Distributrice L 50+",
-                    desc: "La distributrice L50, présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique et gestion par relai, elle fonctionne avec tous types de mandrins.",
-                    general: "Alimentation : 230 V-Mono/50hz \nPoids : 4 kg \nEncombrement(L x l x h): 300 x 181 x 180 mm",
-                    techniques: "Moteur : courant continu 24V \nDétection étiquette : par cellule photo-électrique \n Gestion : par relai sur embase \nVitesse de distribution : 218 mm/s en Ø40",
-                    produit: "Rouleaux Étiquettes : Ø 250 mm maxi \nÉtiquettes : laize de 5 à 50 mm",
-                    options: "-Brosse de tension étiquettes. \n-Détection par fibre optique. \n-Support cellule longue 60mm. \n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20 - 40 et 20 - 76. ",
+                    Image: "eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg",
+                    Nom: "Distributrice L50+",
+                    Desc: "La distributrice L50+, évolution de la L50 avec une motorisation plus rapide, présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique et gestion par relai, elle fonctionne avec tous types de mandrins.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 300 x 181 x 180mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "218 mm/s en Ø40",
+                    Rouleaux: "Ø 250 mm maxi",
+                    Etiquettes: "laize de 5 à 50 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20-40 et 20-76."
                 },
                 {
-                    name: "Distributrice L110",
-                    desc: "Présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique, gestion par relai. La L110 fonctionne avec tous types de mandrins.",
-                    general: "Alimentation : 230 V-Mono/50hz \nPoids : 4 kg \nEncombrement (L x l x h) : 300 x 241 x 180mm",
-                    techniques: "Moteur : courant continu 24V \nDétection étiquette : par cellule photo-électrique \n Gestion : par relai sur embase \nVitesse de distribution : 98 mm/s en Ø40",
-                    produit: "Rouleaux Étiquettes : Ø 250 mm maxi \nÉtiquettes : laize de 5 à 110 mm",
-                    options: "-Brosse de tension étiquettes. \n-Détection par fibre optique. \n-Support cellule longue 60mm. \n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20 - 40 et 20 - 76. ",
+                    Image: "eb3367_625d8302a209491c9f408640add725a1.jpg",
+                    Nom: "Distributrice L110",
+                    Desc: "Présente en permanence une étiquette pré-décollée.Détection par cellule photo-électrique, gestion par relai.La L110 fonctionne avec tous types de mandrins.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 300 x 241 x 180mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 250 mm maxi",
+                    Etiquettes: "laize de 5 à 110 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20-40 et 20-76."
                 },
                 {
-                    name: "Distributrice L110",
-                    desc: "Présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique, gestion par relai. La L110 fonctionne avec tous types de mandrins.",
-                    general: "Alimentation : 230 V-Mono/50hz \nPoids : 4 kg \nEncombrement (L x l x h) : 300 x 241 x 180mm",
-                    techniques: "Moteur : courant continu 24V \nDétection étiquette : par cellule photo-électrique \n Gestion : par relai sur embase \nVitesse de distribution : 98 mm/s en Ø40",
-                    produit: "Rouleaux Étiquettes : Ø 250 mm maxi \nÉtiquettes : laize de 5 à 110 mm",
-                    options: "-Brosse de tension étiquettes. \n-Détection par fibre optique. \n-Support cellule longue 60mm. \n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20 - 40 et 20 - 76. ",
+                    Image: "eb3367_625d8302a209491c9f408640add725a1.jpg",
+                    Nom: "Distributrice L110 +",
+                    Desc: "La distributrice L110+, évolution de la L110 avec une motorisation plus rapide, présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique et gestion par relai, elle fonctionne avec tous types de mandrins.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "4 kg",
+                    Encombrement: "(L x l x h) : 300 x 241 x 180mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "218 mm/s en Ø40",
+                    Rouleaux: "Ø 250 mm maxi",
+                    Etiquettes: "laize de 5 à 110 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Rallonge pour bobine > Ø250mm.\n-Adaptateurs mandrin 20-40 et 20-76."
+                },
+                {
+                    Image: "c4962a_c76450251bf842f3a950da1.png",
+                    Nom: "Distributrice L180",
+                    Desc: "Présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique, gestion par relais sur embase. L'association de sa motorisation et de sa conception robuste lui permet de très grandes performances.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: "(L x l x h) : 510 x 341 x 330mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "laize de 4 à 180 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Adaptateurs mandrin 40-76."
+                },
+                {
+                    Image: "c4962a_c76450251bf842f3a950da1.png",
+                    Nom: "Distributrice L180+",
+                    Desc: "Présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique, gestion par relais sur embase. L'association de sa motorisation et de sa conception robuste lui permet de très grandes performances.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: "(L x l x h) : 510 x 341 x 330mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "98 mm/s en Ø40", // TODO PEUT ETRE PAS BON
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "laize de 4 à 180 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Adaptateurs mandrin 40-76."
+                },
+                {
+                    Image: "eb3367_6238fbd3fee14677a7c2df9b19220eb6.png",
+                    Nom: "Distributrice L220",
+                    Desc: "Présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique, gestion par relais sur embase. L'association de sa motorisation et de sa conception robuste lui permet de très grandes performances.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: "(L x l x h) : 510 x 381 x 330mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "98 mm/s en Ø40",
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "laize de 4 à 220 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Adaptateurs mandrin 40-76."
+                },
+                {
+                    Image: "eb3367_6238fbd3fee14677a7c2df9b19220eb6.png",
+                    Nom: "Distributrice L220+",
+                    Desc: "Evolution de la L220 avec une motorisation plus rapide.Présente en permanence une étiquette pré-décollée. Détection par cellule photo-électrique, gestion par relais sur embase. L'association de sa motorisation et de sa conception robuste lui permet de très grandes performances.",
+                    Alimentation: "230 V-Mono/50hz",
+                    Poids: "8 kg",
+                    Encombrement: "(L x l x h) : 510 x 381 x 330mm",
+                    Moteur: "courant continu 24V ",
+                    Detection: "par cellule photo-électrique",
+                    Gestion: "par relai sur embase",
+                    Vitesse: "218 mm/s en Ø40",
+                    Rouleaux: "Ø 300 mm maxi",
+                    Etiquettes: "laize de 4 à 220 mm",
+                    Options: "-Brosse de tension étiquettes.\n-Détection par fibre optique.\n-Support cellule longue 60mm.\n-Adaptateurs mandrin 40-76."
+                },
+                {
+                    Image: "3e1747a9-6406-4206-ba43-ae6b5c4fd9ce.png",
+                    Nom: "Dévidoir DVM 50/100/200",
+                    Desc: "Version manuelle de nos distributrices électriques d'étiquettes.Possibilité de fixation murale.",
+                    Alimentation: "Aucune",
+                    Poids: "1 kg",
+                    Encombrement: "(L x l x h) : 260 x58/113/223 x 130mm",
+                    Moteur: "Aucun",
+                    Detection: "Aucune",
+                    Gestion: "Aucune",
+                    Vitesse: "Manuelle",
+                    Rouleaux: "Ø 200 mm maxi",
+                    Etiquettes: "jusqu'à 200 mm",
+                    Options: ""
+                },
+                {
+                    Image: "9d184d8f-c772-4675-b1d5-84e6b60c12b6.png",
+                    Nom: "Dévidoir DVMC 50",
+                    Desc: "Basé sur le DVM50 standard, le Dévidoir Manuel Ceinture a été conçu plus léger afin de le transporter à la ceinture avec  une bobine de Ø150 et 50mm maximum de laize.",
+                    Alimentation: "Aucune",
+                    Poids: "200g",
+                    Encombrement: "(L x l x h) : 260x58x130mm",
+                    Moteur: "Aucun",
+                    Detection: "Aucune",
+                    Gestion: "Aucune",
+                    Vitesse: "Manuelle",
+                    Rouleaux: "Ø 150 mm maxi",
+                    Etiquettes: "50 mm maximum",
+                    Options: ""
+                },
+                {
+                    Image: "ea96bd39-a8d3-47eb-98d2-c0fecaa1052f.png",
+                    Nom: "Dévidoir DVMI 50/100/200",
+                    Desc: "Version Inox des dévidoirs manuels, celle-ci est adaptée pour une utilisation dans le secteur de l'agro-alimentaire ou tout autre environnement nécessitant de l'inox.",
+                    Alimentation: "Aucune",
+                    Poids: "1 kg",
+                    Encombrement: "(L x l x h) : 260 x58/113/223 x 130mm",
+                    Moteur: "Aucun",
+                    Detection: "Aucune",
+                    Gestion: "Aucune",
+                    Vitesse: "Manuelle",
+                    Rouleaux: "Ø 200 mm maxi",
+                    Etiquettes: "jusqu'à 200 mm",
+                    Options: ""
                 },
             ]
         }
@@ -862,6 +1008,17 @@ const ccmpi = {
                 el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         },
+        VoirDistributrice(id) {
+            this.id = id
+            this.modal = !this.modal
+        },
+        VoirDerouleur(id) {
+            this.Did = id
+            this.Dmodal = !this.Dmodal
+        },
+        Open(url) {
+            window.open(url)
+        }
     },
     template: `
     <div>
@@ -904,7 +1061,7 @@ const ccmpi = {
 
                 <div class="columns mt-6">
                     <div class="column is-one-third">
-                        <a class="box marbtm mx-2" @click="Scroll('bureau')">
+                        <div class="box pointer marbtm mx-2" @click="Scroll('bureau')">
                             <figure class="image is-square ">
                                 <img src="/images/eb3367_997e69edc6ed452c8cfeda0ff8a32c21_mv2_waifu2x_art_noise1_scale_tta_1final.jpg">
                             </figure>
@@ -912,10 +1069,10 @@ const ccmpi = {
                                 <h5 class="has-text-centered mt-4">Bureau d'études</h5>
                                 <p>Nos bureaux d'études techniques vous proposent ses compétences dans différents secteurs industriels : recherche, radio-téléphonie, connectique automobile,</p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                     <div class="column is-one-third">
-                        <a class="box marbtm mx-2" @click="Scroll('presentation')">
+                        <div class="box pointer marbtm mx-2" @click="Scroll('presentation')">
                             <figure class="image is-square">
                                 <img src="/images/speciale.jpg">
                             </figure>
@@ -923,10 +1080,10 @@ const ccmpi = {
                                 <h5 class="has-text-centered mt-4">Machines spéciales</h5>
                                 <p>Conception, mise en plans et réalisation de machines de production automatisée. Modélisation de système de motorisation et d’indexage, outillage réalisé sur cahier des charges,  Banc de test  autonome pour câblage de  petits faisceaux automobile. Programmation automate, câblage électrique et pneumatique.</p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                     <div class="column is-one-third">
-                        <a class="box marbtm mx-2" @click="Scroll('etiquetage')">
+                        <div class="box pointer marbtm mx-2" @click="Scroll('etiquetage')">
                             <figure class="image is-square ">
                                 <img src="/images/etique.jpg">
                             </figure>
@@ -934,7 +1091,7 @@ const ccmpi = {
                                 <h5 class="has-text-centered mt-4">Étiquetage</h5>
                                 <p>Leader dans la réalisation de machine d'étiquetage, CCMPi propose toute une gamme de matériel. Distribuer - Poser en statique ou en dynamique - Dérouler ou Réenrouler des bobines d'étiquettes - En standard ou en spécial.</p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1028,7 +1185,7 @@ const ccmpi = {
 
                 <div class="columns mt-6">
                     <div class="column is-one-third">
-                        <a class="box is-ccmpi marbtm mx-2" @click="Scroll('distributrices')">
+                        <div class="box pointer is-ccmpi marbtm mx-2" @click="Scroll('distributrices')">
                             <figure class="image is-square ">
                                 <img src="/images/c4962a_c76450251bf842f3a950da1.png">
                             </figure>
@@ -1037,10 +1194,10 @@ const ccmpi = {
                                 <p>Nos distributrices automatiques présentent une à une les étiquettes adhésives conditionnées en rouleau. Via une cellule de détection et un système automatisé, les étiquettes arrivent décolées de leur support siliconé et sont prêtes à être apposées.</p>
                                 <p>Nos modèles existent dans différentes lèzes et s'adaptent à la plupart des bobines d'étiquettes.</p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                     <div class="column is-one-third">
-                        <a class="box is-ccmpi marbtm mx-2" @click="Scroll('derouleurs')">
+                        <div class="box pointer is-ccmpi marbtm mx-2" @click="Scroll('derouleurs')">
                             <figure class="image is-square">
                                 <img src="/images/46e81a18-0d2d-4a94-9fe3-798e7b.png">
                             </figure>
@@ -1050,10 +1207,10 @@ const ccmpi = {
                                 <p>Placé en amont de votre imprimante, le dérouleur augmente la capacité de votre ligne d'impression.</p>
                                 <p>Nos modèles de ré-enrouleurs d'étiquettes s'adaptent facilement à tous vos modèles d'imprimantes.</p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                     <div class="column is-one-third">
-                        <a class="box is-ccmpi marbtm mx-2" @click="Scroll('etiquetage')">
+                        <div class="box pointer is-ccmpi marbtm mx-2" @click="Scroll('etiquetage')">
                             <figure class="image is-square ">
                                 <img src="/images/eb3367_af0477e1f81d4c2ebfcecbf1800a2e31_mv2_waifu2x_photo_noise3_scale_tta_1.png">
                             </figure>
@@ -1061,7 +1218,7 @@ const ccmpi = {
                                 <h5 class="has-text-centered mt-4">Fabrication spéciale</h5>
                                 <p>Que ce soit une combinaison de plusieurs de nos machines ou une adaptation spéciale sur un modèle, CCMPI est en mesure de vous proposer une solution technique répondant à votre besoin.</p>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1083,180 +1240,81 @@ const ccmpi = {
 
         <div class="container mt-6">
             <div class="container is-fluid">
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 50</div>
+                <div v-for="i in (distributrices.length + 1)">
+                    <div class="columns" v-if="i%2==0">
+                        <div class="column is-one-quarter mt-6" v-if="!distributrices[i-1]"></div>
+                        <div class="column is-half mt-6" v-if="distributrices[i-2]">
+                            <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDistributrice(i-2)">
+                                <div class="column is-primary min128">
+                                    <figure class="image is-128x128">
+                                        <img :src="'/images/' + distributrices[i-2].Image">
+                                    </figure>
+                                </div>
+                                <div class="column">
+                                    <div class="content is-medium">
+                                        <div class="bold">{{distributrices[i-2].Nom}}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 50+</div>
+                        </div>
+                        <div class="column is-half mt-6" v-if="distributrices[i-1]">
+                            <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDistributrice(i-1)">
+                                <div class="column is-primary min128">
+                                    <figure class="image is-128x128">
+                                        <img :src="'/images/' + distributrices[i-1].Image">
+                                    </figure>
+                                </div>
+                                <div class="column">
+                                    <div class="content is-medium">
+                                        <div class="bold">{{distributrices[i-1].Nom}}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 110</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 110+</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 180</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 180+</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 220</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 220+</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dévidoir DVM 50 DVM 100 DVM 2000</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dévidoir DVMC 50</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-one-quarter"></div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dévidoir DVM 50 DVM 100 DVM 2000</div>
-                                </div>
-                            </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <b-modal v-model="modal" @close="modal=false" width="1024px">
+            <div style="width: 100%">
+                <section class="modal-card-body">
+                    <div class="mx-4 my-4">
+                        <h1 class="title has-text-centered"> {{distributrices[id].Nom}} </h1>
+                        <h3 class="subtitle mt-4 mb-4"> {{distributrices[id].Desc}} </h3>
+                        <div class="columns is-vcentered">
+                            <div class="column is-half">
+                                <figure class="image">
+                                    <img :src="'/images/' + distributrices[id].Image">
+                                </figure>
+                            </div>
+                            <div class="column ml-6">
+                                <div class="box">
+                                    <h5 class="subtitle is-5 mt-3"> Caractéristiques générales: </h5>
+                                    <div> Alimentation: {{distributrices[id].Alimentation}} </div>
+                                    <div> Poids: {{distributrices[id].Poids}} </div>
+                                    <div> Encombrement: {{distributrices[id].Encombrement}} </div>
+                                    <h5 class="subtitle is-5 mt-3"> Caractéristiques techniques: </h5>
+                                    <div> Moteur: {{distributrices[id].Moteur}} </div>
+                                    <div> Détection étiquette: {{distributrices[id].Detection}} </div>
+                                    <div> Gestion: {{distributrices[id].Gestion}} </div>
+                                    <div> Vitesse moyenne de distribution: {{distributrices[id].Vitesse}} </div>
+                                    <h5 class="subtitle is-5 mt-3"> Caractéristiques produit: </h5>
+                                    <div> Rouleaux Étiquettes: {{distributrices[id].Rouleaux}} </div>
+                                    <div> Étiquettes : {{distributrices[id].Etiquettes}} </div>
+                                    <h5 class="subtitle is-5 mt-3" v-if="distributrices[id].Options.split('\\n')[0]">  Options : </h5>
+                                    <ul>
+                                        <li v-for="v in distributrices[id].Options.split('\\n')">
+                                          {{ v }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </b-modal>
 
         <section class="hero is-ccmpi mt-6" ref="derouleurs">
             <div class="hero-body">
@@ -1273,163 +1331,178 @@ const ccmpi = {
 
         <div class="container mt-6">
             <div class="container is-fluid">
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dérouleur/Réenrouleur DREEL 120</div>
+                <div v-for="i in (derouleur.length + 1)">
+                    <div class="columns" v-if="i%2==0">
+                        <div class="column is-one-quarter mt-6" v-if="!derouleur[i-1]"></div>
+                        <div class="column is-half mt-6" v-if="derouleur[i-2]">
+                            <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDerouleur(i-2)">
+                                <div class="column is-primary min128">
+                                    <figure class="image is-128x128">
+                                        <img :src="'/images/' + derouleur[i-2].Image">
+                                    </figure>
+                                </div>
+                                <div class="column">
+                                    <div class="content is-medium">
+                                        <div class="bold">{{derouleur[i-2].Nom}}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dérouleur/Réenrouleur DREEL 120+</div>
+                        </div>
+                        <div class="column is-half mt-6" v-if="derouleur[i-1]">
+                            <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDerouleur(i-1)">
+                                <div class="column is-primary min128">
+                                    <figure class="image is-128x128">
+                                        <img :src="'/images/' + derouleur[i-1].Image">
+                                    </figure>
+                                </div>
+                                <div class="column">
+                                    <div class="content is-medium">
+                                        <div class="bold">{{derouleur[i-1].Nom}}</div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dérouleur/Réenrouleur DREEL 180</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dérouleur/Réenrouleur DREEL 180+</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Réenrouleur PREEL 120</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Réenrouleur PREEL 120+</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dérouleur/Réenrouleur PDE 120</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Distributrice L 220+</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="columns">
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dérouleur/Réenrouleur PDE 120+</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="column is-half mt-4">
-                        <a class="columns box is-ccmpi is-vcentered shaar mx-4">
-                            <div class="column is-one-quarter is-primary">
-                                <figure class="image is-128x128">
-                                    <img src="/images/eb3367_dde507590f6f42b89318f8dafe11eb87_mv2.jpg">
-                                </figure>
-                            </div>
-                            <div class="column is-half">
-                                <div class="content is-medium has-text-centered">
-                                    <div class="bold">Dévidoir DVMC 50</div>
-                                </div>
-                            </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+        <b-modal v-model="Dmodal" @close="modal=false" width="1024px">
+            <div style="width: 100%">
+                <section class="modal-card-body">
+                    <div class="mx-4 my-4">
+                        <h1 class="title has-text-centered"> {{derouleur[Did].Nom}} </h1>
+                        <h3 class="subtitle mt-4 mb-4"> {{derouleur[Did].Desc}} </h3>
+                        <div class="columns is-vcentered">
+                            <div class="column is-half">
+                                <figure class="image">
+                                    <img :src="'/images/' + derouleur[Did].Image">
+                                </figure>
+                            </div>
+                            <div class="column ml-6">
+                                <div class="box">
+                                    <h5 class="subtitle is-5 mt-3"> Caractéristiques générales: </h5>
+                                    <div> Alimentation: {{derouleur[Did].Alimentation}} </div>
+                                    <div> Poids: {{derouleur[Did].Poids}} </div>
+                                    <div> Encombrement: {{derouleur[Did].Encombrement}} </div>
+                                    <h5 class="subtitle is-5 mt-3"> Caractéristiques techniques: </h5>
+                                    <div> Moteur: {{derouleur[Did].Moteur}} </div>
+                                    <div> Vitesse moyenne de distribution: {{derouleur[Did].Vitesse}} </div>
+                                    <h5 class="subtitle is-5 mt-3"> Caractéristiques produit: </h5>
+                                    <div> Rouleaux Étiquettes: {{derouleur[Did].Rouleaux}} </div>
+                                    <div> Étiquettes : {{derouleur[Did].Etiquettes}} </div>
+                                    <h5 class="subtitle is-5 mt-3" v-if="derouleur[Did].Options.split('\\n')[0]">  Options : </h5>
+                                    <ul>
+                                        <li v-for="v in derouleur[Did].Options.split('\\n')">
+                                          {{ v }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </b-modal>
+
+        <section class="hero is-ccmpi mt-6" ref="tarifs">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                    TARIFS REVENDEURS
+                    </h1>
+                    <h2 class="subtitle">
+                    Vous trouverez ci-dessous un lien vers les tarifs mis à jour de nos produits
+                    </h2>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6 mb-6">
+            <div class="container is-fluid">
+                <div class="columns">
+                    <div class="column is-one-third"></div>
+                    <div class="column is-one-third">
+                        <button class="button is-ccmpi is-large" style="width : 100%;" @click="Open('/download/tarifs.pdf')">
+                            <span class="icon is-medium">
+                              <i class="fa fa-download"></i>
+                            </span>
+                            <span>TARIFS REVENDEURS</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="hero is-ccmpi mt-6" ref="apropos">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                    À PROPOS
+                    </h1>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6 mb-6">
+            <div class="container is-fluid">
+                <div class="content is-medium">
+                    <h1>SARL CCMPI: le savoir-faire au service de l'industrie.</h1>
+                    <p>Crée en 1998, la société CCMPI vous propose son savoir-faire en ingénierie et études techniques pour la réalisation de machines spéciales et de produits dédiés à l'industrie dans divers domaines.</p>
+                    <p>Afin de proposer des solutions globales, la société travaille depuis plus de 15 ans en étroite collaboration avec la société BETTEGA & Fils, partenaire de la réalisation des pièces mécaniques.</p>
+                    <p>CCMPI, c'est aussi le développement d'une gamme dédiée à l'étiquetage avec des solutions de machines compactes et automatisées pour la pose d'étiquettes, le rembobinage de rouleaux d'étiquettes, et de solutions connexes, étudiées pour votre process industriel. Sa gamme répond aux exigences des directives ROHS.</p>
+                </div>
+             </div>
+        </div>
+
+        <section class="hero is-ccmpi mt-6" ref="clients">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                    NOS CLIENTS
+                    </h1>
+                </div>
+            </div>
+        </section>
+
+        <div class="container mt-6 mb-6">
+            <div class="container is-fluid">
+                <div class="columns is-vcentered">
+                    <div class="column is-one-third">
+                        <figure class="image">
+                            <img src="/images/logo-irap-couleur.png">
+                        </figure>
+                    </div>
+                    <div class="column is-one-third">
+                        <figure class="image">
+                            <img src="/images/logo-actia.png">
+                        </figure>
+                    </div>
+                    <div class="column is-one-third">
+                        <figure class="image">
+                            <img src="/images/continental.png">
+                        </figure>
+                    </div>
+                </div>
+                <div class="columns is-vcentered">
+                    <div class="column is-one-third">
+                        <figure class="image">
+                            <img src="/images/back-safran-electrical-power.jpg">
+                        </figure>
+                    </div>
+                    <div class="column is-one-third">
+                        <figure class="image">
+                            <img src="/images/1200px-Centre_national_de_la_recherche_scientifique.svg.png">
+                        </figure>
+                    </div>
+                    <div class="column is-one-third">
+                        <figure class="image">
+                            <img src="/images/2493px-LACROIX_Electronics_logo.svg.png">
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 `
 }
@@ -1475,7 +1548,7 @@ const bettega = {
                         MÉCANIQUE DE PRÉCISION
                     </h2>
                     <h2 class="subtitle">
-                    
+                    Basée à Colomiers, proche de Toulouse, l'entreprise BETTEGA & Fils dispose de compétences qualifiées pour répondre à vos besoins en usinage (fraisage et tournage en conventionnel et à commande numérique), conception et réalisation de machines spéciales. Avec une expérience de plus de 40 ans dans le métier, notre savoir-faire et nos équipements nous permettent de vous proposer une gamme complète de services dans le domaine de la mécanique de précision.
                     </h2>
                 </div>
             </div>

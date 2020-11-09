@@ -63,6 +63,10 @@ li {
     color: black;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 
 /* Start Landing Page */
 
@@ -528,6 +532,12 @@ img {
     font-weight: 500;
 }
 
+.min128 {
+    max-width: 128px !important;
+    max-height: 128px !important;
+    padding: 0vh !important;
+}
+
 
 /* Vidal MP */
 
@@ -663,7 +673,7 @@ img {
 .button.is-ccmpi {
     -ms-transition: background-color 200ms ease-in;
     transition: background-color 200ms ease-in;
-    background-color: #00A9FF;
+    background-color: #FF6402;
     border-color: transparent;
     color: #fff;
 }

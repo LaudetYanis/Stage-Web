@@ -48,8 +48,10 @@
                     <div class="navbar-item has-dropdown is-hoverable">
                         <router-link to="/ccmpi" class="navbar-link" @click.native="Push">CCMPI</router-link>
                         <div class="navbar-dropdown is-boxed">
-                            <router-link to="/" class="navbar-item">link</router-link>
-                            <router-link to="/" class="navbar-item">link</router-link>
+                            <router-link to="/ccmpi#bureau" class="navbar-item" @click.native="Push">Bureau d'études</router-link>
+                            <router-link to="/ccmpi#derouleurs" class="navbar-item" @click.native="Push">Nos distributrices d'étiquette</router-link>
+                            <router-link to="/ccmpi#distributrices" class="navbar-item" @click.native="Push">Nos dérouleurs / réenrouleurs d'étiquette</router-link>
+                            <router-link to="/ccmpi#apropos" class="navbar-item" @click.native="Push">À propos</router-link>
                         </div>
                     </div>
                     <div class="navbar-item has-dropdown is-hoverable">

@@ -524,6 +524,24 @@ async function SendDevisMail(receiver) {
         res.send(xml_content.join('\n'))
     })
 
+    app.get('/download/:name', function(req, res, next) {
+        var options = {
+            root: path.join(__dirname, 'src/download'),
+            dotfiles: 'deny',
+            headers: {
+                'x-timestamp': Date.now(),
+                'x-sent': true,
+            }
+        }
+
+        let fileName = req.params.name
+        res.sendFile(fileName, options, function(err) {
+            if (err) {
+                next(err)
+            }
+        })
+    })
+
     app.get('/css/:name', function(req, res, next) {
         var options = {
             root: path.join(__dirname, 'src/css'),

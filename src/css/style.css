@@ -368,11 +368,42 @@ textarea .form-control {
     text-align: center;
 }
 
-.news__header {}
+.news__card {
+    margin-left: 20% !important;
+    margin-right: 20% !important;
+}
+
+@media (max-width:768px) {
+    .news__card {
+        margin-left: 0% !important;
+        margin-right: 0% !important;
+    }
+}
 
 #main {
     position: relative;
     text-align: center;
+}
+
+.ccmpi-productimg {
+    max-height: 128px;
+    max-width: 128px;
+    overflow: hidden;
+    margin: 0px !important;
+    padding: 0px !important;
+    object-fit: cover;
+}
+
+@media (max-width:768px) {
+    .ccmpi-productimg {
+        max-height: none;
+        max-width: none;
+    }
+    .mobile-center {
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }
 
 .fof {

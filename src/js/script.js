@@ -255,7 +255,7 @@ Vue.component('news-card2', {
     props: ['id', 'title', 'date', 'desc', 'image'],
     template: `
 
-		<div class="card">
+		<div class="card news__card">
 			<router-link v-bind:to="'/news/'+ this.id" >
 				<div class="card-image">
 					<figure class="image">
@@ -385,10 +385,10 @@ const news = {
         this.posts = rep.data
     },
     template: `
-	<section class="section">
+	<section class="section mt-6">
 		<div class="container has-text-centered">
-			<h2 class="title">Lorem Ipsum</h2>
-			<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</p>
+			<h2 class="title">Actualités</h2>
+			
 			<div class="cardcolumns is-centered has-text-left mx-4" v-if="posts != null" >
 				<news-card2 v-for="post in posts" v-bind:key="post.article_id" v-bind:title="post.title" v-bind:image="post.image" v-bind:date="new Date(post.date).toLocaleDateString()" v-bind:id="post.article_id"></news-card2>
 			</div>
@@ -422,6 +422,7 @@ function _linkify(inputText) {
 const sopymeparticle = {
     data: function() {
         return {
+            loaded: false,
             article: {
                 title: "...",
                 date: "...",
@@ -437,7 +438,11 @@ const sopymeparticle = {
             router.push({ path: '/news' })
         } else {
             this.article = rep.data[0]
+            this.article.content = this.article.content.split("\\n")
+            this.loaded = true
         }
+
+
 
     },
     template: `
@@ -451,9 +456,10 @@ const sopymeparticle = {
 				<div class="news__body">
 					<h1 class="body__heading">{{article.title}}</h1>
 					
-					<small class="body__meta">{{new Date(article.date).toLocaleDateString() }}</small>
-					
-					<p class="body__text" v-for="v in (article.content.split('\\n'))">{{v}}</p>
+                    <small class="body__meta">{{new Date(article.date).toLocaleDateString() }}</small>
+                    
+                    <p class="body__text" v-for="v in (article.content)">{{ v }}</p>
+                    
 				</div>
 			</div>
 		</div>
@@ -1245,13 +1251,13 @@ const ccmpi = {
                         <div class="column is-one-quarter mt-6" v-if="!distributrices[i-1]"></div>
                         <div class="column is-half mt-6" v-if="distributrices[i-2]">
                             <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDistributrice(i-2)">
-                                <div class="column is-primary min128">
-                                    <figure class="image is-128x128">
+                                <div class="column is-primary ccmpi-productimg">
+                                    <figure class="image ccmpi-productimg">
                                         <img :src="'/images/' + distributrices[i-2].Image">
                                     </figure>
                                 </div>
                                 <div class="column">
-                                    <div class="content is-medium">
+                                    <div class="content is-medium mobile-center">
                                         <div class="bold">{{distributrices[i-2].Nom}}</div>
                                     </div>
                                 </div>
@@ -1259,13 +1265,13 @@ const ccmpi = {
                         </div>
                         <div class="column is-half mt-6" v-if="distributrices[i-1]">
                             <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDistributrice(i-1)">
-                                <div class="column is-primary min128">
-                                    <figure class="image is-128x128">
+                                <div class="column is-primary ccmpi-productimg">
+                                    <figure class="image ccmpi-productimg">
                                         <img :src="'/images/' + distributrices[i-1].Image">
                                     </figure>
                                 </div>
                                 <div class="column">
-                                    <div class="content is-medium">
+                                    <div class="content is-medium mobile-center">
                                         <div class="bold">{{distributrices[i-1].Nom}}</div>
                                     </div>
                                 </div>
@@ -1288,7 +1294,7 @@ const ccmpi = {
                                     <img :src="'/images/' + distributrices[id].Image">
                                 </figure>
                             </div>
-                            <div class="column ml-6">
+                            <div class="column">
                                 <div class="box">
                                     <h5 class="subtitle is-5 mt-3"> Caractéristiques générales: </h5>
                                     <div> Alimentation: {{distributrices[id].Alimentation}} </div>
@@ -1336,13 +1342,13 @@ const ccmpi = {
                         <div class="column is-one-quarter mt-6" v-if="!derouleur[i-1]"></div>
                         <div class="column is-half mt-6" v-if="derouleur[i-2]">
                             <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDerouleur(i-2)">
-                                <div class="column is-primary min128">
-                                    <figure class="image is-128x128">
+                                <div class="column is-primary ccmpi-productimg">
+                                    <figure class="image ccmpi-productimg">
                                         <img :src="'/images/' + derouleur[i-2].Image">
                                     </figure>
                                 </div>
                                 <div class="column">
-                                    <div class="content is-medium">
+                                    <div class="content is-medium mobile-center">
                                         <div class="bold">{{derouleur[i-2].Nom}}</div>
                                     </div>
                                 </div>
@@ -1350,13 +1356,13 @@ const ccmpi = {
                         </div>
                         <div class="column is-half mt-6" v-if="derouleur[i-1]">
                             <div class="columns box pointer is-ccmpi is-vcentered shaar mx-4" @click="VoirDerouleur(i-1)">
-                                <div class="column is-primary min128">
-                                    <figure class="image is-128x128">
+                                <div class="column is-primary ccmpi-productimg">
+                                    <figure class="image ccmpi-productimg">
                                         <img :src="'/images/' + derouleur[i-1].Image">
                                     </figure>
                                 </div>
                                 <div class="column">
-                                    <div class="content is-medium">
+                                    <div class="content is-medium mobile-center">
                                         <div class="bold">{{derouleur[i-1].Nom}}</div>
                                     </div>
                                 </div>
@@ -1379,7 +1385,7 @@ const ccmpi = {
                                     <img :src="'/images/' + derouleur[Did].Image">
                                 </figure>
                             </div>
-                            <div class="column ml-6">
+                            <div class="column">
                                 <div class="box">
                                     <h5 class="subtitle is-5 mt-3"> Caractéristiques générales: </h5>
                                     <div> Alimentation: {{derouleur[Did].Alimentation}} </div>
@@ -1770,7 +1776,7 @@ const bettega = {
                         <template>
                             <b-carousel>
                                 <b-carousel-item v-for="(v, i) in carousels[0]" :key="i">
-                                    <figure class="image is-16by9 mt-6 mb-6">
+                                    <figure class="image is-16by9 mt-6 mb-6" :draggable="true">
                                         <img :src="'/images/' + v">
                                     </figure>
                                 </b-carousel-item>
@@ -1795,7 +1801,7 @@ const bettega = {
                         <template>
                             <b-carousel>
                                 <b-carousel-item v-for="(v, i) in carousels[1]" :key="i">
-                                    <figure class="image is-16by9 mt-6 mb-6">
+                                    <figure class="image is-16by9 mt-6 mb-6" :draggable="true">
                                         <img :src="'/images/' + v">
                                     </figure>
                                 </b-carousel-item>
@@ -1820,7 +1826,7 @@ const bettega = {
                         <template>
                             <b-carousel>
                                 <b-carousel-item v-for="(v, i) in carousels[2]" :key="i">
-                                    <figure class="image is-16by9 mt-6 mb-6">
+                                    <figure class="image is-16by9 mt-6 mb-6" :draggable="true">
                                         <img :src="'/images/' + v">
                                     </figure>
                                 </b-carousel-item>
@@ -2462,7 +2468,7 @@ let vm = new Vue({
             this.anim = "none"
             this.push += 1
             let self = this
-                //HideNavbar()
+            HideNavbar()
             Vue.nextTick(function() {
                 self.anim = "fade"
             })
@@ -2475,18 +2481,14 @@ let vm = new Vue({
 
 router.beforeEach(async function(to, from, next) {
     HideNavbar()
-
     next()
-
-    //setTimeout(function(){
-    //	GrabNews()
-    //}, 100);
-
-    window.scrollTo(0, 0)
-
-    //console.log( to, from )
 })
 
+router.afterEach((to, from) => {
+    if (to.path != from.path) {
+        window.scrollTo(0, 0)
+    }
+})
 
 //GrabNews()
 HookNavbar()

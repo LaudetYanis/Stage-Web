@@ -83,15 +83,24 @@ function displayMenu() {
 
 function HideNavbar() {
 
-    let el = document.querySelectorAll(".has-dropdown")
+    //let el = document.querySelectorAll(".is-hoverable")
+    //document.activeElement && document.activeElement.blur();
+    //console.log(document.activeElement)
 
-    el.forEach(d => {
-        d.style.display = "none"
+    //el.forEach(d => {
+    //    d.classList.remove("is-hoverable");
+    //
+    //    setTimeout(() => {
+    //        //d.style.display = "none"
+    //        d.classList.add("is-hoverable")
+    //
+    //        setTimeout(() => {
+    //            d.style.display = ""
+    //        }, 100);
+    //    }, 100)
+    //});
 
-        setTimeout(() => {
-            d.style.display = ""
-        }, 1)
-    });
+    document.activeElement && document.activeElement.blur();
 
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
@@ -1054,7 +1063,7 @@ const ccmpi = {
                         </div>
                     </div>
                     <div class="column">
-                        <figure class="image is-square">
+                        <figure class="image">
                             <img src="/images/c4962a_6d6e48c048264edea9abc01ad38ec3c3.webp">
                         </figure>
                     </div>
@@ -1965,7 +1974,13 @@ const bettega = {
 const vidalmp = {
     data: function() {
         return {
-            isImageModalActive: false
+            isImageModalActive: false,
+            FullImgActive: false,
+            modal: {
+                src: "",
+                title: "",
+                desc: "",
+            }
         }
     },
     mounted: function() {
@@ -2000,15 +2015,14 @@ const vidalmp = {
             }
         },
         FullScreenImg(event) {
-            let target = event.target
-            console.log(target.childNodes[1])
-            const h = this.$createElement
-            const vnode = h('p', { class: "my-6 image is-1by1" }, [
-                h('img', { attrs: { src: target.src } })
-            ])
-            this.$buefy.modal.open({
-                content: [vnode]
-            })
+            let src = event.target.childNodes[0].src
+            let title = event.target.parentNode.childNodes[2].childNodes[0].innerText
+            let desc = event.target.parentNode.childNodes[2].childNodes[2].innerText
+
+            this.modal.src = src
+            this.modal.title = title
+            this.modal.desc = desc
+            this.FullImgActive = true
         },
         Video(event) {
             let target = event.target
@@ -2212,8 +2226,8 @@ const vidalmp = {
 
                     <a class="column is-one-quarter" >
                         <div class="hero is-vidalmp">
-                            <figure class="image is-square">
-                                <img src="/images/mikron-500.jpg" @click="FullScreenImg">
+                            <figure class="image is-square" @click="FullScreenImg">
+                                <img src="/images/mikron-500.jpg">
                             </figure>
                             <div class="mx-4 my-4 machine">
                                 <h1 class="title is-5">MIKRON 500</h1>
@@ -2224,8 +2238,8 @@ const vidalmp = {
 
                     <a class="column is-one-quarter" >
                         <div class="hero is-vidalmp">
-                            <figure class="image is-square">
-                                <img src="/images/super-minimill.jpg" @click="FullScreenImg">
+                            <figure class="image is-square" @click="FullScreenImg">
+                                <img src="/images/super-minimill.jpg">
                             </figure>
                             <div class="mx-4 my-4 machine">
                                 <h1 class="title is-5">SUPER MINIMILL HAAS</h1>
@@ -2236,8 +2250,8 @@ const vidalmp = {
 
                     <a class="column is-one-quarter" >
                         <div class="hero is-vidalmp">
-                            <figure class="image is-square">
-                                <img src="/images/vf2.jpg" @click="FullScreenImg">
+                            <figure class="image is-square" @click="FullScreenImg">
+                                <img src="/images/vf2.jpg">
                             </figure>
                             <div class="mx-4 my-4 machine">
                                 <h1 class="title is-5">VF2 HAAS</h1>
@@ -2251,8 +2265,8 @@ const vidalmp = {
                 
                     <a class="column is-one-third" >
                         <div class="hero is-vidalmp">
-                            <figure class="image is-square">
-                                <img src="/images/vf3.jpg" @click="FullScreenImg">
+                            <figure class="image is-square" @click="FullScreenImg">
+                                <img src="/images/vf3.jpg">
                             </figure>
                             <div class="mx-4 my-4 machine">
                                 <h1 class="title is-5">VF3 HAAS</h1>
@@ -2263,8 +2277,8 @@ const vidalmp = {
 
                     <a class="column is-one-third" >
                         <div class="hero is-vidalmp">
-                            <figure class="image is-square">
-                                <img src="/images/vf3ss.jpg" @click="FullScreenImg">
+                            <figure class="image is-square" @click="FullScreenImg">
+                                <img src="/images/vf3ss.jpg">
                             </figure>
                             <div class="mx-4 my-4 machine">
                                 <h1 class="title is-5">VF3SS HAAS PALETTISÉ</h1>
@@ -2275,8 +2289,8 @@ const vidalmp = {
 
                     <a class="column is-one-third" >
                         <div class="hero is-vidalmp">
-                            <figure class="image is-square">
-                                <img src="/images/vf4ss.jpg" @click="FullScreenImg">
+                            <figure class="image is-square" @click="FullScreenImg">
+                                <img src="/images/vf4ss.jpg">
                             </figure>
                             <div class="mx-4 my-4 machine">
                                 <h1 class="title is-5">VF4SS HAAS PALETTISÉ</h1>
@@ -2287,6 +2301,22 @@ const vidalmp = {
                 </div>
             </div>
         </div>
+
+        <b-modal v-model="FullImgActive" :width="640">
+            <div>
+                <section class="modal-card-body" style="background-color: #283593">
+                    <div>
+                        <h1 class="title has-text-centered has-text-white"> {{modal.title}} </h1>
+                        <h3 class="subtitle mt-4 mb-4 has-text-centered has-text-white"> {{modal.desc}} </h3>
+                        <div>
+                            <figure class="image">
+                                <img :src="modal.src">
+                            </figure>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </b-modal>
 
         <section class="hero is-vidalmp mt-6" ref="references">
             <div class="hero-body">
